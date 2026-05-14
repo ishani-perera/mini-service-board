@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { getJobs } from '../lib/api';
 import Navbar from '../components/Navbar';
 import JobCard from '../components/JobCard';
