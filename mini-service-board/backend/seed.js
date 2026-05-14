@@ -1,104 +1,129 @@
-require('dotenv').config();
 const mongoose = require('mongoose');
-const connectDB = require('./config/db');
+const bcrypt = require('bcryptjs');
+require('dotenv').config();
+
 const JobRequest = require('./models/JobRequest');
 const User = require('./models/User');
 
-const demoUser = {
-  name: 'Admin Tradesman',
-  email: 'admin@example.com',
-  password: '123456', // Will be hashed by pre-save hook
-  role: 'tradesman',
-};
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/service-board';
 
-const sampleJobs = [
-  {
-    title: 'Fix leaking kitchen tap in Colombo',
-    description: 'Kitchen tap has been dripping for a week. Need a plumber to fix or replace the washer. Water is wasting rapidly.',
-    category: 'Plumbing',
-    location: 'Colombo 03',
-    contactName: 'Nimal Perera',
-    contactEmail: 'nimal@example.com',
-    status: 'Open',
-    budget: 2500,
-  },
-  {
-    title: 'AC Servicing for Living Room',
-    description: 'Inverter AC needs full servicing and gas refill. It has not been cleaned for 6 months.',
-    category: 'AC Technicians',
-    location: 'Kandy',
-    contactName: 'Kamal Silva',
-    contactEmail: 'kamal@example.com',
-    status: 'Open',
-    budget: 4500,
-  },
-  {
-    title: 'Full House Interior Painting',
-    description: 'Looking for professional painters to repaint a 3-bedroom house. High quality finish required. Materials can be discussed.',
-    category: 'Painting',
-    location: 'Galle',
-    contactName: 'Sunil Fernando',
-    contactEmail: 'sunil@example.com',
-    status: 'In Progress',
-    budget: 75000,
-  },
-  {
-    title: 'Repair broken garden wall',
-    description: 'Masonry work needed to repair a collapsed section of the boundary wall (approx 5ft section).',
-    category: 'Masons',
-    location: 'Negombo',
-    contactName: 'Ruwan Kumara',
-    contactEmail: 'ruwan@example.com',
-    status: 'Open',
-    budget: 15000,
-  },
-  {
-    title: 'Cockroach and Termite Control',
-    description: 'Urgent pest control needed for a residential apartment. Must be eco-friendly chemicals.',
-    category: 'Pest Control',
-    location: 'Mount Lavinia',
-    contactName: 'Anura De Silva',
-    contactEmail: 'anura@example.com',
-    status: 'Open',
-    budget: 8000,
-  },
-  {
-    title: 'Garden clearance and landscaping',
-    description: 'Overgrown garden needs full clearance — weeding, hedge trimming, and lawn mowing.',
-    category: 'Gardening',
-    location: 'Matara',
-    contactName: 'Deepika Jayaweera',
-    contactEmail: 'deepika@example.com',
-    status: 'Open',
-    budget: 12000,
-  },
-  {
-    title: 'Install new kitchen cabinet doors',
-    description: 'Current cabinet doors are damaged. Need a joiner to manufacture and install new MDF doors.',
-    category: 'Joinery',
-    location: 'Jaffna',
-    contactName: 'V. Ramanathan',
-    contactEmail: 'rama@example.com',
-    status: 'Open',
-    budget: 35000,
-  },
-];
-
-const seedDB = async () => {
+const seedData = async () => {
   try {
-    await connectDB();
+    await mongoose.connect(MONGO_URI);
+    console.log('MongoDB Connected for Seeding...');
+
+    // Clear existing data
     await JobRequest.deleteMany();
     await User.deleteMany();
-    
-    await JobRequest.insertMany(sampleJobs);
-    await User.create(demoUser);
 
-    console.log('✅ Database seeded successfully with localized jobs and demo admin!');
-    process.exit(0);
-  } catch (error) {
-    console.error('❌ Error seeding database:', error);
+    // Create Admin User
+    const hashedPassword = await bcrypt.hash('123456', 10);
+    const admin = await User.create({
+      name: 'Admin Tradesman',
+      email: 'admin@example.com',
+      password: hashedPassword,
+    });
+    console.log('✅ Demo Admin Created: admin@example.com / 123456');
+
+    // Sample Jobs with Pictures
+    const jobs = [
+      {
+        title: 'Leaking Pipe in Kitchen Sink',
+        description: 'Need an urgent plumber to fix a burst pipe under the kitchen sink. The water is leaking rapidly and needs immediate attention. Professional tools required.',
+        category: 'Plumbing',
+        location: 'Colombo 07',
+        budget: 5500,
+        contactName: 'Nimal Perera',
+        contactEmail: 'nimal@example.com',
+        status: 'Open',
+        imageUrl: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=800',
+      },
+      {
+        title: 'Full House Electrical Wiring',
+        description: 'New house construction in Kandy needs complete electrical wiring setup including main board installation and light fittings. Seeking a certified electrician.',
+        category: 'Electrical',
+        location: 'Kandy',
+        budget: 85000,
+        contactName: 'Kasun Silva',
+        contactEmail: 'kasun@example.com',
+        status: 'In Progress',
+        imageUrl: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=800',
+      },
+      {
+        title: 'Modern Living Room Painting',
+        description: 'Looking for a skilled painter to apply premium silk finish paint to a large living room. I already have the paint (Dulux), just need the labor and expertise.',
+        category: 'Painting',
+        location: 'Negombo',
+        budget: 12000,
+        contactName: 'Ishani Fernando',
+        contactEmail: 'ishani@example.com',
+        status: 'Open',
+        imageUrl: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&q=80&w=800',
+      },
+      {
+        title: 'Teak Wood Kitchen Cabinets',
+        description: 'Need custom teak wood cabinets for a modern kitchen layout. Professional finish and high-quality hinges are a priority.',
+        category: 'Joinery',
+        location: 'Galle',
+        budget: 150000,
+        contactName: 'Priyantha Bandara',
+        contactEmail: 'priyantha@example.com',
+        status: 'Open',
+        imageUrl: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&q=80&w=800',
+      },
+      {
+        title: 'Roof Leakage Repair (Tile Roof)',
+        description: 'Several tiles are broken causing leaks during heavy rain. Need someone to replace tiles and apply waterproof sealant.',
+        category: 'Roofing',
+        location: 'Battaramulla',
+        budget: 25000,
+        contactName: 'Saman Kumara',
+        contactEmail: 'saman@example.com',
+        status: 'Closed',
+        imageUrl: 'https://images.unsplash.com/photo-1632759145351-1d592919f522?auto=format&fit=crop&q=80&w=800',
+      },
+      {
+        title: 'Garden Landscaping & Maintenance',
+        description: 'Need a complete garden cleanup and lawn mowing for a 20 perch land. Also looking for someone to plant some fruit trees.',
+        category: 'Gardening',
+        location: 'Rajagiriya',
+        budget: 8000,
+        contactName: 'Malani Jayasuriya',
+        contactEmail: 'malani@example.com',
+        status: 'Open',
+        imageUrl: 'https://images.unsplash.com/photo-1558904541-efa8c191577e?auto=format&fit=crop&q=80&w=800',
+      },
+      {
+        title: 'Deep Cleaning for Office Space',
+        description: 'Urgent deep cleaning required for a 2000 sqft office before an event. Carpet shampooing and window cleaning included.',
+        category: 'Cleaning',
+        location: 'Colombo 03',
+        budget: 18000,
+        contactName: 'Nuwan Perera',
+        contactEmail: 'nuwan@example.com',
+        status: 'Open',
+        imageUrl: 'https://images.unsplash.com/photo-1581578731522-745d05cb9734?auto=format&fit=crop&q=80&w=800',
+      },
+      {
+        title: 'AC Service & Gas Refill',
+        description: 'Two split unit ACs (12,000 BTU) need regular servicing and gas pressure check. One unit is making a rattling noise.',
+        category: 'AC Technicians',
+        location: 'Dehiwala',
+        budget: 10500,
+        contactName: 'Roshan Dias',
+        contactEmail: 'roshan@example.com',
+        status: 'In Progress',
+        imageUrl: 'https://images.unsplash.com/photo-1621905252507-b35242f3174d?auto=format&fit=crop&q=80&w=800',
+      },
+    ];
+
+    await JobRequest.insertMany(jobs);
+    console.log('✅ Database seeded with premium jobs and images!');
+    process.exit();
+  } catch (err) {
+    console.error('❌ Seeding Error:', err);
     process.exit(1);
   }
 };
 
-seedDB();
+seedData();

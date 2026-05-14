@@ -19,6 +19,7 @@ export default function RootLayout({ children }) {
             <AuthProvider>
               <Toaster position="top-right" />
               {children}
+              <Footer />
             </AuthProvider>
           </LanguageProvider>
         </ErrorBoundary>
