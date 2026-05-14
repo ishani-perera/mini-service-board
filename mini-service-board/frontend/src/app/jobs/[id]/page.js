@@ -196,12 +196,24 @@ export default function JobDetailPage() {
                     </div>
                   </div>
 
+                  {job.budget && (
+                    <div className="flex items-start gap-3">
+                      <div className="mt-1 text-slate-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                      </div>
+                      <div>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Budget</p>
+                        <p className="text-sm font-extrabold text-blue-600 mt-0.5">LKR {job.budget.toLocaleString()}</p>
+                      </div>
+                    </div>
+                  )}
+
                   <div className="flex items-start gap-3">
                     <div className="mt-1 text-slate-400">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                     </div>
                     <div>
-                      <p className="text-[10px] font-bold text-slate-400 uppercase">Posted On</p>
+                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Posted On</p>
                       <p className="text-sm font-bold text-slate-700">{formatDate(job.createdAt)}</p>
                     </div>
                   </div>

@@ -15,7 +15,7 @@ const jobRequestSchema = new mongoose.Schema(
     category: {
       type: String,
       trim: true,
-      enum: ['Plumbing', 'Electrical', 'Painting', 'Joinery', 'Roofing', 'Gardening', 'Cleaning', 'Other'],
+      enum: ['Plumbing', 'Electrical', 'Painting', 'Joinery', 'Roofing', 'Gardening', 'Cleaning', 'AC Technicians', 'Masons', 'Pest Control', 'Other'],
       default: 'Other',
     },
     location: {
