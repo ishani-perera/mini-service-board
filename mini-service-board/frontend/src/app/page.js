@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { getJobs } from '../lib/api';
 import Navbar from '../components/Navbar';
 import JobCard from '../components/JobCard';
