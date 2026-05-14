@@ -9,6 +9,8 @@ import JobCard from '../components/JobCard';
 import SkeletonCard from '../components/SkeletonCard';
 import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
+import FindProfessionalsModal from '../components/FindProfessionalsModal';
+import JoinProfessionalModal from '../components/JoinProfessionalModal';
 
 const CATEGORIES = [
   { name: 'Plumbing', icon: '🚰', color: 'from-blue-400 to-cyan-300', bgColor: 'bg-blue-50', count: 0 },
@@ -34,6 +36,8 @@ export default function HomePage() {
   const [category, setCategory] = useState('All');
   const [status, setStatus] = useState('All');
   const [search, setSearch] = useState('');
+  const [showFindModal, setShowFindModal] = useState(false);
+  const [showJoinModal, setShowJoinModal] = useState(false);
   const { t } = useLanguage();
   const { user, loading: authLoading } = useAuth();
   const router = useRouter();
@@ -89,17 +93,17 @@ export default function HomePage() {
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <button 
-                onClick={() => setCategory('All')}
+                onClick={() => setShowFindModal(true)}
                 className="w-full sm:w-auto bg-white text-[#5B63B1] px-10 py-5 rounded-full font-black text-lg hover:shadow-2xl transition-all shadow-xl shadow-black/10 active:scale-[0.98]"
               >
                 Find Professionals
               </button>
-              <Link 
-                href="/jobs/new"
+              <button 
+                onClick={() => setShowJoinModal(true)}
                 className="w-full sm:w-auto bg-white/10 text-white border-2 border-white/20 backdrop-blur-md px-10 py-5 rounded-full font-black text-lg hover:bg-white/20 transition-all active:scale-[0.98]"
               >
                 Join as Professional
-              </Link>
+              </button>
             </div>
           </div>
         </div>
@@ -305,6 +309,10 @@ export default function HomePage() {
             </div>
          </div>
       </section>
+
+      {/* Modals */}
+      {showFindModal && <FindProfessionalsModal onClose={() => setShowFindModal(false)} />}
+      {showJoinModal && <JoinProfessionalModal onClose={() => setShowJoinModal(false)} />}
     </div>
   );
 }
