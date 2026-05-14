@@ -5,76 +5,88 @@ const JobRequest = require('./models/JobRequest');
 
 const sampleJobs = [
   {
-    title: 'Fix leaking kitchen tap',
-    description: 'Kitchen tap has been dripping for a week. Need a plumber to fix or replace the washer.',
+    title: 'Fix leaking kitchen tap in Colombo',
+    description: 'Kitchen tap has been dripping for a week. Need a plumber to fix or replace the washer. Water is wasting rapidly.',
     category: 'Plumbing',
-    location: 'Glasgow',
-    contactName: 'Sarah Connor',
-    contactEmail: 'sarah@example.com',
+    location: 'Colombo 03',
+    contactName: 'Nimal Perera',
+    contactEmail: 'nimal@example.com',
     status: 'Open',
+    budget: 2500,
   },
   {
-    title: 'Replace faulty light switches',
-    description: 'Three light switches in the living room are flickering. Needs an electrician to inspect and replace.',
-    category: 'Electrical',
-    location: 'Edinburgh',
-    contactName: 'James McLaren',
-    contactEmail: 'james@example.com',
+    title: 'AC Servicing for Living Room',
+    description: 'Inverter AC needs full servicing and gas refill. It has not been cleaned for 6 months.',
+    category: 'AC Technicians',
+    location: 'Kandy',
+    contactName: 'Kamal Silva',
+    contactEmail: 'kamal@example.com',
     status: 'Open',
+    budget: 4500,
   },
   {
-    title: 'Paint entire living room',
-    description: 'Looking for a painter to repaint the living room walls and ceiling. Approx 4m x 5m room.',
+    title: 'Full House Interior Painting',
+    description: 'Looking for professional painters to repaint a 3-bedroom house. High quality finish required. Materials can be discussed.',
     category: 'Painting',
-    location: 'Manchester',
-    contactName: 'Emma Wilson',
-    contactEmail: 'emma@example.com',
+    location: 'Galle',
+    contactName: 'Sunil Fernando',
+    contactEmail: 'sunil@example.com',
     status: 'In Progress',
+    budget: 75000,
   },
   {
-    title: 'Fix broken fence panels',
-    description: 'Storm damaged three fence panels in the back garden. Need replacement and refit.',
-    category: 'Joinery',
-    location: 'Leeds',
-    contactName: 'Tom Hardy',
-    contactEmail: 'tom@example.com',
+    title: 'Repair broken garden wall',
+    description: 'Masonry work needed to repair a collapsed section of the boundary wall (approx 5ft section).',
+    category: 'Masons',
+    location: 'Negombo',
+    contactName: 'Ruwan Kumara',
+    contactEmail: 'ruwan@example.com',
     status: 'Open',
+    budget: 15000,
   },
   {
-    title: 'Roof tile repair',
-    description: 'Several roof tiles displaced after recent storm. Need inspection and repair before winter.',
-    category: 'Roofing',
-    location: 'Birmingham',
-    contactName: 'Lisa Chen',
-    contactEmail: 'lisa@example.com',
-    status: 'Closed',
+    title: 'Cockroach and Termite Control',
+    description: 'Urgent pest control needed for a residential apartment. Must be eco-friendly chemicals.',
+    category: 'Pest Control',
+    location: 'Mount Lavinia',
+    contactName: 'Anura De Silva',
+    contactEmail: 'anura@example.com',
+    status: 'Open',
+    budget: 8000,
   },
   {
-    title: 'Garden clearance and tidy',
+    title: 'Garden clearance and landscaping',
     description: 'Overgrown garden needs full clearance — weeding, hedge trimming, and lawn mowing.',
     category: 'Gardening',
-    location: 'Bristol',
-    contactName: 'Mark Spencer',
-    contactEmail: 'mark@example.com',
+    location: 'Matara',
+    contactName: 'Deepika Jayaweera',
+    contactEmail: 'deepika@example.com',
     status: 'Open',
+    budget: 12000,
   },
   {
-    title: 'Install new bathroom extractor fan',
-    description: 'Current bathroom fan is broken and causing damp. Needs a qualified electrician to install a replacement.',
-    category: 'Electrical',
-    location: 'Glasgow',
-    contactName: 'Diane Ross',
-    contactEmail: 'diane@example.com',
+    title: 'Install new kitchen cabinet doors',
+    description: 'Current cabinet doors are damaged. Need a joiner to manufacture and install new MDF doors.',
+    category: 'Joinery',
+    location: 'Jaffna',
+    contactName: 'V. Ramanathan',
+    contactEmail: 'rama@example.com',
     status: 'Open',
+    budget: 35000,
   },
 ];
 
 const seedDB = async () => {
-  await connectDB();
-  await JobRequest.deleteMany();
-  await JobRequest.insertMany(sampleJobs);
-  console.log('Database seeded with sample jobs!');
-  process.exit();
+  try {
+    await connectDB();
+    await JobRequest.deleteMany();
+    await JobRequest.insertMany(sampleJobs);
+    console.log('✅ Database seeded successfully with localized sample jobs!');
+    process.exit(0);
+  } catch (error) {
+    console.error('❌ Error seeding database:', error);
+    process.exit(1);
+  }
 };
 
 seedDB();
