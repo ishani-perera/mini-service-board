@@ -31,6 +31,14 @@ export default function HomePage() {
   const [status, setStatus] = useState('All');
   const [search, setSearch] = useState('');
   const { t } = useLanguage();
+  const { user, loading: authLoading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!authLoading && !user) {
+      router.push('/login');
+    }
+  }, [user, authLoading, router]);
 
   const fetchJobs = async () => {
     setLoading(true);
