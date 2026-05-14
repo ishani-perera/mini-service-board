@@ -37,6 +37,10 @@ const jobRequestSchema = new mongoose.Schema(
       enum: ['Open', 'In Progress', 'Closed'],
       default: 'Open',
     },
+    budget: {
+      type: Number,
+      min: 0,
+    },
   },
   {
     timestamps: true, // adds createdAt and updatedAt automatically

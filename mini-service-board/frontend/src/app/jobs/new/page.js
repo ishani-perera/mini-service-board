@@ -20,6 +20,7 @@ export default function NewJobPage() {
     location: '',
     contactName: '',
     contactEmail: '',
+    budget: '',
   });
 
   const validate = () => {
@@ -130,12 +131,27 @@ export default function NewJobPage() {
             </div>
 
             <div className="space-y-2">
+              <label className="block text-sm font-bold text-slate-700">Estimated Budget (LKR)</label>
+              <div className="relative flex items-center">
+                <span className="absolute left-4 text-slate-400 text-sm font-bold">LKR</span>
+                <input
+                  name="budget"
+                  type="number"
+                  value={form.budget}
+                  onChange={handleChange}
+                  placeholder="e.g. 5000"
+                  className={inputClass('budget') + ' pl-14'}
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2 sm:col-span-2">
               <label className="block text-sm font-bold text-slate-700">Location</label>
               <input
                 name="location"
                 value={form.location}
                 onChange={handleChange}
-                placeholder="e.g. Glasgow"
+                placeholder="e.g. Colombo or Glasgow"
                 className={inputClass('location')}
               />
             </div>

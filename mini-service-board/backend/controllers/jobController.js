@@ -42,7 +42,7 @@ const getJobById = async (req, res, next) => {
 // POST /api/jobs — create new job
 const createJob = async (req, res, next) => {
   try {
-    const { title, description, category, location, contactName, contactEmail } = req.body;
+    const { title, description, category, location, contactName, contactEmail, budget } = req.body;
 
     // Validate required fields
     if (!title || !description) {
@@ -59,6 +59,7 @@ const createJob = async (req, res, next) => {
       location,
       contactName,
       contactEmail,
+      budget,
     });
 
     res.status(201).json({ success: true, data: job });
