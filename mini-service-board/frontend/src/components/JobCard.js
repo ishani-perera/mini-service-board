@@ -1,6 +1,20 @@
 import Link from 'next/link';
 import StatusBadge from './StatusBadge';
 
+const CATEGORIES_ICONS = {
+  'Plumbing': '🚰',
+  'Electrical': '⚡',
+  'Painting': '🎨',
+  'Joinery': '🪚',
+  'Roofing': '🏠',
+  'Gardening': '🌿',
+  'Cleaning': '🧹',
+  'AC Technicians': '❄️',
+  'Masons': '🧱',
+  'Pest Control': '🦟',
+  'Other': '🛠️'
+};
+
 export default function JobCard({ job }) {
   const date = new Date(job.createdAt).toLocaleDateString('en-GB', {
     day: 'numeric', month: 'short', year: 'numeric',
@@ -24,7 +38,7 @@ export default function JobCard({ job }) {
 
         {job.category && (
           <span className="inline-block bg-blue-50/50 text-blue-600 text-[10px] uppercase tracking-wider font-bold px-2.5 py-1 rounded-full border border-blue-100/50 w-fit">
-            {job.category}
+            {CATEGORIES_ICONS[job.category] || '🛠️'} {job.category}
           </span>
         )}
 
