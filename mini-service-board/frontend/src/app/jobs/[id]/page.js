@@ -67,16 +67,19 @@ export default function JobDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen">
         <Navbar />
-        <main className="max-w-3xl mx-auto px-4 py-8">
-          <div className="bg-white rounded-xl border border-gray-200 p-6 animate-pulse space-y-4">
-            <div className="h-6 bg-gray-200 rounded w-2/3" />
-            <div className="h-4 bg-gray-200 rounded w-1/3" />
-            <div className="space-y-2 pt-4">
-              <div className="h-4 bg-gray-200 rounded w-full" />
-              <div className="h-4 bg-gray-200 rounded w-5/6" />
-              <div className="h-4 bg-gray-200 rounded w-4/6" />
+        <main className="max-w-4xl mx-auto px-4 py-12">
+          <div className="bg-white rounded-3xl border border-slate-200/60 p-8 animate-pulse space-y-6 shadow-sm">
+            <div className="flex justify-between items-start">
+               <div className="h-10 bg-slate-100 rounded-xl w-2/3" />
+               <div className="h-6 bg-slate-100 rounded-full w-24" />
+            </div>
+            <div className="h-4 bg-slate-50 rounded w-1/4" />
+            <div className="space-y-3 pt-6">
+              <div className="h-4 bg-slate-50 rounded w-full" />
+              <div className="h-4 bg-slate-50 rounded w-full" />
+              <div className="h-4 bg-slate-50 rounded w-4/6" />
             </div>
           </div>
         </main>
@@ -86,13 +89,17 @@ export default function JobDetailPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen">
         <Navbar />
-        <main className="max-w-3xl mx-auto px-4 py-8 text-center">
-          <div className="text-5xl mb-4">😕</div>
-          <p className="text-gray-600">{error}</p>
-          <button onClick={() => router.push('/')} className="mt-4 text-blue-600 hover:underline text-sm">
-            ← Back to jobs
+        <main className="max-w-xl mx-auto px-4 py-24 text-center">
+          <div className="bg-slate-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 text-3xl">😕</div>
+          <h2 className="text-2xl font-bold text-slate-800 mb-2">Oops!</h2>
+          <p className="text-slate-500 mb-8">{error}</p>
+          <button 
+            onClick={() => router.push('/')} 
+            className="btn-primary"
+          >
+            Back to Dashboard
           </button>
         </main>
       </div>
@@ -100,87 +107,130 @@ export default function JobDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen">
       <Navbar />
 
-      <main className="max-w-3xl mx-auto px-4 py-8">
+      <main className="max-w-4xl mx-auto px-4 py-12">
         {/* Back link */}
-        <button onClick={() => router.push('/')} className="text-blue-600 hover:underline text-sm mb-5 flex items-center gap-1">
-          ← Back to all jobs
+        <button 
+          onClick={() => router.push('/')} 
+          className="text-slate-400 hover:text-slate-600 text-sm font-bold flex items-center gap-1 mb-8 transition-colors"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          Back to all jobs
         </button>
 
-        <div className="bg-white rounded-xl border border-gray-200 p-6 space-y-6">
-          {/* Title & status */}
-          <div className="flex items-start justify-between gap-4 flex-wrap">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">{job.title}</h1>
-              {job.category && (
-                <span className="inline-block bg-blue-50 text-blue-700 text-xs font-medium px-2 py-1 rounded mt-2">
-                  {job.category}
-                </span>
-              )}
+        <div className="bg-white rounded-3xl border border-slate-200/60 shadow-xl shadow-slate-200/20 overflow-hidden">
+          {/* Header Section */}
+          <div className="p-8 sm:p-10 border-b border-slate-50">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-8">
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <StatusBadge status={job.status} />
+                  {job.category && (
+                    <span className="text-[10px] uppercase tracking-widest font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-md">
+                      {job.category}
+                    </span>
+                  )}
+                </div>
+                <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 leading-tight">
+                  {job.title}
+                </h1>
+              </div>
+              
+              <div className="flex items-center gap-3">
+                 <button
+                  onClick={handleDelete}
+                  disabled={deleting}
+                  className="p-3 bg-red-50 text-red-500 rounded-xl hover:bg-red-100 transition-colors disabled:opacity-50"
+                  title="Delete Job"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+                </button>
+              </div>
             </div>
-            <StatusBadge status={job.status} />
-          </div>
 
-          {/* Description */}
-          <div>
-            <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-2">Description</h2>
-            <p className="text-gray-700 text-sm leading-relaxed whitespace-pre-line">{job.description}</p>
-          </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="md:col-span-2 space-y-6">
+                <div className="space-y-3">
+                  <h2 className="text-sm font-bold text-slate-400 uppercase tracking-widest">Description</h2>
+                  <p className="text-slate-700 text-lg leading-relaxed whitespace-pre-line">
+                    {job.description}
+                  </p>
+                </div>
+              </div>
 
-          {/* Details grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 border-t border-gray-100 pt-4">
-            {job.location && (
-              <div>
-                <p className="text-xs text-gray-400 uppercase tracking-wide">Location</p>
-                <p className="text-sm text-gray-800 mt-0.5 font-medium">{job.location}</p>
+              <div className="bg-slate-50 rounded-2xl p-6 space-y-6 self-start">
+                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest">Job Details</h3>
+                
+                <div className="space-y-4">
+                  <div className="flex items-start gap-3">
+                    <div className="mt-1 text-slate-400">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                    </div>
+                    <div>
+                      <p className="text-[10px] font-bold text-slate-400 uppercase">Location</p>
+                      <p className="text-sm font-bold text-slate-700">{job.location || 'Remote'}</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <div className="mt-1 text-slate-400">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    </div>
+                    <div>
+                      <p className="text-[10px] font-bold text-slate-400 uppercase">Contact</p>
+                      <p className="text-sm font-bold text-slate-700">{job.contactName || 'Anonymous'}</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <div className="mt-1 text-slate-400">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                    </div>
+                    <div className="overflow-hidden">
+                      <p className="text-[10px] font-bold text-slate-400 uppercase">Email</p>
+                      <a href={`mailto:${job.contactEmail}`} className="text-sm font-bold text-blue-600 hover:underline truncate block">
+                        {job.contactEmail}
+                      </a>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <div className="mt-1 text-slate-400">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </div>
+                    <div>
+                      <p className="text-[10px] font-bold text-slate-400 uppercase">Posted On</p>
+                      <p className="text-sm font-bold text-slate-700">{formatDate(job.createdAt)}</p>
+                    </div>
+                  </div>
+                </div>
               </div>
-            )}
-            {job.contactName && (
-              <div>
-                <p className="text-xs text-gray-400 uppercase tracking-wide">Contact</p>
-                <p className="text-sm text-gray-800 mt-0.5 font-medium">{job.contactName}</p>
-              </div>
-            )}
-            {job.contactEmail && (
-              <div>
-                <p className="text-xs text-gray-400 uppercase tracking-wide">Email</p>
-                <a href={`mailto:${job.contactEmail}`} className="text-sm text-blue-600 hover:underline mt-0.5 block">
-                  {job.contactEmail}
-                </a>
-              </div>
-            )}
-            <div>
-              <p className="text-xs text-gray-400 uppercase tracking-wide">Posted</p>
-              <p className="text-sm text-gray-800 mt-0.5 font-medium">{formatDate(job.createdAt)}</p>
             </div>
           </div>
 
-          {/* Actions */}
-          <div className="flex flex-col sm:flex-row gap-3 border-t border-gray-100 pt-4">
-            {/* Status dropdown */}
-            <div className="flex-1">
-              <label className="block text-xs font-medium text-gray-500 mb-1">Update Status</label>
+          {/* Footer Action Area */}
+          <div className="bg-slate-50/50 p-8 sm:p-10 flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div className="flex items-center gap-4">
+              <div className="bg-blue-600 text-white p-3 rounded-2xl shadow-lg shadow-blue-500/20">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+              </div>
+              <div>
+                <h4 className="font-bold text-slate-800">Manage Status</h4>
+                <p className="text-sm text-slate-500">Update the progress of this request.</p>
+              </div>
+            </div>
+
+            <div className="w-full sm:w-64">
               <select
                 value={job.status}
                 onChange={handleStatusChange}
                 disabled={updating}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white disabled:opacity-60"
+                className="w-full bg-white border border-slate-200 rounded-2xl px-4 py-3 text-sm font-bold shadow-sm focus:ring-4 focus:ring-blue-500/10 outline-none transition-all cursor-pointer disabled:opacity-50"
               >
                 {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
               </select>
-            </div>
-
-            {/* Delete button */}
-            <div className="flex items-end">
-              <button
-                onClick={handleDelete}
-                disabled={deleting}
-                className="bg-red-50 text-red-600 border border-red-200 px-5 py-2 rounded-lg text-sm font-medium hover:bg-red-100 disabled:opacity-60 transition-colors"
-              >
-                {deleting ? 'Deleting...' : 'Delete Job'}
-              </button>
             </div>
           </div>
         </div>
