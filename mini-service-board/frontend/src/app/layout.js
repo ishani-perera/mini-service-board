@@ -1,6 +1,7 @@
 import { Toaster } from 'react-hot-toast';
 import { LanguageProvider } from '../context/LanguageContext';
 import { AuthProvider } from '../context/AuthContext';
+import ErrorBoundary from '../components/ErrorBoundary';
 import './globals.css';
 
 export const metadata = {
@@ -12,12 +13,14 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <LanguageProvider>
-          <AuthProvider>
-            <Toaster position="top-right" />
-            {children}
-          </AuthProvider>
-        </LanguageProvider>
+        <ErrorBoundary>
+          <LanguageProvider>
+            <AuthProvider>
+              <Toaster position="top-right" />
+              {children}
+            </AuthProvider>
+          </LanguageProvider>
+        </ErrorBoundary>
       </body>
     </html>
   );

@@ -17,7 +17,6 @@ export default function Navbar() {
           {/* Logo Section */}
           <Link href="/" className="flex items-center gap-3 group">
             <div className="text-blue-600">
-               <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a2 2 0 0 1 2.83 0l.3.3a2 2 0 0 1 0 2.83l-3.77 3.77a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a2 2 0 0 1 2.83 0l.3.3a2 2 0 0 1 0 2.83l-3.77 3.77a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a2 2 0 0 1 2.83 0l.3.3a2 2 0 0 1 0 2.83l-3.77 3.77a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a2 2 0 0 1 2.83 0l.3.3a2 2 0 0 1 0 2.83l-3.77 3.77a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a2 2 0 0 1 2.83 0l.3.3a2 2 0 0 1 0 2.83l-3.77 3.77a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0"/></svg>
                {/* Simplified Wrench Icon */}
                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a2 2 0 0 1 2.83 0l.3.3a2 2 0 0 1 0 2.83l-3.77 3.77a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l-10 10a1 1 0 0 1-1.4 0l-1.6-1.6a1 1 0 0 1 0-1.4l10-10z"/></svg>
             </div>
@@ -28,9 +27,9 @@ export default function Navbar() {
 
           {/* Desktop Nav Links */}
           <div className="hidden lg:flex items-center gap-8">
+            <Link href="/" className="text-sm font-bold text-slate-500 hover:text-slate-900 transition-colors">Home</Link>
             <Link href="#about" className="text-sm font-bold text-slate-500 hover:text-slate-900 transition-colors">About</Link>
             <Link href="#services" className="text-sm font-bold text-slate-500 hover:text-slate-900 transition-colors">Services</Link>
-            <Link href="#cost-guide" className="text-sm font-bold text-slate-500 hover:text-slate-900 transition-colors">Cost Guide</Link>
             
             <Link 
               href="/jobs/new" 
@@ -72,7 +71,5 @@ export default function Navbar() {
         </div>
       </div>
     </nav>
-  );
-}
   );
 }
