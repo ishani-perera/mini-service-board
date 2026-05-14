@@ -5,6 +5,7 @@ import { getJobs } from '../lib/api';
 import Navbar from '../components/Navbar';
 import JobCard from '../components/JobCard';
 import SkeletonCard from '../components/SkeletonCard';
+import { useLanguage } from '../context/LanguageContext';
 
 const CATEGORIES = [
   { name: 'Plumbing', icon: '🚰' },
@@ -29,6 +30,7 @@ export default function HomePage() {
   const [category, setCategory] = useState('All');
   const [status, setStatus] = useState('All');
   const [search, setSearch] = useState('');
+  const { t } = useLanguage();
 
   const fetchJobs = async () => {
     setLoading(true);
@@ -73,12 +75,11 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-4 relative z-10">
           <div className="text-center max-w-3xl mx-auto mb-12">
             <h1 className="text-5xl sm:text-6xl font-black tracking-tight text-slate-900 mb-6">
-              Expert Home Services <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">At Your Fingertips</span>
+              {t.heroTitle} <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">{t.heroSubtitle}</span>
             </h1>
             <p className="text-slate-500 text-lg sm:text-xl leading-relaxed">
-              Connect with verified electricians, plumbers, painters, and more. 
-              Sri Lanka's most trusted platform for reliable home maintenance.
+              {t.heroDesc}
             </p>
           </div>
 
@@ -91,7 +92,7 @@ export default function HomePage() {
                  </div>
                  <input 
                   type="text" 
-                  placeholder="What service do you need?" 
+                  placeholder={t.searchPlaceholder} 
                   className="w-full py-4 px-4 bg-transparent outline-none text-slate-700 font-medium placeholder:text-slate-400"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
@@ -101,7 +102,7 @@ export default function HomePage() {
                 onClick={handleSearch}
                 className="w-full sm:w-auto bg-blue-600 text-white px-10 py-4 rounded-[1.5rem] font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-600/20 active:scale-[0.98]"
               >
-                Find Help
+                {t.findHelp}
               </button>
             </div>
           </div>
@@ -113,8 +114,8 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-4">
           <div className="flex items-end justify-between mb-10">
             <div>
-              <h2 className="text-sm font-black text-blue-600 uppercase tracking-[0.2em] mb-2">Service Categories</h2>
-              <p className="text-2xl font-bold text-slate-900">Explore by specialized trade</p>
+              <h2 className="text-sm font-black text-blue-600 uppercase tracking-[0.2em] mb-2">{t.categories}</h2>
+              <p className="text-2xl font-bold text-slate-900">{t.exploreTrade}</p>
             </div>
             <button 
               onClick={() => {setCategory('All'); setSearch('');}}
@@ -147,8 +148,8 @@ export default function HomePage() {
       <main className="max-w-6xl mx-auto px-4 py-24">
         <div className="flex flex-col md:flex-row items-start justify-between gap-12 mb-12">
           <div className="flex-1">
-             <h2 className="text-3xl font-black text-slate-900 mb-4">Latest Requests</h2>
-             <p className="text-slate-500 font-medium">Browse active jobs posted by homeowners across Sri Lanka.</p>
+             <h2 className="text-3xl font-black text-slate-900 mb-4">{t.latestRequests}</h2>
+             <p className="text-slate-500 font-medium">{t.browseJobs}</p>
           </div>
           
           <div className="flex items-center gap-3 bg-white p-1.5 rounded-2xl border border-slate-200">
@@ -211,17 +212,17 @@ export default function HomePage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
                <div className="space-y-4">
                   <div className="bg-blue-500/20 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto text-blue-400 text-2xl">🛡️</div>
-                  <h4 className="text-xl font-bold">Verified Pros</h4>
+                  <h4 className="text-xl font-bold">{t.verifiedPros}</h4>
                   <p className="text-slate-400 text-sm leading-relaxed">Every tradesman is background checked and identity verified for your security.</p>
                </div>
                <div className="space-y-4">
                   <div className="bg-emerald-500/20 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto text-emerald-400 text-2xl">💰</div>
-                  <h4 className="text-xl font-bold">Fair Pricing</h4>
+                  <h4 className="text-xl font-bold">{t.fairPricing}</h4>
                   <p className="text-slate-400 text-sm leading-relaxed">Compare multiple quotes and choose the best value for your project budget.</p>
                </div>
                <div className="space-y-4">
                   <div className="bg-amber-500/20 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto text-amber-400 text-2xl">⭐</div>
-                  <h4 className="text-xl font-bold">Real Reviews</h4>
+                  <h4 className="text-xl font-bold">{t.realReviews}</h4>
                   <p className="text-slate-400 text-sm leading-relaxed">Read honest feedback from homeowners who used the service before you hire.</p>
                </div>
             </div>
