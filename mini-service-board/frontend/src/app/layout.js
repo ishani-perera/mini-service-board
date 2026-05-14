@@ -1,4 +1,5 @@
 import { Toaster } from 'react-hot-toast';
+import { LanguageProvider } from '../context/LanguageContext';
 import './globals.css';
 
 export const metadata = {
@@ -10,8 +11,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <Toaster position="top-right" />
-        {children}
+        <LanguageProvider>
+          <Toaster position="top-right" />
+          {children}
+        </LanguageProvider>
       </body>
     </html>
   );
