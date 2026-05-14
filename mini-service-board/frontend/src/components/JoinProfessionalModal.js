@@ -79,7 +79,7 @@ export default function JoinProfessionalModal({ onClose }) {
              <button
                 type="button"
                 onClick={() => setRole('Professional')}
-                className={`flex-1 py-2.5 text-sm font-bold rounded-lg transition-all flex items-center justify-center gap-2 ${role === 'Professional' ? 'bg-[#7B81D8] text-white shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                className={`flex-1 py-2.5 text-sm font-bold rounded-lg transition-all flex items-center justify-center gap-2 ${role === 'Professional' ? 'bg-[#634060] text-white shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
              >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
                 Professional
@@ -151,23 +151,23 @@ export default function JoinProfessionalModal({ onClose }) {
           </div>
 
           <div className="flex items-start gap-3 p-3 bg-slate-50 rounded-lg border border-slate-100">
-            <input type="checkbox" id="terms" required className="mt-0.5 w-4 h-4 rounded border-slate-300 text-[#5B63B1] focus:ring-[#5B63B1]" checked={formData.agreed} onChange={(e) => setFormData({...formData, agreed: e.target.checked})} />
+            <input type="checkbox" id="terms" required className="mt-0.5 w-4 h-4 rounded border-slate-300 text-[#634060] focus:ring-[#5B63B1]" checked={formData.agreed} onChange={(e) => setFormData({...formData, agreed: e.target.checked})} />
             <label htmlFor="terms" className="text-xs text-slate-600">
               <span className="font-bold text-slate-900 block">I agree to SourceTradesman's Terms and Conditions</span>
-              By checking this box, you confirm that you have read, understood, and agree to be bound by our <Link href="#" className="text-[#5B63B1] hover:underline">Terms of Service</Link> and <Link href="#" className="text-[#5B63B1] hover:underline">Privacy Policy</Link>. *
+              By checking this box, you confirm that you have read, understood, and agree to be bound by our <Link href="#" className="text-[#634060] hover:underline">Terms of Service</Link> and <Link href="#" className="text-[#634060] hover:underline">Privacy Policy</Link>. *
             </label>
           </div>
 
           <button 
             type="submit"
             disabled={loading}
-            className="w-full py-3 mt-2 rounded-xl font-bold text-white bg-gradient-to-r from-[#7B81D8] to-[#5B63B1] hover:shadow-lg hover:shadow-[#5B63B1]/30 transition-all active:scale-[0.98] disabled:opacity-50"
+            className="w-full py-3 mt-2 rounded-xl font-bold text-white bg-gradient-to-r from-[#634060] to-[#3E2040] hover:shadow-lg hover:shadow-[#634060]/30 transition-all active:scale-[0.98] disabled:opacity-50"
           >
             {loading ? 'Creating Account...' : 'Create Account'}
           </button>
 
           <p className="text-center text-slate-500 text-xs mt-4">
-            Already have an account? <Link href="/login" onClick={onClose} className="text-[#5B63B1] font-bold hover:underline">Login</Link>
+            Already have an account? <Link href="/login" onClick={onClose} className="text-[#634060] font-bold hover:underline">Login</Link>
           </p>
         </form>
       </div>

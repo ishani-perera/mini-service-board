@@ -13,7 +13,7 @@
   }
 
   body {
-    @apply bg-[#F1F6FB] text-slate-900 antialiased;
+    @apply bg-[#EDE0E8] text-slate-900 antialiased;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 }

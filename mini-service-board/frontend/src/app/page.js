@@ -74,7 +74,7 @@ export default function HomePage() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-[#7B81D8] to-[#5B63B1] py-32 overflow-hidden">
+      <section className="relative bg-gradient-to-br from-[#634060] to-[#3E2040] py-32 overflow-hidden">
         <div className="absolute inset-0 opacity-10 pointer-events-none">
            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
               <defs><pattern id="grid-hero" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="1"/></pattern></defs>
@@ -94,7 +94,7 @@ export default function HomePage() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <button 
                 onClick={() => setShowFindModal(true)}
-                className="w-full sm:w-auto bg-white text-[#5B63B1] px-10 py-5 rounded-full font-black text-lg hover:shadow-2xl transition-all shadow-xl shadow-black/10 active:scale-[0.98]"
+                className="w-full sm:w-auto bg-white text-[#634060] px-10 py-5 rounded-full font-black text-lg hover:shadow-2xl transition-all shadow-xl shadow-black/10 active:scale-[0.98]"
               >
                 Find Professionals
               </button>
@@ -126,7 +126,7 @@ export default function HomePage() {
             </form>
             <button 
               onClick={handleSearch}
-              className="w-full sm:w-auto bg-[#5B63B1] text-white px-12 py-5 rounded-2xl font-black hover:bg-slate-900 transition-all active:scale-[0.95]"
+              className="w-full sm:w-auto bg-[#634060] text-white px-12 py-5 rounded-2xl font-black hover:bg-[#3E2040] transition-all active:scale-[0.95]"
             >
               Search
             </button>
@@ -135,13 +135,13 @@ export default function HomePage() {
 
       {/* Categories Grid */}
       <section className="relative py-32 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50" />
-        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob" />
-        <div className="absolute top-1/4 left-0 w-72 h-72 bg-purple-100 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000" />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#EDE0E8] via-[#F8F4F6] to-[#D9C2D0]" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-[#B08EA8] rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob" />
+        <div className="absolute top-1/4 left-0 w-72 h-72 bg-[#C4A3B8] rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000" />
         
         <div className="max-w-7xl mx-auto px-4 relative z-10">
           <div className="text-center mb-20">
-            <span className="inline-block px-6 py-2 bg-gradient-to-r from-[#5B63B1] to-purple-600 text-white font-bold text-sm rounded-full mb-6 shadow-lg shadow-purple-500/20">OUR SERVICES</span>
+            <span className="inline-block px-6 py-2 bg-gradient-to-r from-[#634060] to-[#3E2040] text-white font-bold text-sm rounded-full mb-6 shadow-lg shadow-[#634060]/20">OUR SERVICES</span>
             <h2 className="text-6xl font-black text-slate-900 mb-6">Services We Offer</h2>
             <p className="text-slate-600 text-xl font-medium max-w-2xl mx-auto leading-relaxed">Professional home services at your fingertips. Browse through our extensive range of skilled professionals ready to help.</p>
           </div>
