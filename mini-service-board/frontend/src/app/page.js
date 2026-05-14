@@ -133,7 +133,7 @@ export default function HomePage() {
       <section className="bg-white py-24">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-5xl font-black text-slate-900 mb-4">Our Services</h2>
+            <h2 className="text-5xl font-black text-slate-900 mb-4">Services We Offer</h2>
             <p className="text-slate-500 text-xl font-medium">Professional home services at your fingertips</p>
           </div>
 
