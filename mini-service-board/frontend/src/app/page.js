@@ -68,65 +68,71 @@ export default function HomePage() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative bg-white pt-16 pb-24 overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full opacity-[0.03] pointer-events-none">
+      <section className="relative bg-gradient-to-br from-[#7B81D8] to-[#5B63B1] py-32 overflow-hidden">
+        <div className="absolute inset-0 opacity-10 pointer-events-none">
            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-              <defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="1"/></pattern></defs>
-              <rect width="100%" height="100%" fill="url(#grid)" />
+              <defs><pattern id="grid-hero" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="1"/></pattern></defs>
+              <rect width="100%" height="100%" fill="url(#grid-hero)" />
            </svg>
         </div>
         
         <div className="max-w-6xl mx-auto px-4 relative z-10">
-          <div className="text-center max-w-3xl mx-auto mb-12">
-            <h1 className="text-5xl sm:text-6xl font-black tracking-tight text-slate-900 mb-6">
-              {t.heroTitle} <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">{t.heroSubtitle}</span>
+          <div className="text-center max-w-4xl mx-auto mb-12">
+            <h1 className="text-5xl sm:text-7xl font-black tracking-tight text-white mb-8 leading-tight">
+              Sri Lanka's Most Trusted <br /> Home Services Platform
             </h1>
-            <p className="text-slate-500 text-lg sm:text-xl leading-relaxed">
-              {t.heroDesc}
+            <p className="text-white/80 text-xl sm:text-2xl font-medium mb-12 max-w-2xl mx-auto leading-relaxed">
+              Connect with verified electricians, plumbers, carpenters, and more
             </p>
-          </div>
 
-          {/* Main Search Bar */}
-          <div className="max-w-2xl mx-auto">
-            <div className="bg-white rounded-[2rem] p-2 shadow-2xl shadow-blue-500/10 border border-slate-100 flex flex-col sm:flex-row items-center gap-2">
-              <form onSubmit={handleSearch} className="flex-1 flex items-center w-full">
-                 <div className="pl-6 text-slate-400">
-                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-                 </div>
-                 <input 
-                  type="text" 
-                  placeholder={t.searchPlaceholder} 
-                  className="w-full py-4 px-4 bg-transparent outline-none text-slate-700 font-medium placeholder:text-slate-400"
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                 />
-              </form>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <button 
-                onClick={handleSearch}
-                className="w-full sm:w-auto bg-blue-600 text-white px-10 py-4 rounded-[1.5rem] font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-600/20 active:scale-[0.98]"
+                onClick={() => setCategory('All')}
+                className="w-full sm:w-auto bg-white text-[#5B63B1] px-10 py-5 rounded-full font-black text-lg hover:shadow-2xl transition-all shadow-xl shadow-black/10 active:scale-[0.98]"
               >
-                {t.findHelp}
+                Find Professionals
               </button>
+              <Link 
+                href="/jobs/new"
+                className="w-full sm:w-auto bg-white/10 text-white border-2 border-white/20 backdrop-blur-md px-10 py-5 rounded-full font-black text-lg hover:bg-white/20 transition-all active:scale-[0.98]"
+              >
+                Join as Professional
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Categories Grid */}
-      <section className="bg-slate-50 py-20 border-y border-slate-200/50">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="flex items-end justify-between mb-10">
-            <div>
-              <h2 className="text-sm font-black text-blue-600 uppercase tracking-[0.2em] mb-2">{t.categories}</h2>
-              <p className="text-2xl font-bold text-slate-900">{t.exploreTrade}</p>
-            </div>
+      {/* Search Bar Section (Floating) */}
+      <div className="max-w-3xl mx-auto px-4 -mt-10 relative z-20">
+         <div className="bg-white rounded-3xl p-3 shadow-2xl shadow-black/10 border border-slate-100 flex flex-col sm:flex-row items-center gap-2">
+            <form onSubmit={handleSearch} className="flex-1 flex items-center w-full">
+               <div className="pl-6 text-slate-400">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+               </div>
+               <input 
+                type="text" 
+                placeholder="What service do you need?" 
+                className="w-full py-5 px-4 bg-transparent outline-none text-slate-700 font-bold placeholder:text-slate-300"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+               />
+            </form>
             <button 
-              onClick={() => {setCategory('All'); setSearch('');}}
-              className="text-sm font-bold text-slate-400 hover:text-blue-600 transition-colors"
+              onClick={handleSearch}
+              className="w-full sm:w-auto bg-[#5B63B1] text-white px-12 py-5 rounded-2xl font-black hover:bg-slate-900 transition-all active:scale-[0.95]"
             >
-              View All
+              Search
             </button>
+         </div>
+      </div>
+
+      {/* Categories Grid */}
+      <section className="bg-white py-24">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-5xl font-black text-slate-900 mb-4">Our Services</h2>
+            <p className="text-slate-500 text-xl font-medium">Professional home services at your fingertips</p>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
