@@ -11,18 +11,18 @@ import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 
 const CATEGORIES = [
-  { name: 'Plumbing', img: 'https://images.unsplash.com/photo-1581244276894-069f21422b40?auto=format&fit=crop&q=80&w=400' },
-  { name: 'Electrical', img: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=400' },
-  { name: 'Painting', img: 'https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&q=80&w=400' },
-  { name: 'Joinery', img: 'https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&q=80&w=400' },
-  { name: 'Roofing', img: 'https://images.unsplash.com/photo-1632759145351-1d592919f522?auto=format&fit=crop&q=80&w=400' },
-  { name: 'Gardening', img: 'https://images.unsplash.com/photo-1558904541-efa8c191577e?auto=format&fit=crop&q=80&w=400' },
-  { name: 'Cleaning', img: 'https://images.unsplash.com/photo-1581578731522-745d05cb9734?auto=format&fit=crop&q=80&w=400' },
-  { name: 'AC Tech', img: 'https://images.unsplash.com/photo-1621905252507-b35242f3174d?auto=format&fit=crop&q=80&w=400' },
-  { name: 'Masons', img: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&q=80&w=400' },
-  { name: 'Pest Control', img: 'https://images.unsplash.com/photo-1583508915901-b5f84c1dcde1?auto=format&fit=crop&q=80&w=400' },
-  { name: 'Interior', img: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80&w=400' },
-  { name: 'Other', img: 'https://images.unsplash.com/photo-1581094794329-c8112a4e5190?auto=format&fit=crop&q=80&w=400' },
+  { name: 'Plumbing', img: 'https://images.pexels.com/photos/2310904/pexels-photo-2310904.jpeg?auto=compress&cs=tinysrgb&w=400&v=1', color: 'bg-blue-50' },
+  { name: 'Electrical', img: 'https://images.pexels.com/photos/257736/pexels-photo-257736.jpeg?auto=compress&cs=tinysrgb&w=400&v=1', color: 'bg-amber-50' },
+  { name: 'Painting', img: 'https://images.pexels.com/photos/6444253/pexels-photo-6444253.jpeg?auto=compress&cs=tinysrgb&w=400&v=1', color: 'bg-rose-50' },
+  { name: 'Joinery', img: 'https://images.pexels.com/photos/175707/pexels-photo-175707.jpeg?auto=compress&cs=tinysrgb&w=400&v=1', color: 'bg-orange-50' },
+  { name: 'Roofing', img: 'https://images.pexels.com/photos/4433767/pexels-photo-4433767.jpeg?auto=compress&cs=tinysrgb&w=400&v=1', color: 'bg-slate-50' },
+  { name: 'Gardening', img: 'https://images.pexels.com/photos/4505171/pexels-photo-4505171.jpeg?auto=compress&cs=tinysrgb&w=400&v=1', color: 'bg-emerald-50' },
+  { name: 'Cleaning', img: 'https://images.pexels.com/photos/4099467/pexels-photo-4099467.jpeg?auto=compress&cs=tinysrgb&w=400&v=1', color: 'bg-cyan-50' },
+  { name: 'AC Tech', img: 'https://images.pexels.com/photos/4433833/pexels-photo-4433833.jpeg?auto=compress&cs=tinysrgb&w=400&v=1', color: 'bg-indigo-50' },
+  { name: 'Masons', img: 'https://images.pexels.com/photos/6647118/pexels-photo-6647118.jpeg?auto=compress&cs=tinysrgb&w=400&v=1', color: 'bg-stone-50' },
+  { name: 'Pest Control', img: 'https://images.pexels.com/photos/4099466/pexels-photo-4099466.jpeg?auto=compress&cs=tinysrgb&w=400&v=1', color: 'bg-purple-50' },
+  { name: 'Interior', img: 'https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg?auto=compress&cs=tinysrgb&w=400&v=1', color: 'bg-fuchsia-50' },
+  { name: 'Other', img: 'https://images.pexels.com/photos/175039/pexels-photo-175039.jpeg?auto=compress&cs=tinysrgb&w=400&v=1', color: 'bg-slate-50' },
 ];
 
 const STATUSES = ['All', 'Open', 'In Progress', 'Closed'];
@@ -142,20 +142,21 @@ export default function HomePage() {
               <button
                 key={cat.name}
                 onClick={() => setCategory(cat.name)}
-                className={`group relative flex flex-col items-center bg-white rounded-3xl p-4 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 border ${
-                  category === cat.name ? 'border-blue-600 shadow-xl ring-2 ring-blue-600/10' : 'border-slate-100'
+                className={`group relative flex flex-col bg-white rounded-[2rem] p-5 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 border ${
+                  category === cat.name ? 'border-[#5B63B1] shadow-xl ring-2 ring-[#5B63B1]/10' : 'border-slate-100'
                 }`}
               >
-                <div className="w-full flex justify-between items-center mb-4 px-1">
-                   <span className="font-black text-slate-800 text-xs sm:text-sm tracking-tight">{cat.name}</span>
-                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-slate-300 group-hover:text-blue-600 transition-colors"><path d="m9 18 6-6-6-6"/></svg>
+                <div className="flex justify-between items-center mb-6">
+                   <span className="font-black text-slate-900 text-sm tracking-tight">{cat.name}</span>
+                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className="text-slate-300 group-hover:text-[#5B63B1] transition-colors"><path d="m9 18 6-6-6-6"/></svg>
                 </div>
                 
-                <div className="w-full aspect-square rounded-2xl overflow-hidden bg-slate-50">
+                <div className={`w-full aspect-[4/5] rounded-2xl overflow-hidden ${cat.color || 'bg-slate-50'}`}>
                    <img 
                     src={cat.img} 
                     alt={cat.name} 
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
+                    onError={(e) => { e.target.src = 'https://images.pexels.com/photos/175039/pexels-photo-175039.jpeg?auto=compress&cs=tinysrgb&w=400'; }}
                    />
                 </div>
               </button>
