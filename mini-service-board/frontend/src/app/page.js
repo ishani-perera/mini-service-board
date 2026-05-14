@@ -74,7 +74,7 @@ export default function HomePage() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-[#634060] to-[#3E2040] py-32 overflow-hidden">
+      <section className="relative bg-gradient-to-br from-[#6B73FF] to-[#A259FF] py-20 overflow-hidden">
         <div className="absolute inset-0 opacity-10 pointer-events-none">
            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
               <defs><pattern id="grid-hero" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="1"/></pattern></defs>
@@ -84,23 +84,23 @@ export default function HomePage() {
         
         <div className="max-w-6xl mx-auto px-4 relative z-10">
           <div className="text-center max-w-4xl mx-auto mb-12">
-            <h1 className="text-5xl sm:text-7xl font-black tracking-tight text-white mb-8 leading-tight">
+            <h1 className="text-4xl sm:text-5xl font-black tracking-tight text-white mb-6 leading-tight">
               Sri Lanka's Most Trusted <br /> Home Services Platform
             </h1>
-            <p className="text-white/80 text-xl sm:text-2xl font-medium mb-12 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-white/90 text-lg sm:text-xl font-medium mb-8 max-w-2xl mx-auto leading-relaxed">
               Connect with verified electricians, plumbers, carpenters, and more
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <button 
                 onClick={() => setShowFindModal(true)}
-                className="w-full sm:w-auto bg-white text-[#634060] px-10 py-5 rounded-full font-black text-lg hover:shadow-2xl transition-all shadow-xl shadow-black/10 active:scale-[0.98]"
+                className="w-full sm:w-auto bg-white text-[#6B73FF] px-6 py-2.5 rounded-full font-bold text-sm hover:shadow-lg transition-all shadow-md active:scale-[0.98]"
               >
                 Find Professionals
               </button>
               <button 
                 onClick={() => setShowJoinModal(true)}
-                className="w-full sm:w-auto bg-white/10 text-white border-2 border-white/20 backdrop-blur-md px-10 py-5 rounded-full font-black text-lg hover:bg-white/20 transition-all active:scale-[0.98]"
+                className="w-full sm:w-auto bg-white/10 text-white border border-white/30 backdrop-blur-sm px-6 py-2.5 rounded-full font-bold text-sm hover:bg-white/20 transition-all active:scale-[0.98]"
               >
                 Join as Professional
               </button>
@@ -110,23 +110,23 @@ export default function HomePage() {
       </section>
 
       {/* Search Bar Section (Floating) */}
-      <div className="max-w-3xl mx-auto px-4 -mt-10 relative z-20">
-         <div className="bg-white rounded-3xl p-3 shadow-2xl shadow-black/10 border border-slate-100 flex flex-col sm:flex-row items-center gap-2">
+      <div className="max-w-md mx-auto px-4 -mt-6 relative z-20">
+         <div className="bg-white rounded-full p-1.5 shadow-xl shadow-[#A259FF]/10 border border-slate-100 flex flex-col sm:flex-row items-center gap-1">
             <form onSubmit={handleSearch} className="flex-1 flex items-center w-full">
-               <div className="pl-6 text-slate-400">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+               <div className="pl-4 text-slate-400">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
                </div>
                <input 
                 type="text" 
                 placeholder="What service do you need?" 
-                className="w-full py-5 px-4 bg-transparent outline-none text-slate-700 font-bold placeholder:text-slate-300"
+                className="w-full py-2 px-3 bg-transparent outline-none text-slate-700 font-bold text-sm placeholder:text-slate-300"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                />
             </form>
             <button 
               onClick={handleSearch}
-              className="w-full sm:w-auto bg-[#634060] text-white px-12 py-5 rounded-2xl font-black hover:bg-[#3E2040] transition-all active:scale-[0.95]"
+              className="w-full sm:w-auto bg-gradient-to-r from-[#6B73FF] to-[#A259FF] text-white px-6 py-2 rounded-full font-bold text-sm hover:shadow-md transition-all active:scale-[0.95]"
             >
               Search
             </button>
