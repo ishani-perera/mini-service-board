@@ -11,18 +11,18 @@ import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 
 const CATEGORIES = [
-  { name: 'Plumbing', img: 'https://images.pexels.com/photos/2310904/pexels-photo-2310904.jpeg?auto=compress&cs=tinysrgb&w=400&v=1', color: 'bg-blue-50' },
-  { name: 'Electrical', img: 'https://images.pexels.com/photos/257736/pexels-photo-257736.jpeg?auto=compress&cs=tinysrgb&w=400&v=1', color: 'bg-amber-50' },
-  { name: 'Painting', img: 'https://images.pexels.com/photos/6444253/pexels-photo-6444253.jpeg?auto=compress&cs=tinysrgb&w=400&v=1', color: 'bg-rose-50' },
-  { name: 'Joinery', img: 'https://images.pexels.com/photos/175707/pexels-photo-175707.jpeg?auto=compress&cs=tinysrgb&w=400&v=1', color: 'bg-orange-50' },
-  { name: 'Roofing', img: 'https://images.pexels.com/photos/4433767/pexels-photo-4433767.jpeg?auto=compress&cs=tinysrgb&w=400&v=1', color: 'bg-slate-50' },
-  { name: 'Gardening', img: 'https://images.pexels.com/photos/4505171/pexels-photo-4505171.jpeg?auto=compress&cs=tinysrgb&w=400&v=1', color: 'bg-emerald-50' },
-  { name: 'Cleaning', img: 'https://images.pexels.com/photos/4099467/pexels-photo-4099467.jpeg?auto=compress&cs=tinysrgb&w=400&v=1', color: 'bg-cyan-50' },
-  { name: 'AC Tech', img: 'https://images.pexels.com/photos/4433833/pexels-photo-4433833.jpeg?auto=compress&cs=tinysrgb&w=400&v=1', color: 'bg-indigo-50' },
-  { name: 'Masons', img: 'https://images.pexels.com/photos/6647118/pexels-photo-6647118.jpeg?auto=compress&cs=tinysrgb&w=400&v=1', color: 'bg-stone-50' },
-  { name: 'Pest Control', img: 'https://images.pexels.com/photos/4099466/pexels-photo-4099466.jpeg?auto=compress&cs=tinysrgb&w=400&v=1', color: 'bg-purple-50' },
-  { name: 'Interior', img: 'https://images.pexels.com/photos/1643383/pexels-photo-1643383.jpeg?auto=compress&cs=tinysrgb&w=400&v=1', color: 'bg-fuchsia-50' },
-  { name: 'Other', img: 'https://images.pexels.com/photos/175039/pexels-photo-175039.jpeg?auto=compress&cs=tinysrgb&w=400&v=1', color: 'bg-slate-50' },
+  { name: 'Plumbing', icon: '🚰', color: 'from-blue-400 to-cyan-300', bgColor: 'bg-blue-50', count: 0 },
+  { name: 'Electrical', icon: '⚡', color: 'from-amber-400 to-yellow-300', bgColor: 'bg-amber-50', count: 0 },
+  { name: 'Painting', icon: '🎨', color: 'from-rose-400 to-pink-300', bgColor: 'bg-rose-50', count: 0 },
+  { name: 'Joinery', icon: '🔨', color: 'from-orange-400 to-amber-300', bgColor: 'bg-orange-50', count: 0 },
+  { name: 'Roofing', icon: '🏠', color: 'from-slate-400 to-stone-300', bgColor: 'bg-slate-50', count: 0 },
+  { name: 'Gardening', icon: '🌿', color: 'from-emerald-400 to-green-300', bgColor: 'bg-emerald-50', count: 0 },
+  { name: 'Cleaning', icon: '✨', color: 'from-cyan-400 to-blue-300', bgColor: 'bg-cyan-50', count: 0 },
+  { name: 'AC Tech', icon: '❄️', color: 'from-indigo-400 to-purple-300', bgColor: 'bg-indigo-50', count: 0 },
+  { name: 'Masons', icon: '🧱', color: 'from-stone-400 to-slate-300', bgColor: 'bg-stone-50', count: 0 },
+  { name: 'Pest Control', icon: '🦟', color: 'from-purple-400 to-violet-300', bgColor: 'bg-purple-50', count: 0 },
+  { name: 'Interior', icon: '🛋️', color: 'from-fuchsia-400 to-pink-300', bgColor: 'bg-fuchsia-50', count: 0 },
+  { name: 'Other', icon: '⚙️', color: 'from-slate-400 to-gray-300', bgColor: 'bg-slate-50', count: 0 },
 ];
 
 const STATUSES = ['All', 'Open', 'In Progress', 'Closed'];
@@ -130,58 +130,97 @@ export default function HomePage() {
       </div>
 
       {/* Categories Grid */}
-      <section className="bg-white py-24">
-        <div className="max-w-6xl mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-5xl font-black text-slate-900 mb-4">Services We Offer</h2>
-            <p className="text-slate-500 text-xl font-medium">Professional home services at your fingertips</p>
+      <section className="relative py-32 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob" />
+        <div className="absolute top-1/4 left-0 w-72 h-72 bg-purple-100 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000" />
+        
+        <div className="max-w-7xl mx-auto px-4 relative z-10">
+          <div className="text-center mb-20">
+            <span className="inline-block px-6 py-2 bg-gradient-to-r from-[#5B63B1] to-purple-600 text-white font-bold text-sm rounded-full mb-6 shadow-lg shadow-purple-500/20">OUR SERVICES</span>
+            <h2 className="text-6xl font-black text-slate-900 mb-6">Services We Offer</h2>
+            <p className="text-slate-600 text-xl font-medium max-w-2xl mx-auto leading-relaxed">Professional home services at your fingertips. Browse through our extensive range of skilled professionals ready to help.</p>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-            {CATEGORIES.map((cat) => (
-              <button
-                key={cat.name}
-                onClick={() => setCategory(cat.name)}
-                className={`group relative flex flex-col bg-white rounded-[2rem] p-5 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 border ${
-                  category === cat.name ? 'border-[#5B63B1] shadow-xl ring-2 ring-[#5B63B1]/10' : 'border-slate-100'
-                }`}
-              >
-                <div className="flex justify-between items-center mb-6">
-                   <span className="font-black text-slate-900 text-sm tracking-tight">{cat.name}</span>
-                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className="text-slate-300 group-hover:text-[#5B63B1] transition-colors"><path d="m9 18 6-6-6-6"/></svg>
-                </div>
-                
-                <div className={`w-full aspect-[4/5] rounded-2xl overflow-hidden ${cat.color || 'bg-slate-50'}`}>
-                   <img 
-                    src={cat.img} 
-                    alt={cat.name} 
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
-                    onError={(e) => { e.target.src = 'https://images.pexels.com/photos/175039/pexels-photo-175039.jpeg?auto=compress&cs=tinysrgb&w=400'; }}
-                   />
-                </div>
-              </button>
-            ))}
+            {CATEGORIES.map((cat) => {
+              const isSelected = category === cat.name;
+              return (
+                <button
+                  key={cat.name}
+                  onClick={() => {
+                    setCategory(cat.name);
+                    setTimeout(() => {
+                      const mainElement = document.querySelector('main');
+                      if (mainElement) {
+                        mainElement.scrollIntoView({ behavior: 'smooth' });
+                      }
+                    }, 100);
+                  }}
+                  className={`group relative flex flex-col items-center justify-center p-8 rounded-3xl transition-all duration-400 border-2 overflow-hidden
+                    ${
+                      isSelected 
+                        ? 'border-[#5B63B1] bg-white shadow-2xl shadow-[#5B63B1]/30 scale-105 -translate-y-1' 
+                        : 'border-slate-100 bg-white hover:border-[#5B63B1]/40 hover:shadow-2xl hover:-translate-y-2'
+                    }`}
+                >
+                  {/* Animated background gradient */}
+                  <div className={`absolute inset-0 bg-gradient-to-br ${cat.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
+                  
+                  {/* Icon container with gradient background */}
+                  <div className={`relative w-24 h-24 rounded-2xl bg-gradient-to-br ${cat.color} flex items-center justify-center mb-6 group-hover:scale-125 transition-all duration-500 shadow-lg group-hover:shadow-2xl group-hover:shadow-blue-500/20`}>
+                    <span className="text-5xl filter drop-shadow-lg">{cat.icon}</span>
+                  </div>
+                  
+                  {/* Service name */}
+                  <span className="font-black text-slate-900 text-base text-center leading-tight mb-3 relative z-10">{cat.name}</span>
+                  
+                  {/* Browse link with arrow */}
+                  <div className={`flex items-center gap-2 text-sm font-bold transition-all duration-300 relative z-10 ${
+                    isSelected ? 'text-[#5B63B1]' : 'text-slate-500 group-hover:text-[#5B63B1]'
+                  }`}>
+                    <span>Browse</span>
+                    <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="mt-16 text-center">
+            <p className="text-slate-600 font-medium">Can't find what you need?</p>
+            <button 
+              onClick={() => setCategory('Other')}
+              className="mt-3 px-8 py-3 bg-gradient-to-r from-[#5B63B1] to-purple-600 text-white font-black rounded-2xl hover:shadow-xl hover:shadow-purple-500/30 transition-all active:scale-95"
+            >
+              Browse Other Services
+            </button>
           </div>
         </div>
       </section>
 
       {/* Main Content Area */}
-      <main className="max-w-6xl mx-auto px-4 py-24">
-        <div className="flex flex-col md:flex-row items-start justify-between gap-12 mb-12">
+      <main className="max-w-7xl mx-auto px-4 py-24">
+        <div className="flex flex-col lg:flex-row items-start justify-between gap-8 mb-16">
           <div className="flex-1">
-             <h2 className="text-3xl font-black text-slate-900 mb-4">{t.latestRequests}</h2>
-             <p className="text-slate-500 font-medium">{t.browseJobs}</p>
+             <div className="inline-block px-5 py-2 bg-gradient-to-r from-[#5B63B1] to-purple-600 text-white font-bold text-xs rounded-full mb-6 shadow-lg shadow-purple-500/20">
+                ACTIVE LISTINGS
+             </div>
+             <h2 className="text-5xl font-black text-slate-900 mb-4">{t.latestRequests}</h2>
+             <p className="text-slate-600 text-lg font-medium">{t.browseJobs}</p>
           </div>
           
-          <div className="flex items-center gap-3 bg-white p-1.5 rounded-2xl border border-slate-200">
+          <div className="flex items-center gap-2 bg-white p-2 rounded-2xl border border-slate-200 shadow-md hover:shadow-lg transition-all">
              {STATUSES.map(s => (
                <button
                 key={s}
                 onClick={() => setStatus(s)}
-                className={`px-5 py-2 rounded-xl text-sm font-bold transition-all ${
+                className={`px-6 py-3 rounded-xl text-sm font-bold transition-all duration-300 ${
                   status === s 
-                  ? 'bg-slate-900 text-white shadow-lg' 
-                  : 'text-slate-400 hover:text-slate-600'
+                  ? 'bg-gradient-to-r from-[#5B63B1] to-purple-600 text-white shadow-lg shadow-purple-500/20 scale-105' 
+                  : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'
                 }`}
                >
                  {s}
@@ -192,37 +231,54 @@ export default function HomePage() {
 
         {/* Error state */}
         {error && (
-          <div className="bg-red-50 border border-red-100 text-red-600 rounded-3xl p-8 mb-12 text-center animate-in fade-in slide-in-from-top-4">
-             <div className="text-2xl mb-2">🛑</div>
-             <p className="font-bold text-lg">{error}</p>
-             <button onClick={fetchJobs} className="mt-4 px-6 py-2 bg-red-600 text-white rounded-xl text-sm font-bold shadow-lg shadow-red-500/20">Try again</button>
+          <div className="bg-gradient-to-r from-red-50 to-orange-50 border-2 border-red-200 text-red-700 rounded-3xl p-8 mb-16 text-center animate-in fade-in slide-in-from-top-4 shadow-md">
+             <div className="text-4xl mb-3">⚠️</div>
+             <p className="font-bold text-lg mb-4">{error}</p>
+             <button onClick={fetchJobs} className="inline-block px-8 py-3 bg-gradient-to-r from-red-600 to-orange-600 text-white rounded-xl text-sm font-bold hover:shadow-lg hover:shadow-red-500/30 transition-all active:scale-95">Retry Connection</button>
           </div>
         )}
 
         {/* Job grid */}
         <div className="relative">
           {loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[...Array(6)].map((_, i) => <SkeletonCard key={i} />)}
             </div>
           ) : jobs.length === 0 ? (
-            <div className="text-center py-32 bg-white rounded-[2.5rem] border border-dashed border-slate-300">
-              <div className="bg-slate-50 w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-8 text-4xl">🔎</div>
-              <h3 className="text-2xl font-black text-slate-800 mb-3">No matching jobs</h3>
-              <p className="text-slate-400 mb-10 max-w-sm mx-auto font-medium">We couldn't find any service requests. Try adjusting your search or filters.</p>
-              <button 
-                onClick={() => { setCategory('All'); setStatus('All'); setSearch(''); }}
-                className="bg-blue-50 text-blue-600 px-8 py-3 rounded-2xl font-black text-sm hover:bg-blue-100 transition-all"
-              >
-                Reset Filters
-              </button>
+            <div className="text-center py-24 px-8 bg-gradient-to-br from-slate-50 to-blue-50 rounded-3xl border-2 border-dashed border-slate-300 shadow-sm">
+              <div className="bg-white w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-8 text-5xl shadow-md">
+                 <span className="text-5xl">🔍</span>
+              </div>
+              <h3 className="text-3xl font-black text-slate-800 mb-4">No Jobs Found</h3>
+              <p className="text-slate-500 text-lg mb-12 max-w-md mx-auto font-medium">We couldn't find any service requests matching your filters. Try adjusting your search criteria.</p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                 <button 
+                   onClick={() => { setCategory('All'); setStatus('All'); setSearch(''); }}
+                   className="px-8 py-3 bg-gradient-to-r from-[#5B63B1] to-purple-600 text-white rounded-2xl font-black hover:shadow-xl hover:shadow-purple-500/30 transition-all active:scale-95"
+                 >
+                   Reset All Filters
+                 </button>
+                 <button 
+                   onClick={() => setCategory('All')}
+                   className="px-8 py-3 bg-white border-2 border-slate-300 text-slate-700 rounded-2xl font-black hover:bg-slate-50 transition-all active:scale-95"
+                 >
+                   Browse All Services
+                 </button>
+              </div>
             </div>
           ) : (
-            <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                {jobs.map((job) => <JobCard key={job._id} job={job} />)}
+            <div className="animate-in fade-in duration-500">
+              <div className="mb-6 text-sm font-bold text-slate-500">
+                 Showing <span className="text-slate-900 text-base">{jobs.length} job{jobs.length !== 1 ? 's' : ''}</span>
               </div>
-            </>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {jobs.map((job, index) => (
+                   <div key={job._id} className="animate-in fade-in slide-in-from-bottom-4" style={{animationDelay: `${index * 50}ms`}}>
+                      <JobCard job={job} />
+                   </div>
+                ))}
+              </div>
+            </div>
           )}
         </div>
       </main>
