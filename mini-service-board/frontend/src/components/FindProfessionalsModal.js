@@ -40,6 +40,32 @@ const mockProfessionals = [
     description: '"Professional electrical services including wiring, repairs, installations, and maintenance"',
     phone: '0764181501',
     color: 'bg-blue-500'
+  },
+  {
+    id: 4,
+    initials: 'ME',
+    name: 'MP ELECTRICALS',
+    profession: 'Electrician',
+    location: 'Colombo',
+    rating: 4.60,
+    reviews: 0,
+    rate: 1981.00,
+    description: '"Professional electrical services including wiring, repairs, installations, and maintenance"',
+    phone: '0779262168',
+    color: 'bg-violet-500'
+  },
+  {
+    id: 5,
+    initials: 'MI',
+    name: 'MILINDA ELECTRICALS',
+    profession: 'Electrician',
+    location: 'Colombo',
+    rating: 4.00,
+    reviews: 0,
+    rate: 1800.00,
+    description: '"Professional electrical services including wiring, repairs, installations, and maintenance"',
+    phone: '0712345678',
+    color: 'bg-blue-400'
   }
 ];
 
