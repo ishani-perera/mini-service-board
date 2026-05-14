@@ -2,6 +2,7 @@ import { Toaster } from 'react-hot-toast';
 import { LanguageProvider } from '../context/LanguageContext';
 import { AuthProvider } from '../context/AuthContext';
 import ErrorBoundary from '../components/ErrorBoundary';
+import Footer from '../components/Footer';
 import './globals.css';
 
 export const metadata = {
