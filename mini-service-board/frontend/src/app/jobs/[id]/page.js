@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 import { getJob, updateJobStatus, deleteJob } from '../../../lib/api';
 import Navbar from '../../../components/Navbar';
 import StatusBadge from '../../../components/StatusBadge';
+import { useAuth } from '../../../context/AuthContext';
 
 const STATUSES = ['Open', 'In Progress', 'Closed'];
 
@@ -18,6 +19,7 @@ export default function JobDetailPage() {
   const [updating, setUpdating] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [error, setError] = useState('');
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchJob = async () => {
@@ -139,14 +141,16 @@ export default function JobDetailPage() {
               </div>
               
               <div className="flex items-center gap-3">
-                 <button
-                  onClick={handleDelete}
-                  disabled={deleting}
-                  className="p-3 bg-red-50 text-red-500 rounded-xl hover:bg-red-100 transition-colors disabled:opacity-50"
-                  title="Delete Job"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
-                </button>
+                 {user && (
+                   <button
+                    onClick={handleDelete}
+                    disabled={deleting}
+                    className="p-3 bg-red-50 text-red-500 rounded-xl hover:bg-red-100 transition-colors disabled:opacity-50"
+                    title="Delete Job"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+                  </button>
+                 )}
               </div>
             </div>
 
@@ -229,20 +233,29 @@ export default function JobDetailPage() {
                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
               </div>
               <div>
-                <h4 className="font-bold text-slate-800">Manage Status</h4>
-                <p className="text-sm text-slate-500">Update the progress of this request.</p>
+                <h4 className="font-bold text-slate-800">{user ? 'Manage Status' : 'Interested in this job?'}</h4>
+                <p className="text-sm text-slate-500">{user ? 'Update the progress of this request.' : 'Login as a tradesman to manage this job.'}</p>
               </div>
             </div>
 
             <div className="w-full sm:w-64">
-              <select
-                value={job.status}
-                onChange={handleStatusChange}
-                disabled={updating}
-                className="w-full bg-white border border-slate-200 rounded-2xl px-4 py-3 text-sm font-bold shadow-sm focus:ring-4 focus:ring-blue-500/10 outline-none transition-all cursor-pointer disabled:opacity-50"
-              >
-                {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
-              </select>
+              {user ? (
+                <select
+                  value={job.status}
+                  onChange={handleStatusChange}
+                  disabled={updating}
+                  className="w-full bg-white border border-slate-200 rounded-2xl px-4 py-3 text-sm font-bold shadow-sm focus:ring-4 focus:ring-blue-500/10 outline-none transition-all cursor-pointer disabled:opacity-50"
+                >
+                  {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
+                </select>
+              ) : (
+                <button 
+                  onClick={() => router.push('/login')}
+                  className="w-full bg-slate-900 text-white py-3 rounded-2xl font-bold text-sm hover:bg-slate-800 transition-all active:scale-[0.98]"
+                >
+                  Login to Manage
+                </button>
+              )}
             </div>
           </div>
         </div>

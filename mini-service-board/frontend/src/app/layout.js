@@ -1,5 +1,6 @@
 import { Toaster } from 'react-hot-toast';
 import { LanguageProvider } from '../context/LanguageContext';
+import { AuthProvider } from '../context/AuthContext';
 import './globals.css';
 
 export const metadata = {
@@ -12,8 +13,10 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <LanguageProvider>
-          <Toaster position="top-right" />
-          {children}
+          <AuthProvider>
+            <Toaster position="top-right" />
+            {children}
+          </AuthProvider>
         </LanguageProvider>
       </body>
     </html>

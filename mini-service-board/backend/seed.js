@@ -2,6 +2,14 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const connectDB = require('./config/db');
 const JobRequest = require('./models/JobRequest');
+const User = require('./models/User');
+
+const demoUser = {
+  name: 'Admin Tradesman',
+  email: 'admin@example.com',
+  password: '123456', // Will be hashed by pre-save hook
+  role: 'tradesman',
+};
 
 const sampleJobs = [
   {
@@ -80,8 +88,12 @@ const seedDB = async () => {
   try {
     await connectDB();
     await JobRequest.deleteMany();
+    await User.deleteMany();
+    
     await JobRequest.insertMany(sampleJobs);
-    console.log('✅ Database seeded successfully with localized sample jobs!');
+    await User.create(demoUser);
+
+    console.log('✅ Database seeded successfully with localized jobs and demo admin!');
     process.exit(0);
   } catch (error) {
     console.error('❌ Error seeding database:', error);

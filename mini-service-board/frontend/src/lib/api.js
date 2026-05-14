@@ -5,6 +5,16 @@ const api = axios.create({
   headers: { 'Content-Type': 'application/json' },
 });
 
+// Add a request interceptor to include the token
+api.interceptors.request.use((config) => {
+  const savedUser = localStorage.getItem('app-user');
+  if (savedUser) {
+    const { token } = JSON.parse(savedUser);
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
 export const getJobs = (params) => api.get('/jobs', { params });
 export const getJob = (id) => api.get(`/jobs/${id}`);
 export const createJob = (data) => api.post('/jobs', data);
