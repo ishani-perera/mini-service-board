@@ -6,7 +6,7 @@ import Navbar from '../components/Navbar';
 import JobCard from '../components/JobCard';
 import SkeletonCard from '../components/SkeletonCard';
 
-const CATEGORIES = ['All', 'Plumbing', 'Electrical', 'Painting', 'Joinery', 'Roofing', 'Gardening', 'Cleaning', 'Other'];
+const CATEGORIES = ['All', 'Plumbing', 'Electrical', 'Painting', 'Joinery', 'Roofing', 'Gardening', 'Cleaning', 'AC Technicians', 'Masons', 'Pest Control', 'Other'];
 const STATUSES = ['All', 'Open', 'In Progress', 'Closed'];
 
 export default function HomePage() {

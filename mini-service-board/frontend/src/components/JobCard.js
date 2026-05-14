@@ -10,7 +10,15 @@ export default function JobCard({ job }) {
     <Link href={`/jobs/${job._id}`}>
       <div className="bg-white rounded-2xl border border-slate-200/60 p-6 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:border-blue-400/50 transition-all duration-300 cursor-pointer h-full flex flex-col gap-4 group">
         <div className="flex items-start justify-between gap-3">
-          <h3 className="font-bold text-slate-800 text-lg leading-tight group-hover:text-blue-600 transition-colors">{job.title}</h3>
+          <div className="space-y-1">
+            <h3 className="font-bold text-slate-800 text-lg leading-tight group-hover:text-blue-600 transition-colors">{job.title}</h3>
+            <div className="flex items-center gap-1.5">
+               <span className="flex items-center gap-1 text-[9px] font-extrabold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded-md uppercase tracking-tighter border border-emerald-100">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                  Verified Request
+               </span>
+            </div>
+          </div>
           <StatusBadge status={job.status} />
         </div>
 

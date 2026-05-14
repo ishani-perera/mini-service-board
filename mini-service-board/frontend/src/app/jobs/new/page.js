@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import { createJob } from '../../../lib/api';
 import Navbar from '../../../components/Navbar';
 
-const CATEGORIES = ['Plumbing', 'Electrical', 'Painting', 'Joinery', 'Roofing', 'Gardening', 'Cleaning', 'Other'];
+const CATEGORIES = ['Plumbing', 'Electrical', 'Painting', 'Joinery', 'Roofing', 'Gardening', 'Cleaning', 'AC Technicians', 'Masons', 'Pest Control', 'Other'];
 
 export default function NewJobPage() {
   const router = useRouter();
