@@ -1,12 +1,12 @@
 export default function StatusBadge({ status }) {
-  const colors = {
-    Open: 'bg-green-100 text-green-800',
-    'In Progress': 'bg-yellow-100 text-yellow-800',
-    Closed: 'bg-gray-100 text-gray-700',
+  const styles = {
+    'Open': 'bg-[#E7F7EF] text-[#0D9488] border-[#CCF1DE]',
+    'In Progress': 'bg-[#FFFBEB] text-[#D97706] border-[#FEF3C7]',
+    'Closed': 'bg-[#FEE2E2] text-[#DC2626] border-[#FECACA]',
   };
 
   return (
-    <span className={`inline-block px-2 py-1 rounded-full text-xs font-semibold ${colors[status] || 'bg-gray-100 text-gray-700'}`}>
+    <span className={`px-4 py-1.5 rounded-full text-[11px] font-black uppercase tracking-widest border shadow-sm ${styles[status] || 'bg-slate-100 text-slate-500 border-slate-200'}`}>
       {status}
     </span>
   );
