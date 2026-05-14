@@ -11,17 +11,18 @@ import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 
 const CATEGORIES = [
-  { name: 'Plumbing', icon: '🚰' },
-  { name: 'Electrical', icon: '⚡' },
-  { name: 'Painting', icon: '🎨' },
-  { name: 'Joinery', icon: '🪚' },
-  { name: 'Roofing', icon: '🏠' },
-  { name: 'Gardening', icon: '🌿' },
-  { name: 'Cleaning', icon: '🧹' },
-  { name: 'AC Technicians', icon: '❄️' },
-  { name: 'Masons', icon: '🧱' },
-  { name: 'Pest Control', icon: '🦟' },
-  { name: 'Other', icon: '🛠️' },
+  { name: 'Plumbing', img: 'https://images.unsplash.com/photo-1581244276894-069f21422b40?auto=format&fit=crop&q=80&w=400' },
+  { name: 'Electrical', img: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=400' },
+  { name: 'Painting', img: 'https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&q=80&w=400' },
+  { name: 'Joinery', img: 'https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&q=80&w=400' },
+  { name: 'Roofing', img: 'https://images.unsplash.com/photo-1632759145351-1d592919f522?auto=format&fit=crop&q=80&w=400' },
+  { name: 'Gardening', img: 'https://images.unsplash.com/photo-1558904541-efa8c191577e?auto=format&fit=crop&q=80&w=400' },
+  { name: 'Cleaning', img: 'https://images.unsplash.com/photo-1581578731522-745d05cb9734?auto=format&fit=crop&q=80&w=400' },
+  { name: 'AC Tech', img: 'https://images.unsplash.com/photo-1621905252507-b35242f3174d?auto=format&fit=crop&q=80&w=400' },
+  { name: 'Masons', img: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&q=80&w=400' },
+  { name: 'Pest Control', img: 'https://images.unsplash.com/photo-1583508915901-b5f84c1dcde1?auto=format&fit=crop&q=80&w=400' },
+  { name: 'Interior', img: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&q=80&w=400' },
+  { name: 'Other', img: 'https://images.unsplash.com/photo-1581094794329-c8112a4e5190?auto=format&fit=crop&q=80&w=400' },
 ];
 
 const STATUSES = ['All', 'Open', 'In Progress', 'Closed'];
@@ -136,19 +137,27 @@ export default function HomePage() {
             <p className="text-slate-500 text-xl font-medium">Professional home services at your fingertips</p>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            {CATEGORIES.slice(0, 11).map((cat) => (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+            {CATEGORIES.map((cat) => (
               <button
                 key={cat.name}
                 onClick={() => setCategory(cat.name)}
-                className={`flex flex-col items-center justify-center p-6 rounded-3xl transition-all duration-300 border-2 ${
-                  category === cat.name 
-                  ? 'bg-blue-600 border-blue-600 text-white shadow-xl shadow-blue-500/20' 
-                  : 'bg-white border-transparent text-slate-600 hover:border-blue-200 hover:shadow-lg hover:shadow-slate-200/50'
+                className={`group relative flex flex-col items-center bg-white rounded-3xl p-4 transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 border ${
+                  category === cat.name ? 'border-blue-600 shadow-xl ring-2 ring-blue-600/10' : 'border-slate-100'
                 }`}
               >
-                <span className="text-3xl mb-3">{cat.icon}</span>
-                <span className="text-xs font-bold tracking-wide uppercase">{cat.name}</span>
+                <div className="w-full flex justify-between items-center mb-4 px-1">
+                   <span className="font-black text-slate-800 text-xs sm:text-sm tracking-tight">{cat.name}</span>
+                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-slate-300 group-hover:text-blue-600 transition-colors"><path d="m9 18 6-6-6-6"/></svg>
+                </div>
+                
+                <div className="w-full aspect-square rounded-2xl overflow-hidden bg-slate-50">
+                   <img 
+                    src={cat.img} 
+                    alt={cat.name} 
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                   />
+                </div>
               </button>
             ))}
           </div>
