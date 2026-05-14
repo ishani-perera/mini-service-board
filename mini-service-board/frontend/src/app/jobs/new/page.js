@@ -192,7 +192,7 @@ export default function NewJobPage() {
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 bg-blue-600 text-white py-4 rounded-2xl font-bold text-base hover:bg-blue-700 shadow-lg shadow-blue-500/20 active:scale-[0.98] disabled:opacity-60 transition-all"
+              className="flex-1 bg-gradient-to-r from-[#7B81D8] to-[#5B63B1] text-white py-5 rounded-2xl font-black text-lg hover:shadow-2xl hover:shadow-purple-500/20 active:scale-[0.98] disabled:opacity-60 transition-all"
             >
               {loading ? 'Posting Request...' : 'Post Request'}
             </button>
