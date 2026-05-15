@@ -30,11 +30,17 @@ export default function JoinProfessionalModal({ onClose }) {
     
     setLoading(true);
     try {
+      // Map UI role labels to backend enum values
+      const roleMap = {
+        'Professional': 'tradesman',
+        'Customer': 'homeowner',
+      };
+
       const payload = {
         name: formData.fullName,
         email: formData.email,
         password: formData.password,
-        role: role.toLowerCase(),
+        role: roleMap[role] || 'homeowner',
       };
       
       // If professional, we could send additional profile data if backend supports it.
@@ -69,17 +75,17 @@ export default function JoinProfessionalModal({ onClose }) {
           {/* Role Toggle */}
           <div className="flex p-1 bg-slate-100 rounded-xl mb-6">
              <button
-                type="button"
-                onClick={() => setRole('Customer')}
-                className={`flex-1 py-2.5 text-sm font-bold rounded-lg transition-all flex items-center justify-center gap-2 ${role === 'Customer' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+               type="button"
+               onClick={() => setRole('Customer')}
+               className={`flex-1 py-2.5 text-sm font-bold rounded-lg transition-all flex items-center justify-center gap-2 ${role === 'Customer' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
              >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                 Customer
              </button>
              <button
-                type="button"
-                onClick={() => setRole('Professional')}
-                className={`flex-1 py-2.5 text-sm font-bold rounded-lg transition-all flex items-center justify-center gap-2 ${role === 'Professional' ? 'bg-[#634060] text-white shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+               type="button"
+               onClick={() => setRole('Professional')}
+               className={`flex-1 py-2.5 text-sm font-bold rounded-lg transition-all flex items-center justify-center gap-2 ${role === 'Professional' ? 'bg-gradient-to-r from-blue-600 to-indigo-700 text-white shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
              >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
                 Professional
@@ -107,9 +113,18 @@ export default function JoinProfessionalModal({ onClose }) {
                 <label className="block text-xs font-bold text-slate-700 mb-1">Service Type *</label>
                 <select required className="w-full p-2.5 rounded-lg border border-slate-200 outline-none focus:border-[#5B63B1] focus:ring-1 focus:ring-[#5B63B1] transition-all text-sm text-slate-700 bg-white" value={formData.serviceType} onChange={(e) => setFormData({...formData, serviceType: e.target.value})}>
                   <option value="">Select service type</option>
-                  <option value="Electrical">Electrical</option>
                   <option value="Plumbing">Plumbing</option>
-                  <option value="Carpentry">Carpentry</option>
+                  <option value="Electrical">Electrical</option>
+                  <option value="Painting">Painting</option>
+                  <option value="Joinery">Joinery</option>
+                  <option value="Roofing">Roofing</option>
+                  <option value="Gardening">Gardening</option>
+                  <option value="Cleaning">Cleaning</option>
+                  <option value="AC Technicians">AC Technicians</option>
+                  <option value="Masons">Masons</option>
+                  <option value="Pest Control">Pest Control</option>
+                  <option value="Interior">Interior</option>
+                  <option value="Other">Other</option>
                 </select>
               </div>
 
@@ -125,6 +140,18 @@ export default function JoinProfessionalModal({ onClose }) {
                   <option value="Colombo">Colombo</option>
                   <option value="Kandy">Kandy</option>
                   <option value="Galle">Galle</option>
+                  <option value="Jaffna">Jaffna</option>
+                  <option value="Negombo">Negombo</option>
+                  <option value="Gampaha">Gampaha</option>
+                  <option value="Kurunegala">Kurunegala</option>
+                  <option value="Kegalle">Kegalle</option>
+                  <option value="Matara">Matara</option>
+                  <option value="Anuradhapura">Anuradhapura</option>
+                  <option value="Trincomalee">Trincomalee</option>
+                  <option value="Ratnapura">Ratnapura</option>
+                  <option value="Hambantota">Hambantota</option>
+                  <option value="Batticaloa">Batticaloa</option>
+                  <option value="Battaramulla">Battaramulla</option>
                 </select>
               </div>
 
@@ -161,7 +188,7 @@ export default function JoinProfessionalModal({ onClose }) {
           <button 
             type="submit"
             disabled={loading}
-            className="w-full py-3 mt-2 rounded-xl font-bold text-white bg-gradient-to-r from-[#634060] to-[#3E2040] hover:shadow-lg hover:shadow-[#634060]/30 transition-all active:scale-[0.98] disabled:opacity-50"
+            className="btn-primary w-full py-3 mt-2"
           >
             {loading ? 'Creating Account...' : 'Create Account'}
           </button>

@@ -28,8 +28,8 @@ export default function Navbar() {
           {/* Desktop Nav Links */}
           <div className="hidden lg:flex items-center gap-8">
             <Link href="/" className="text-sm font-bold text-slate-500 hover:text-slate-900 transition-colors">Home</Link>
-            <Link href="#about" className="text-sm font-bold text-slate-500 hover:text-slate-900 transition-colors">About</Link>
-            <Link href="#services" className="text-sm font-bold text-slate-500 hover:text-slate-900 transition-colors">Services</Link>
+            <Link href="/about" className="text-sm font-bold text-slate-500 hover:text-slate-900 transition-colors">About</Link>
+            <Link href="/services" className="text-sm font-bold text-slate-500 hover:text-slate-900 transition-colors">Services</Link>
             
             <Link 
               href="/jobs/new" 

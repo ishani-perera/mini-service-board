@@ -279,11 +279,11 @@ export default function HomePage() {
                  Showing <span className="text-slate-900 text-base">{jobs.length} job{jobs.length !== 1 ? 's' : ''}</span>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {jobs.map((job, index) => (
+                 {jobs.map((job, index) => (
                    <div key={job._id} className="animate-in fade-in slide-in-from-bottom-4" style={{animationDelay: `${index * 50}ms`}}>
-                      <JobCard job={job} />
+                     <JobCard job={job} showImage={false} />
                    </div>
-                ))}
+                 ))}
               </div>
             </div>
           )}
@@ -291,8 +291,91 @@ export default function HomePage() {
       </main>
       </div>
 
-      {/* Trust Footer */}
-      <section className="bg-slate-900 text-white py-24">
+      {/* Trust Footer */}      <section className="bg-slate-50 py-20 px-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-black text-slate-900 mb-4">Average Service Costs</h2>
+            <p className="text-slate-600 text-lg max-w-2xl mx-auto">Get an idea of typical pricing for common home services in Sri Lanka</p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+              <h3 className="text-2xl font-bold text-slate-900 mb-6">⚡ Electrical Services</h3>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center pb-3 border-b border-slate-100">
+                  <span className="text-slate-700 font-medium">Light Fixture Installation</span>
+                  <span className="font-bold text-blue-600">₨1,000 - 3,000</span>
+                </div>
+                <div className="flex justify-between items-center pb-3 border-b border-slate-100">
+                  <span className="text-slate-700 font-medium">Ceiling Fan Installation</span>
+                  <span className="font-bold text-blue-600">₨1,500 - 4,000</span>
+                </div>
+                <div className="flex justify-between items-center pb-3 border-b border-slate-100">
+                  <span className="text-slate-700 font-medium">House Rewiring</span>
+                  <span className="font-bold text-blue-600">₨80,000 - 200,000</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-slate-700 font-medium">Distribution Board</span>
+                  <span className="font-bold text-blue-600">₨15,000 - 35,000</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+              <h3 className="text-2xl font-bold text-slate-900 mb-6">🚰 Plumbing Services</h3>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center pb-3 border-b border-slate-100">
+                  <span className="text-slate-700 font-medium">Pipe Repair</span>
+                  <span className="font-bold text-blue-600">₨3,000 - 8,000</span>
+                </div>
+                <div className="flex justify-between items-center pb-3 border-b border-slate-100">
+                  <span className="text-slate-700 font-medium">Fixture Installation</span>
+                  <span className="font-bold text-blue-600">₨5,000 - 15,000</span>
+                </div>
+                <div className="flex justify-between items-center pb-3 border-b border-slate-100">
+                  <span className="text-slate-700 font-medium">Bathroom Remodel</span>
+                  <span className="font-bold text-blue-600">₨50,000 - 150,000</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-slate-700 font-medium">Water Tank Install</span>
+                  <span className="font-bold text-blue-600">₨40,000 - 80,000</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+              <h3 className="text-2xl font-bold text-slate-900 mb-6">🎨 Painting & Finishes</h3>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center pb-3 border-b border-slate-100">
+                  <span className="text-slate-700 font-medium">Per Square Foot</span>
+                  <span className="font-bold text-blue-600">₨80 - 150</span>
+                </div>
+                <div className="flex justify-between items-center pb-3 border-b border-slate-100">
+                  <span className="text-slate-700 font-medium">Room Painting</span>
+                  <span className="font-bold text-blue-600">₨10,000 - 25,000</span>
+                </div>
+                <div className="flex justify-between items-center pb-3 border-b border-slate-100">
+                  <span className="text-slate-700 font-medium">Full House</span>
+                  <span className="font-bold text-blue-600">₨80,000 - 250,000</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-slate-700 font-medium">Feature Wall</span>
+                  <span className="font-bold text-blue-600">₨15,000 - 40,000</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-12 text-center bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-8 border border-blue-200">
+            <p className="text-slate-700 font-medium mb-3">💡 These are average market rates. Final prices depend on scope, materials, and location.</p>
+            <Link href="/services" className="inline-block text-blue-600 font-bold hover:text-blue-700">
+              View full cost guide →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Trust Footer */}      <section className="bg-slate-900 text-white py-24">
          <div className="max-w-6xl mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
                <div className="space-y-4">
