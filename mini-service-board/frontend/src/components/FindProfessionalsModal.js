@@ -70,6 +70,14 @@ const mockProfessionals = [
 ];
 
 export default function FindProfessionalsModal({ onClose }) {
+  const SERVICES = [
+    'All Services', 'Plumbing', 'Electrical', 'Painting', 'Joinery', 'Roofing', 'Gardening', 'Cleaning', 'AC Technicians', 'Masons', 'Pest Control', 'Interior', 'Other'
+  ];
+
+  const LOCATIONS = [
+    'All Locations', 'Colombo', 'Kandy', 'Galle', 'Jaffna', 'Negombo', 'Gampaha', 'Kurunegala', 'Kegalle', 'Matara', 'Anuradhapura', 'Trincomalee', 'Ratnapura', 'Hambantota', 'Batticaloa', 'Battaramulla'
+  ];
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
       <div className="bg-white rounded-2xl w-full max-w-3xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden relative">
@@ -86,15 +94,15 @@ export default function FindProfessionalsModal({ onClose }) {
 
         {/* Filters */}
         <div className="flex gap-4 p-4 border-b border-slate-100 bg-slate-50/50">
-          <select className="flex-1 p-2.5 rounded-lg border border-slate-200 text-sm text-slate-700 outline-none focus:border-blue-500">
-            <option>All Services</option>
-            <option>Electrical</option>
-            <option>Plumbing</option>
+          <select className="flex-1 p-2.5 rounded-lg border border-slate-200 text-sm text-slate-700 outline-none focus:border-blue-500" defaultValue={SERVICES[0]}>
+            {SERVICES.map((s) => (
+              <option key={s} value={s}>{s}</option>
+            ))}
           </select>
-          <select className="flex-1 p-2.5 rounded-lg border border-slate-200 text-sm text-slate-700 outline-none focus:border-blue-500">
-            <option>All Locations</option>
-            <option>Colombo</option>
-            <option>Kandy</option>
+          <select className="flex-1 p-2.5 rounded-lg border border-slate-200 text-sm text-slate-700 outline-none focus:border-blue-500" defaultValue={LOCATIONS[0]}>
+            {LOCATIONS.map((l) => (
+              <option key={l} value={l}>{l}</option>
+            ))}
           </select>
         </div>
 

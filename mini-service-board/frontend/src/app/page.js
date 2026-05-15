@@ -74,13 +74,12 @@ export default function HomePage() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-[#6B73FF] to-[#A259FF] py-20 overflow-hidden">
-        <div className="absolute inset-0 opacity-10 pointer-events-none">
-           <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-              <defs><pattern id="grid-hero" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="1"/></pattern></defs>
-              <rect width="100%" height="100%" fill="url(#grid-hero)" />
-           </svg>
-        </div>
+      <section 
+        className="relative py-28 overflow-hidden bg-cover bg-center"
+        style={{ backgroundImage: "url('/hero-bg.png')" }}
+      >
+        {/* Dark overlay for text readability */}
+        <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-[2px]"></div>
         
         <div className="max-w-6xl mx-auto px-4 relative z-10">
           <div className="text-center max-w-4xl mx-auto mb-12">
@@ -205,16 +204,20 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Main Content Area */}
-      <main className="max-w-7xl mx-auto px-4 py-24">
-        <div className="flex flex-col lg:flex-row items-start justify-between gap-8 mb-16">
-          <div className="flex-1">
-             <div className="inline-block px-5 py-2 bg-gradient-to-r from-[#5B63B1] to-purple-600 text-white font-bold text-xs rounded-full mb-6 shadow-lg shadow-purple-500/20">
-                ACTIVE LISTINGS
-             </div>
-             <h2 className="text-5xl font-black text-slate-900 mb-4">{t.latestRequests}</h2>
-             <p className="text-slate-600 text-lg font-medium">{t.browseJobs}</p>
-          </div>
+      {/* Main Content Area with Mixed Colors Background */}
+      <div className="relative bg-gradient-to-br from-[#EDE0E8] via-[#F1F6FB] to-[#D9C2D0] py-24 overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000" />
+        
+        <main className="max-w-7xl mx-auto px-4 relative z-10">
+          <div className="flex flex-col lg:flex-row items-start justify-between gap-8 mb-16">
+            <div className="flex-1">
+               <div className="inline-block px-5 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold text-xs rounded-full mb-6 shadow-lg shadow-blue-500/20">
+                  ACTIVE LISTINGS
+               </div>
+               <h2 className="text-5xl font-black text-slate-900 mb-4">{t.latestRequests}</h2>
+               <p className="text-slate-600 text-lg font-medium">{t.browseJobs}</p>
+            </div>
           
           <div className="flex items-center gap-2 bg-white p-2 rounded-2xl border border-slate-200 shadow-md hover:shadow-lg transition-all">
              {STATUSES.map(s => (
@@ -276,19 +279,103 @@ export default function HomePage() {
                  Showing <span className="text-slate-900 text-base">{jobs.length} job{jobs.length !== 1 ? 's' : ''}</span>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {jobs.map((job, index) => (
+                 {jobs.map((job, index) => (
                    <div key={job._id} className="animate-in fade-in slide-in-from-bottom-4" style={{animationDelay: `${index * 50}ms`}}>
-                      <JobCard job={job} />
+                     <JobCard job={job} showImage={false} />
                    </div>
-                ))}
+                 ))}
               </div>
             </div>
           )}
         </div>
       </main>
+      </div>
 
-      {/* Trust Footer */}
-      <section className="bg-slate-900 text-white py-24">
+      {/* Trust Footer */}      <section className="bg-slate-50 py-20 px-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-black text-slate-900 mb-4">Average Service Costs</h2>
+            <p className="text-slate-600 text-lg max-w-2xl mx-auto">Get an idea of typical pricing for common home services in Sri Lanka</p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+              <h3 className="text-2xl font-bold text-slate-900 mb-6">⚡ Electrical Services</h3>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center pb-3 border-b border-slate-100">
+                  <span className="text-slate-700 font-medium">Light Fixture Installation</span>
+                  <span className="font-bold text-blue-600">₨1,000 - 3,000</span>
+                </div>
+                <div className="flex justify-between items-center pb-3 border-b border-slate-100">
+                  <span className="text-slate-700 font-medium">Ceiling Fan Installation</span>
+                  <span className="font-bold text-blue-600">₨1,500 - 4,000</span>
+                </div>
+                <div className="flex justify-between items-center pb-3 border-b border-slate-100">
+                  <span className="text-slate-700 font-medium">House Rewiring</span>
+                  <span className="font-bold text-blue-600">₨80,000 - 200,000</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-slate-700 font-medium">Distribution Board</span>
+                  <span className="font-bold text-blue-600">₨15,000 - 35,000</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+              <h3 className="text-2xl font-bold text-slate-900 mb-6">🚰 Plumbing Services</h3>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center pb-3 border-b border-slate-100">
+                  <span className="text-slate-700 font-medium">Pipe Repair</span>
+                  <span className="font-bold text-blue-600">₨3,000 - 8,000</span>
+                </div>
+                <div className="flex justify-between items-center pb-3 border-b border-slate-100">
+                  <span className="text-slate-700 font-medium">Fixture Installation</span>
+                  <span className="font-bold text-blue-600">₨5,000 - 15,000</span>
+                </div>
+                <div className="flex justify-between items-center pb-3 border-b border-slate-100">
+                  <span className="text-slate-700 font-medium">Bathroom Remodel</span>
+                  <span className="font-bold text-blue-600">₨50,000 - 150,000</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-slate-700 font-medium">Water Tank Install</span>
+                  <span className="font-bold text-blue-600">₨40,000 - 80,000</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+              <h3 className="text-2xl font-bold text-slate-900 mb-6">🎨 Painting & Finishes</h3>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center pb-3 border-b border-slate-100">
+                  <span className="text-slate-700 font-medium">Per Square Foot</span>
+                  <span className="font-bold text-blue-600">₨80 - 150</span>
+                </div>
+                <div className="flex justify-between items-center pb-3 border-b border-slate-100">
+                  <span className="text-slate-700 font-medium">Room Painting</span>
+                  <span className="font-bold text-blue-600">₨10,000 - 25,000</span>
+                </div>
+                <div className="flex justify-between items-center pb-3 border-b border-slate-100">
+                  <span className="text-slate-700 font-medium">Full House</span>
+                  <span className="font-bold text-blue-600">₨80,000 - 250,000</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-slate-700 font-medium">Feature Wall</span>
+                  <span className="font-bold text-blue-600">₨15,000 - 40,000</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-12 text-center bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-8 border border-blue-200">
+            <p className="text-slate-700 font-medium mb-3">💡 These are average market rates. Final prices depend on scope, materials, and location.</p>
+            <Link href="/services" className="inline-block text-blue-600 font-bold hover:text-blue-700">
+              View full cost guide →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Trust Footer */}      <section className="bg-slate-900 text-white py-24">
          <div className="max-w-6xl mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
                <div className="space-y-4">
