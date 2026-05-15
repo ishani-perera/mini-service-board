@@ -17,6 +17,21 @@ const CATEGORIES_ICONS = {
   'Other': '🛠️'
 };
 
+const CATEGORY_STYLES = {
+  'Plumbing': { bg: 'bg-[#eff6ff]', text: 'text-[#2563eb]' },
+  'Electrical': { bg: 'bg-[#fef9c3]', text: 'text-[#854d0e]' },
+  'Painting': { bg: 'bg-[#fdf2f8]', text: 'text-[#9f1239]' },
+  'Joinery': { bg: 'bg-[#fff7ed]', text: 'text-[#92400e]' },
+  'Roofing': { bg: 'bg-[#f0fdf4]', text: 'text-[#166534]' },
+  'Gardening': { bg: 'bg-[#f0fdf4]', text: 'text-[#166534]' },
+  'Cleaning': { bg: 'bg-[#eff6ff]', text: 'text-[#2563eb]' },
+  'AC Technicians': { bg: 'bg-[#f5f3ff]', text: 'text-[#4c35c9]' },
+  'Masons': { bg: 'bg-[#fef2f2]', text: 'text-[#b91c1c]' },
+  'Pest Control': { bg: 'bg-[#fdf4ff]', text: 'text-[#7c3aed]' },
+  'Interior': { bg: 'bg-[#fff7ed]', text: 'text-[#92400e]' },
+  'Other': { bg: 'bg-[#f5f3ff]', text: 'text-[#4c35c9]' },
+};
+
 export default function JobCard({ job, showImage = true }) {
   const date = new Date(job.createdAt).toLocaleDateString('en-GB', {
     day: 'numeric', month: 'short', year: 'numeric',
@@ -24,10 +39,10 @@ export default function JobCard({ job, showImage = true }) {
 
   return (
     <Link href={`/jobs/${job._id}`}>
-      <div className="bg-white rounded-2xl border border-slate-200 hover:border-blue-300 hover:shadow-xl hover:-translate-y-1 active:scale-95 transition-all duration-300 cursor-pointer h-full flex flex-col overflow-hidden group">
+      <div className="card-clean cursor-pointer h-full flex flex-col overflow-hidden group">
         
         {/* Optional Image Section */}
-        {showImage ? (
+          {showImage ? (
           <div className="relative w-full h-48 sm:h-56 bg-slate-100 overflow-hidden">
             {job.imageUrl ? (
               <Image
@@ -48,7 +63,7 @@ export default function JobCard({ job, showImage = true }) {
           </div>
         ) : (
           <div className="px-5 pt-5 pb-2 flex items-start justify-between">
-            <span className="inline-block bg-blue-100 text-blue-900 text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-lg">
+            <span className={`inline-block text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-lg ${CATEGORY_STYLES[job.category]?.bg || 'bg-slate-100'} ${CATEGORY_STYLES[job.category]?.text || 'text-slate-700'}`}>
               {CATEGORIES_ICONS[job.category] || '🛠️'} {job.category}
             </span>
             <div className="ml-4">
@@ -60,7 +75,7 @@ export default function JobCard({ job, showImage = true }) {
         {/* Category Badge (when image is shown, keep a smaller badge below) */}
         {showImage && (
           <div className="px-5 pt-4 pb-2">
-            <span className="inline-block bg-blue-100 text-blue-900 text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-lg">
+            <span className={`inline-block text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-lg ${CATEGORY_STYLES[job.category]?.bg || 'bg-slate-100'} ${CATEGORY_STYLES[job.category]?.text || 'text-slate-700'}`}>
               {CATEGORIES_ICONS[job.category] || '🛠️'} {job.category}
             </span>
           </div>
@@ -68,7 +83,7 @@ export default function JobCard({ job, showImage = true }) {
 
         {/* Content */}
         <div className="px-5 pb-5 flex-1 flex flex-col gap-3">
-          <h3 className="font-black text-slate-900 text-lg leading-tight group-hover:text-blue-700 transition-colors duration-300 line-clamp-2">
+          <h3 className="font-semibold text-lg leading-tight text-var(--text-heading) group-hover:text-[color:var(--primary-mid)] transition-colors duration-300 line-clamp-2" style={{color: 'var(--text-heading)'}}>
             {job.title}
           </h3>
 
@@ -77,15 +92,15 @@ export default function JobCard({ job, showImage = true }) {
             <span className="font-semibold">{job.location || 'Remote'}</span>
           </div>
 
-          <p className="text-slate-600 text-sm line-clamp-2 leading-relaxed group-hover:text-slate-700 transition-colors">
+          <p className="text-sm line-clamp-2 leading-relaxed" style={{color: '#666'}}>
             {job.description}
           </p>
 
           {/* Footer */}
-          <div className="mt-auto flex items-center justify-between pt-4 border-t border-slate-100">
+          <div className="mt-auto flex items-center justify-between pt-4 border-t" style={{borderTop: '0.5px solid #f0f0f8'}}>
             <div>
               <p className="text-xs font-bold text-slate-400 uppercase mb-1">Budget</p>
-              <p className="text-lg font-black text-blue-700 group-hover:text-blue-800">
+              <p className="text-lg font-extrabold" style={{color: 'var(--primary)'}}>
                 LKR {job.budget?.toLocaleString() || 'N/A'}
               </p>
             </div>

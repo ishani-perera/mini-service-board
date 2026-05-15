@@ -1,8 +1,44 @@
 const JobRequest = require('../models/JobRequest');
 
+// Simple in-memory mock data used when DB is unavailable
+const MOCK_JOBS = [
+  {
+    _id: 'mock1',
+    title: 'Fix leaking kitchen tap',
+    description: 'Kitchen tap leaking when turned off. Needs washer replacement.',
+    category: 'Plumbing',
+    location: 'Colombo',
+    budget: 1500,
+    status: 'Open',
+    createdAt: new Date().toISOString(),
+  },
+  {
+    _id: 'mock2',
+    title: 'Replace broken ceiling light',
+    description: 'One light in living room not working, likely needs new fitting.',
+    category: 'Electrical',
+    location: 'Kandy',
+    budget: 2500,
+    status: 'Open',
+    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(),
+  },
+];
+
 // GET /api/jobs — get all jobs with optional filters
 const getAllJobs = async (req, res, next) => {
   try {
+    // If DB is not connected, return mock jobs for development
+    if (global.__DB_CONNECTED === false) {
+      const { category, status, search } = req.query;
+      let results = MOCK_JOBS.slice();
+      if (category) results = results.filter(j => j.category === category);
+      if (status) results = results.filter(j => j.status === status);
+      if (search) {
+        const s = search.toLowerCase();
+        results = results.filter(j => j.title.toLowerCase().includes(s) || j.description.toLowerCase().includes(s));
+      }
+      return res.status(200).json({ success: true, count: results.length, data: results });
+    }
     const { category, status, search } = req.query;
     const filter = {};
 
@@ -27,6 +63,12 @@ const getAllJobs = async (req, res, next) => {
 // GET /api/jobs/:id — get single job
 const getJobById = async (req, res, next) => {
   try {
+    if (global.__DB_CONNECTED === false) {
+      const job = MOCK_JOBS.find(j => j._id === req.params.id);
+      if (!job) return res.status(404).json({ success: false, message: 'Job not found' });
+      return res.status(200).json({ success: true, data: job });
+    }
+
     const job = await JobRequest.findById(req.params.id);
 
     if (!job) {

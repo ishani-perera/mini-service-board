@@ -105,41 +105,41 @@ export default function ServicesPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-transparent">
       <Navbar />
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-blue-600 to-indigo-700 text-white py-20 px-4">
+      <section className="py-20 px-4 soft-nude-bg">
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-5xl font-black mb-6">Our Services</h1>
-          <p className="text-xl text-blue-100 max-w-2xl mx-auto leading-relaxed">
+          <h1 className="text-5xl font-black mb-6" style={{color: 'var(--text-heading)'}}>Our Services</h1>
+          <p className="text-xl max-w-2xl mx-auto leading-relaxed" style={{color: 'var(--text-body)'}}>
             Browse our comprehensive range of professional home services. Find exactly what you need with qualified tradespeople ready to help.
           </p>
         </div>
       </section>
 
       {/* Services Grid */}
-      <section className="py-20 px-4 bg-white">
+      <section className="py-20 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.map((service, idx) => (
-              <div key={idx} className={`${service.bgColor} rounded-2xl p-8 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1`}>
-                <div className="text-6xl mb-4">{service.icon}</div>
-                <h3 className="text-2xl font-black text-slate-900 mb-2">{service.name}</h3>
-                <p className="text-slate-700 mb-6 leading-relaxed">{service.description}</p>
+              <div key={idx} className={`card-clean rounded-2xl p-8 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1`}>
+                <div className="text-6xl mb-4" style={{color: 'var(--primary-mid)'}}>{service.icon}</div>
+                <h3 className="text-2xl font-black mb-2" style={{color: 'var(--text-heading)'}}>{service.name}</h3>
+                <p style={{color: 'var(--text-body)'}} className="mb-6 leading-relaxed">{service.description}</p>
                 
                 <div className="mb-6">
-                  <p className="text-xs font-bold text-slate-500 uppercase mb-3">Common Tasks:</p>
+                  <p className="text-xs font-bold uppercase mb-3" style={{color: 'var(--text-muted)'}}>Common Tasks:</p>
                   <div className="flex flex-wrap gap-2">
                     {service.tasks.map((task, i) => (
-                      <span key={i} className="bg-white/60 text-slate-700 text-sm px-3 py-1.5 rounded-full font-semibold">
+                      <span key={i} className="px-3 py-1.5 rounded-full font-semibold" style={{background: 'var(--accent-light)', color: 'var(--text-heading)'}}>
                         {task}
                       </span>
                     ))}
                   </div>
                 </div>
 
-                <Link href="/" className="inline-block bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-2.5 rounded-full font-bold hover:shadow-lg transition-all">
+                <Link href="/" className="btn-primary inline-block px-6 py-2.5 rounded-full font-bold">
                   Find Professionals →
                 </Link>
               </div>
@@ -149,14 +149,14 @@ export default function ServicesPage() {
       </section>
 
       {/* Cost Guide Preview */}
-      <section className="py-20 px-4 bg-slate-50">
+      <section className="py-20 px-4">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-black text-slate-900 mb-12 text-center">Average Service Costs in Sri Lanka</h2>
+          <h2 className="text-4xl font-black mb-12 text-center" style={{color: 'var(--text-heading)'}}>Average Service Costs in Sri Lanka</h2>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="bg-white rounded-xl p-8 shadow-sm">
-              <h3 className="text-xl font-bold text-slate-900 mb-4">⚡ Electrical</h3>
-              <div className="space-y-3 text-slate-700">
+            <div className="card-clean rounded-xl p-8 shadow-sm">
+              <h3 className="text-xl font-bold mb-4" style={{color: 'var(--text-heading)'}}>⚡ Electrical</h3>
+              <div className="space-y-3" style={{color: 'var(--text-body)'}}>
                 <div className="flex justify-between">
                   <span>Light Fixture</span>
                   <span className="font-bold">₨1,000 - 3,000</span>
@@ -168,9 +168,9 @@ export default function ServicesPage() {
               </div>
             </div>
 
-            <div className="bg-white rounded-xl p-8 shadow-sm">
-              <h3 className="text-xl font-bold text-slate-900 mb-4">🚰 Plumbing</h3>
-              <div className="space-y-3 text-slate-700">
+            <div className="card-clean rounded-xl p-8 shadow-sm">
+              <h3 className="text-xl font-bold mb-4" style={{color: 'var(--text-heading)'}}>🚰 Plumbing</h3>
+              <div className="space-y-3" style={{color: 'var(--text-body)'}}>
                 <div className="flex justify-between">
                   <span>Pipe Repair</span>
                   <span className="font-bold">₨3,000 - 8,000</span>
@@ -182,9 +182,9 @@ export default function ServicesPage() {
               </div>
             </div>
 
-            <div className="bg-white rounded-xl p-8 shadow-sm">
-              <h3 className="text-xl font-bold text-slate-900 mb-4">🎨 Painting</h3>
-              <div className="space-y-3 text-slate-700">
+            <div className="card-clean rounded-xl p-8 shadow-sm">
+              <h3 className="text-xl font-bold mb-4" style={{color: 'var(--text-heading)'}}>🎨 Painting</h3>
+              <div className="space-y-3" style={{color: 'var(--text-body)'}}>
                 <div className="flex justify-between">
                   <span>Per Sq Ft</span>
                   <span className="font-bold">₨80 - 150</span>
@@ -200,11 +200,11 @@ export default function ServicesPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4 bg-gradient-to-r from-blue-600 to-indigo-700 text-white text-center">
+      <section className="py-20 px-4 text-center">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl font-black mb-6">Need a Professional?</h2>
-          <p className="text-xl text-blue-100 mb-8">Post your job today and get quotes from vetted professionals in your area</p>
-          <Link href="/jobs/new" className="inline-block bg-white text-blue-600 px-8 py-3 rounded-full font-bold hover:shadow-lg transition-all">
+          <h2 className="text-4xl font-black mb-6" style={{color: 'var(--text-heading)'}}>Need a Professional?</h2>
+          <p className="text-xl mb-8" style={{color: 'var(--text-body)'}}>Post your job today and get quotes from vetted professionals in your area</p>
+          <Link href="/jobs/new" className="btn-primary inline-block px-8 py-3 rounded-full font-bold">
             Post a Job Now
           </Link>
         </div>

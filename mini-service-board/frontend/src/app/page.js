@@ -11,6 +11,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 import FindProfessionalsModal from '../components/FindProfessionalsModal';
 import JoinProfessionalModal from '../components/JoinProfessionalModal';
+import JobPreviewModal from '../components/JobPreviewModal';
 
 const CATEGORIES = [
   { name: 'Plumbing', icon: '🚰', color: 'from-blue-400 to-cyan-300', bgColor: 'bg-blue-50', count: 0 },
@@ -52,9 +53,42 @@ export default function HomePage() {
       if (search.trim()) params.search = search.trim();
 
       const res = await getJobs(params);
-      setJobs(res.data.data);
+      let results = res.data.data || [];
+      // Ensure only one job per category is shown when no specific category is selected
+      if (!params.category) {
+        const seen = new Set();
+        const dedup = [];
+        for (const j of results) {
+          const cat = (j.category || 'Other').toString();
+          if (!seen.has(cat)) {
+            dedup.push(j);
+            seen.add(cat);
+          }
+        }
+        results = dedup;
+      }
+      setJobs(results);
     } catch (err) {
       setError('Failed to load jobs. Is the backend running?');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchLatestForCategory = async (catName) => {
+    setLoading(true);
+    try {
+      const res = await getJobs({ category: catName });
+      const results = res.data?.data || [];
+      if (results.length > 0) {
+        // open modal with the latest (assume first is latest)
+        setPreviewJob(results[0]);
+        setShowPreview(true);
+      } else {
+        setError('No recent requests found for this category.');
+      }
+    } catch (err) {
+      setError('Failed to load latest request for that category.');
     } finally {
       setLoading(false);
     }
@@ -63,6 +97,10 @@ export default function HomePage() {
   useEffect(() => {
     fetchJobs();
   }, [category, status]);
+
+  // preview modal state
+  const [showPreview, setShowPreview] = useState(false);
+  const [previewJob, setPreviewJob] = useState(null);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -133,7 +171,7 @@ export default function HomePage() {
       </div>
 
       {/* Categories Grid */}
-      <section className="relative py-32 overflow-hidden">
+      <section className="relative py-32 overflow-hidden soft-nude-bg">
         <div className="absolute inset-0 bg-gradient-to-br from-[#EDE0E8] via-[#F8F4F6] to-[#D9C2D0]" />
         <div className="absolute top-0 right-0 w-96 h-96 bg-[#B08EA8] rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob" />
         <div className="absolute top-1/4 left-0 w-72 h-72 bg-[#C4A3B8] rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000" />
@@ -152,6 +190,9 @@ export default function HomePage() {
                 <button
                   key={cat.name}
                   onClick={() => {
+                    // fetch the latest request for this category and show preview modal
+                    fetchLatestForCategory(cat.name);
+                    // also set visible category filter for browsing
                     setCategory(cat.name);
                     setTimeout(() => {
                       const mainElement = document.querySelector('main');
@@ -204,10 +245,14 @@ export default function HomePage() {
         </div>
       </section>
 
+      {showPreview && previewJob && (
+        <JobPreviewModal job={previewJob} onClose={() => { setShowPreview(false); setPreviewJob(null); }} />
+      )}
+
       {/* Main Content Area with Mixed Colors Background */}
-      <div className="relative bg-gradient-to-br from-[#EDE0E8] via-[#F1F6FB] to-[#D9C2D0] py-24 overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000" />
+      <div className="relative latest-requests-bg py-24 overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-[rgba(76,53,201,0.05)] rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-[rgba(245,158,11,0.04)] rounded-full mix-blend-multiply filter blur-3xl opacity-25 animate-blob animation-delay-2000" />
         
         <main className="max-w-7xl mx-auto px-4 relative z-10">
           <div className="flex flex-col lg:flex-row items-start justify-between gap-8 mb-16">
@@ -219,12 +264,14 @@ export default function HomePage() {
                <p className="text-slate-600 text-lg font-medium">{t.browseJobs}</p>
             </div>
           
-          <div className="flex items-center gap-2 bg-white p-2 rounded-2xl border border-slate-200 shadow-md hover:shadow-lg transition-all">
+          <div className="flex items-center gap-2 bg-white p-2 rounded-2xl border border-slate-200 shadow-md hover:shadow-lg transition-all" style={{pointerEvents: 'auto'}}>
              {STATUSES.map(s => (
                <button
                 key={s}
+                type="button"
+                aria-pressed={status === s}
                 onClick={() => setStatus(s)}
-                className={`px-6 py-3 rounded-xl text-sm font-bold transition-all duration-300 ${
+                className={`btn-touch px-6 py-3 rounded-xl text-sm font-bold transition-all duration-300 ${
                   status === s 
                   ? 'bg-gradient-to-r from-[#5B63B1] to-purple-600 text-white shadow-lg shadow-purple-500/20 scale-105' 
                   : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'
