@@ -1,6 +1,12 @@
+"use client";
+
 import Link from 'next/link';
 import Image from 'next/image';
 import StatusBadge from './StatusBadge';
+import { useState } from 'react';
+import { useAuth } from '../context/AuthContext';
+import { updateJobStatus } from '../lib/api';
+import toast from 'react-hot-toast';
 
 const CATEGORIES_ICONS = {
   'Plumbing': '🚰',
@@ -33,6 +39,9 @@ const CATEGORY_STYLES = {
 };
 
 export default function JobCard({ job, showImage = true }) {
+  const { user } = useAuth();
+  const [localStatus, setLocalStatus] = useState(job.status);
+
   const date = new Date(job.createdAt).toLocaleDateString('en-GB', {
     day: 'numeric', month: 'short', year: 'numeric',
   });
@@ -58,7 +67,7 @@ export default function JobCard({ job, showImage = true }) {
               </div>
             )}
             <div className="absolute top-4 right-4">
-              <StatusBadge status={job.status} />
+              <StatusBadge status={localStatus} />
             </div>
           </div>
         ) : (
@@ -67,7 +76,7 @@ export default function JobCard({ job, showImage = true }) {
               {CATEGORIES_ICONS[job.category] || '🛠️'} {job.category}
             </span>
             <div className="ml-4">
-              <StatusBadge status={job.status} />
+              <StatusBadge status={localStatus} />
             </div>
           </div>
         )}
@@ -97,7 +106,7 @@ export default function JobCard({ job, showImage = true }) {
           </p>
 
           {/* Footer */}
-          <div className="mt-auto flex items-center justify-between pt-4 border-t" style={{borderTop: '0.5px solid #f0f0f8'}}>
+          <div className="mt-auto flex flex-col sm:flex-row items-start sm:items-center justify-between pt-4 border-t gap-4" style={{borderTop: '0.5px solid #f0f0f8'}}>
             <div>
               <p className="text-xs font-bold text-slate-400 uppercase mb-1">Budget</p>
               <p className="text-lg font-extrabold" style={{color: 'var(--primary)'}}>
@@ -108,6 +117,35 @@ export default function JobCard({ job, showImage = true }) {
               <p className="text-xs font-bold text-slate-400 uppercase mb-1">Posted</p>
               <p className="text-sm font-semibold text-slate-600">{date}</p>
             </div>
+
+            {/* Status action buttons for authorized users */}
+            {user && (user.role === 'tradesman' || user.role === 'professional') && (
+              <div className="flex items-center gap-2">
+                {['Open', 'In Progress', 'Closed'].map(s => (
+                  <button
+                    key={s}
+                    onClick={async (e) => {
+                      e.preventDefault();
+                      if (s === localStatus) return;
+                      const prev = localStatus;
+                      setLocalStatus(s);
+                      try {
+                        await updateJobStatus(job._id, s);
+                        toast.success(`Status updated to ${s}`);
+                        // notify other components to refresh lists
+                        window.dispatchEvent(new CustomEvent('jobStatusChanged', { detail: { id: job._id, status: s } }));
+                      } catch (err) {
+                        setLocalStatus(prev);
+                        toast.error(err.response?.data?.message || 'Failed to update status');
+                      }
+                    }}
+                    className={`btn-touch text-xs px-3 py-1.5 rounded-full font-semibold transition-all ${s === localStatus ? 'bg-slate-800 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
+                  >
+                    {s}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

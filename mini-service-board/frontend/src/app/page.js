@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { getJobs } from '../lib/api';
 import Navbar from '../components/Navbar';
@@ -14,21 +13,37 @@ import JoinProfessionalModal from '../components/JoinProfessionalModal';
 import JobPreviewModal from '../components/JobPreviewModal';
 
 const CATEGORIES = [
-  { name: 'Plumbing', icon: '🚰', color: 'from-blue-400 to-cyan-300', bgColor: 'bg-blue-50', count: 0 },
-  { name: 'Electrical', icon: '⚡', color: 'from-amber-400 to-yellow-300', bgColor: 'bg-amber-50', count: 0 },
-  { name: 'Painting', icon: '🎨', color: 'from-rose-400 to-pink-300', bgColor: 'bg-rose-50', count: 0 },
-  { name: 'Joinery', icon: '🔨', color: 'from-orange-400 to-amber-300', bgColor: 'bg-orange-50', count: 0 },
-  { name: 'Roofing', icon: '🏠', color: 'from-slate-400 to-stone-300', bgColor: 'bg-slate-50', count: 0 },
-  { name: 'Gardening', icon: '🌿', color: 'from-emerald-400 to-green-300', bgColor: 'bg-emerald-50', count: 0 },
-  { name: 'Cleaning', icon: '✨', color: 'from-cyan-400 to-blue-300', bgColor: 'bg-cyan-50', count: 0 },
-  { name: 'AC Tech', icon: '❄️', color: 'from-indigo-400 to-purple-300', bgColor: 'bg-indigo-50', count: 0 },
-  { name: 'Masons', icon: '🧱', color: 'from-stone-400 to-slate-300', bgColor: 'bg-stone-50', count: 0 },
-  { name: 'Pest Control', icon: '🦟', color: 'from-purple-400 to-violet-300', bgColor: 'bg-purple-50', count: 0 },
-  { name: 'Interior', icon: '🛋️', color: 'from-fuchsia-400 to-pink-300', bgColor: 'bg-fuchsia-50', count: 0 },
-  { name: 'Other', icon: '⚙️', color: 'from-slate-400 to-gray-300', bgColor: 'bg-slate-50', count: 0 },
+  { name: 'Plumbing',     icon: '🚰', bgColor: '#eff6ff' },
+  { name: 'Electrical',   icon: '⚡', bgColor: '#fef9c3' },
+  { name: 'Painting',     icon: '🎨', bgColor: '#fdf2f8' },
+  { name: 'Joinery',      icon: '🔨', bgColor: '#fff7ed' },
+  { name: 'Roofing',      icon: '🏠', bgColor: '#f0fdf4' },
+  { name: 'Gardening',    icon: '🌿', bgColor: '#f0fdf4' },
+  { name: 'Cleaning',     icon: '✨', bgColor: '#eff6ff' },
+  { name: 'AC Tech',      icon: '❄️', bgColor: '#f5f3ff' },
+  { name: 'Masons',       icon: '🧱', bgColor: '#fef2f2' },
+  { name: 'Pest Control', icon: '🦟', bgColor: '#fdf4ff' },
+  { name: 'Interior',     icon: '🛋️', bgColor: '#fff7ed' },
+  { name: 'Other',        icon: '⚙️', bgColor: '#f5f3ff' },
 ];
 
 const STATUSES = ['All', 'Open', 'In Progress', 'Closed'];
+
+const C = {
+  primary:      '#2d1f7a',
+  primaryDark:  '#1a1060',
+  primaryMid:   '#4c35c9',
+  primaryLight: '#ede9fe',
+  accent:       '#f59e0b',
+  accentHover:  '#d97706',
+  border:       '#e8e8f0',
+  bgPage:       '#fafafa',
+  bgSoft:       '#f5f3ff',
+  textHeading:  '#1a1060',
+  textMuted:    '#888888',
+  success:      '#d1fae5',
+  successText:  '#065f46',
+};
 
 export default function HomePage() {
   const [jobs, setJobs] = useState([]);
@@ -39,9 +54,11 @@ export default function HomePage() {
   const [search, setSearch] = useState('');
   const [showFindModal, setShowFindModal] = useState(false);
   const [showJoinModal, setShowJoinModal] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
+  const [previewJob, setPreviewJob] = useState(null);
+
   const { t } = useLanguage();
   const { user, loading: authLoading } = useAuth();
-  const router = useRouter();
 
   const fetchJobs = async () => {
     setLoading(true);
@@ -51,19 +68,14 @@ export default function HomePage() {
       if (category !== 'All') params.category = category;
       if (status !== 'All') params.status = status;
       if (search.trim()) params.search = search.trim();
-
       const res = await getJobs(params);
       let results = res.data.data || [];
-      // Ensure only one job per category is shown when no specific category is selected
       if (!params.category) {
         const seen = new Set();
         const dedup = [];
         for (const j of results) {
           const cat = (j.category || 'Other').toString();
-          if (!seen.has(cat)) {
-            dedup.push(j);
-            seen.add(cat);
-          }
+          if (!seen.has(cat)) { dedup.push(j); seen.add(cat); }
         }
         results = dedup;
       }
@@ -81,7 +93,6 @@ export default function HomePage() {
       const res = await getJobs({ category: catName });
       const results = res.data?.data || [];
       if (results.length > 0) {
-        // open modal with the latest (assume first is latest)
         setPreviewJob(results[0]);
         setShowPreview(true);
       } else {
@@ -94,13 +105,13 @@ export default function HomePage() {
     }
   };
 
-  useEffect(() => {
-    fetchJobs();
-  }, [category, status]);
+  useEffect(() => { fetchJobs(); }, [category, status]);
 
-  // preview modal state
-  const [showPreview, setShowPreview] = useState(false);
-  const [previewJob, setPreviewJob] = useState(null);
+  useEffect(() => {
+    const handler = () => fetchJobs();
+    window.addEventListener('jobStatusChanged', handler);
+    return () => window.removeEventListener('jobStatusChanged', handler);
+  }, []);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -108,343 +119,374 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen selection:bg-blue-100 selection:text-blue-900">
+    <div style={{ minHeight: '100vh', background: C.bgPage, fontFamily: 'system-ui, sans-serif' }}>
       <Navbar />
 
-      {/* Hero Section */}
-      <section 
-        className="relative py-28 overflow-hidden bg-cover bg-center"
-        style={{ backgroundImage: "url('/hero-bg.png')" }}
-      >
-        {/* Dark overlay for text readability */}
-        <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-[2px]"></div>
-        
-        <div className="max-w-6xl mx-auto px-4 relative z-10">
-          <div className="text-center max-w-4xl mx-auto mb-12">
-            <h1 className="text-4xl sm:text-5xl font-black tracking-tight text-white mb-6 leading-tight">
-              Sri Lanka's Most Trusted <br /> Home Services Platform
-            </h1>
-            <p className="text-white/90 text-lg sm:text-xl font-medium mb-8 max-w-2xl mx-auto leading-relaxed">
-              Connect with verified electricians, plumbers, carpenters, and more
-            </p>
-
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-              <button 
-                onClick={() => setShowFindModal(true)}
-                className="w-full sm:w-auto bg-white text-[#6B73FF] px-6 py-2.5 rounded-full font-bold text-sm hover:shadow-lg transition-all shadow-md active:scale-[0.98]"
-              >
-                Find Professionals
-              </button>
-              <button 
-                onClick={() => setShowJoinModal(true)}
-                className="w-full sm:w-auto bg-white/10 text-white border border-white/30 backdrop-blur-sm px-6 py-2.5 rounded-full font-bold text-sm hover:bg-white/20 transition-all active:scale-[0.98]"
-              >
-                Join as Professional
-              </button>
-            </div>
+      {/* ── Hero ── */}
+      <section style={{
+        background: `linear-gradient(135deg, ${C.primaryDark} 0%, ${C.primary} 55%, #3d2a9e 100%)`,
+        padding: '72px 32px 52px',
+        textAlign: 'center',
+        position: 'relative',
+        overflow: 'hidden',
+      }}>
+        <div style={{ position: 'relative', zIndex: 1 }}>
+          <div style={{
+            display: 'inline-flex', alignItems: 'center', gap: 6,
+            background: 'rgba(245,158,11,0.18)', color: '#fbbf24',
+            border: '1px solid rgba(245,158,11,0.35)', borderRadius: 100,
+            fontSize: 12, fontWeight: 600, padding: '5px 16px', marginBottom: 20,
+          }}>
+            🇱🇰 Sri Lanka&apos;s #1 Home Services Platform
+          </div>
+          <h1 style={{ fontSize: 'clamp(28px,5vw,44px)', fontWeight: 800, color: '#fff', lineHeight: 1.15, marginBottom: 14 }}>
+            Find Trusted <span style={{ color: C.accent }}>Tradespeople</span><br />Near You, Fast
+          </h1>
+          <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.72)', marginBottom: 28 }}>
+            Connect with verified electricians, plumbers, carpenters &amp; more
+          </p>
+          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
+            <button
+              onClick={() => setShowFindModal(true)}
+              style={{
+                background: C.accent, color: C.primaryDark, padding: '12px 28px',
+                borderRadius: 100, fontSize: 14, fontWeight: 700, border: 'none', cursor: 'pointer',
+              }}
+            >
+              Find Professionals
+            </button>
+            <button
+              onClick={() => setShowJoinModal(true)}
+              style={{
+                background: 'transparent', color: '#fff',
+                border: '1.5px solid rgba(255,255,255,0.4)', padding: '12px 28px',
+                borderRadius: 100, fontSize: 14, fontWeight: 600, cursor: 'pointer',
+              }}
+            >
+              Join as Professional
+            </button>
           </div>
         </div>
       </section>
 
-      {/* Search Bar Section (Floating) */}
-      <div className="max-w-md mx-auto px-4 -mt-6 relative z-20">
-         <div className="bg-white rounded-full p-1.5 shadow-xl shadow-[#A259FF]/10 border border-slate-100 flex flex-col sm:flex-row items-center gap-1">
-            <form onSubmit={handleSearch} className="flex-1 flex items-center w-full">
-               <div className="pl-4 text-slate-400">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-               </div>
-               <input 
-                type="text" 
-                placeholder="What service do you need?" 
-                className="w-full py-2 px-3 bg-transparent outline-none text-slate-700 font-bold text-sm placeholder:text-slate-300"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-               />
-            </form>
-            <button 
-              onClick={handleSearch}
-              className="w-full sm:w-auto bg-gradient-to-r from-[#6B73FF] to-[#A259FF] text-white px-6 py-2 rounded-full font-bold text-sm hover:shadow-md transition-all active:scale-[0.95]"
-            >
+      {/* ── Search bar ── */}
+      <div style={{ maxWidth: 500, margin: '-26px auto 0', position: 'relative', zIndex: 20, padding: '0 16px' }}>
+        <form onSubmit={handleSearch}>
+          <div style={{
+            background: '#fff', borderRadius: 100, border: `0.5px solid ${C.border}`,
+            boxShadow: '0 8px 32px rgba(44,31,122,0.14)', display: 'flex',
+            alignItems: 'center', padding: '6px 6px 6px 16px', gap: 8,
+          }}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"
+              stroke="#aaa" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+            </svg>
+            <input
+              type="text"
+              placeholder="What service do you need?"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              style={{ flex: 1, border: 'none', outline: 'none', fontSize: 14, color: '#333', background: 'transparent', fontFamily: 'inherit' }}
+            />
+            <button type="submit" style={{
+              background: C.primary, color: '#fff', padding: '9px 22px',
+              borderRadius: 100, fontSize: 13, fontWeight: 600, border: 'none', cursor: 'pointer', whiteSpace: 'nowrap',
+            }}>
               Search
             </button>
-         </div>
+          </div>
+        </form>
       </div>
 
-      {/* Categories Grid */}
-      <section className="relative py-32 overflow-hidden soft-nude-bg">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#EDE0E8] via-[#F8F4F6] to-[#D9C2D0]" />
-        <div className="absolute top-0 right-0 w-96 h-96 bg-[#B08EA8] rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob" />
-        <div className="absolute top-1/4 left-0 w-72 h-72 bg-[#C4A3B8] rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000" />
-        
-        <div className="max-w-7xl mx-auto px-4 relative z-10">
-          <div className="text-center mb-20">
-            <span className="inline-block px-6 py-2 bg-gradient-to-r from-[#634060] to-[#3E2040] text-white font-bold text-sm rounded-full mb-6 shadow-lg shadow-[#634060]/20">OUR SERVICES</span>
-            <h2 className="text-6xl font-black text-slate-900 mb-6">Services We Offer</h2>
-            <p className="text-slate-600 text-xl font-medium max-w-2xl mx-auto leading-relaxed">Professional home services at your fingertips. Browse through our extensive range of skilled professionals ready to help.</p>
+      {/* ── Stats bar ── */}
+      <div style={{
+        display: 'grid', gridTemplateColumns: 'repeat(4,1fr)',
+        background: '#fff', borderBottom: `0.5px solid ${C.border}`, marginTop: 40,
+      }}>
+        {[
+          { num: '50K+', label: 'Jobs Completed' },
+          { num: '10K+', label: 'Verified Pros' },
+          { num: '95%',  label: 'Satisfaction Rate' },
+          { num: '24/7', label: 'Support' },
+        ].map((s, i, arr) => (
+          <div key={s.label} style={{
+            textAlign: 'center', padding: '18px 8px',
+            borderRight: i < arr.length - 1 ? `0.5px solid ${C.border}` : 'none',
+          }}>
+            <div style={{ fontSize: 22, fontWeight: 800, color: C.primary }}>{s.num}</div>
+            <div style={{ fontSize: 12, color: C.textMuted, marginTop: 2 }}>{s.label}</div>
           </div>
+        ))}
+      </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+      {/* ── Services ── */}
+      <section style={{ background: C.bgPage, padding: '56px 28px 48px' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', textAlign: 'center' }}>
+          <div style={{
+            display: 'inline-block', background: C.primaryLight, color: C.primaryMid,
+            fontSize: 11, fontWeight: 600, padding: '4px 14px', borderRadius: 100, marginBottom: 10,
+          }}>OUR SERVICES</div>
+          <h2 style={{ fontSize: 26, fontWeight: 800, color: C.textHeading, marginBottom: 6 }}>Services We Offer</h2>
+          <p style={{ fontSize: 14, color: C.textMuted }}>Browse skilled professionals ready to help across all home services</p>
+
+          <div style={{
+            display: 'grid', gridTemplateColumns: 'repeat(6,1fr)',
+            gap: 12, marginTop: 28,
+          }}>
             {CATEGORIES.map((cat) => {
-              const isSelected = category === cat.name;
+              const isActive = category === cat.name;
               return (
                 <button
                   key={cat.name}
-                  onClick={() => {
-                    // fetch the latest request for this category and show preview modal
-                    fetchLatestForCategory(cat.name);
-                    // also set visible category filter for browsing
-                    setCategory(cat.name);
-                    setTimeout(() => {
-                      const mainElement = document.querySelector('main');
-                      if (mainElement) {
-                        mainElement.scrollIntoView({ behavior: 'smooth' });
-                      }
-                    }, 100);
+                  onClick={() => { setCategory(isActive ? 'All' : cat.name); fetchLatestForCategory(cat.name); }}
+                  style={{
+                    background: isActive ? C.primaryLight : '#fff',
+                    border: `0.5px solid ${isActive ? C.primary : C.border}`,
+                    borderRadius: 14, padding: '18px 10px 14px',
+                    textAlign: 'center', cursor: 'pointer',
+                    transition: 'all 0.2s', fontFamily: 'inherit', width: '100%',
                   }}
-                  className={`group relative flex flex-col items-center justify-center p-8 rounded-3xl transition-all duration-400 border-2 overflow-hidden
-                    ${
-                      isSelected 
-                        ? 'border-[#5B63B1] bg-white shadow-2xl shadow-[#5B63B1]/30 scale-105 -translate-y-1' 
-                        : 'border-slate-100 bg-white hover:border-[#5B63B1]/40 hover:shadow-2xl hover:-translate-y-2'
-                    }`}
                 >
-                  {/* Animated background gradient */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${cat.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
-                  
-                  {/* Icon container with gradient background */}
-                  <div className={`relative w-24 h-24 rounded-2xl bg-gradient-to-br ${cat.color} flex items-center justify-center mb-6 group-hover:scale-125 transition-all duration-500 shadow-lg group-hover:shadow-2xl group-hover:shadow-blue-500/20`}>
-                    <span className="text-5xl filter drop-shadow-lg">{cat.icon}</span>
+                  <div style={{
+                    width: 48, height: 48, borderRadius: 13, margin: '0 auto 10px',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontSize: 24, background: cat.bgColor,
+                  }}>
+                    {cat.icon}
                   </div>
-                  
-                  {/* Service name */}
-                  <span className="font-black text-slate-900 text-base text-center leading-tight mb-3 relative z-10">{cat.name}</span>
-                  
-                  {/* Browse link with arrow */}
-                  <div className={`flex items-center gap-2 text-sm font-bold transition-all duration-300 relative z-10 ${
-                    isSelected ? 'text-[#5B63B1]' : 'text-slate-500 group-hover:text-[#5B63B1]'
-                  }`}>
-                    <span>Browse</span>
-                    <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </div>
+                  <div style={{ fontSize: 12, fontWeight: 600, color: '#333', marginBottom: 4 }}>{cat.name}</div>
+                  <div style={{ fontSize: 11, color: C.primaryMid, fontWeight: 500 }}>Browse →</div>
                 </button>
               );
             })}
           </div>
 
-          <div className="mt-16 text-center">
-            <p className="text-slate-600 font-medium">Can't find what you need?</p>
-            <button 
+          <div style={{ textAlign: 'center', marginTop: 28 }}>
+            <button
               onClick={() => setCategory('Other')}
-              className="mt-3 px-8 py-3 bg-gradient-to-r from-[#5B63B1] to-purple-600 text-white font-black rounded-2xl hover:shadow-xl hover:shadow-purple-500/30 transition-all active:scale-95"
+              style={{
+                background: C.primary, color: '#fff', padding: '12px 28px',
+                borderRadius: 100, fontSize: 14, fontWeight: 700,
+                border: 'none', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 8,
+              }}
             >
               Browse Other Services
+              <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5"
+                strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
             </button>
           </div>
         </div>
       </section>
 
+      {/* ── Job Preview Modal ── */}
       {showPreview && previewJob && (
         <JobPreviewModal job={previewJob} onClose={() => { setShowPreview(false); setPreviewJob(null); }} />
       )}
 
-      {/* Main Content Area with Mixed Colors Background */}
-      <div className="relative latest-requests-bg py-24 overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-[rgba(76,53,201,0.05)] rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-[rgba(245,158,11,0.04)] rounded-full mix-blend-multiply filter blur-3xl opacity-25 animate-blob animation-delay-2000" />
-        
-        <main className="max-w-7xl mx-auto px-4 relative z-10">
-          <div className="flex flex-col lg:flex-row items-start justify-between gap-8 mb-16">
-            <div className="flex-1">
-               <div className="inline-block px-5 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold text-xs rounded-full mb-6 shadow-lg shadow-blue-500/20">
-                  ACTIVE LISTINGS
-               </div>
-               <h2 className="text-5xl font-black text-slate-900 mb-4">{t.latestRequests}</h2>
-               <p className="text-slate-600 text-lg font-medium">{t.browseJobs}</p>
+      {/* ── Latest Requests ── */}
+      <section style={{ background: '#fff', padding: '56px 28px' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap', marginBottom: 24 }}>
+            <div>
+              <div style={{
+                display: 'inline-block', background: C.success, color: C.successText,
+                fontSize: 11, fontWeight: 600, padding: '4px 14px', borderRadius: 100, marginBottom: 8,
+              }}>● ACTIVE LISTINGS</div>
+              <h2 style={{ fontSize: 26, fontWeight: 800, color: C.textHeading, marginBottom: 4 }}>
+                {t.latestRequests || 'Latest Requests'}
+              </h2>
+              <p style={{ fontSize: 14, color: C.textMuted }}>
+                {t.browseJobs || 'Browse active jobs posted by homeowners across Sri Lanka'}
+              </p>
             </div>
-          
-          <div className="flex items-center gap-2 bg-white p-2 rounded-2xl border border-slate-200 shadow-md hover:shadow-lg transition-all" style={{pointerEvents: 'auto'}}>
-             {STATUSES.map(s => (
-               <button
-                key={s}
-                type="button"
-                aria-pressed={status === s}
-                onClick={() => setStatus(s)}
-                className={`btn-touch px-6 py-3 rounded-xl text-sm font-bold transition-all duration-300 ${
-                  status === s 
-                  ? 'bg-gradient-to-r from-[#5B63B1] to-purple-600 text-white shadow-lg shadow-purple-500/20 scale-105' 
-                  : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'
-                }`}
-               >
-                 {s}
-               </button>
-             ))}
+            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', paddingTop: 4 }}>
+              {STATUSES.map((s) => (
+                <button
+                  key={s}
+                  onClick={() => setStatus(s)}
+                  style={{
+                    padding: '6px 16px', borderRadius: 100, fontSize: 12, fontWeight: 500,
+                    border: `0.5px solid ${status === s ? C.primary : C.border}`,
+                    background: status === s ? C.primary : '#fff',
+                    color: status === s ? '#fff' : '#666',
+                    cursor: 'pointer', fontFamily: 'inherit', transition: 'all 0.2s',
+                  }}
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
 
-        {/* Error state */}
-        {error && (
-          <div className="bg-gradient-to-r from-red-50 to-orange-50 border-2 border-red-200 text-red-700 rounded-3xl p-8 mb-16 text-center animate-in fade-in slide-in-from-top-4 shadow-md">
-             <div className="text-4xl mb-3">⚠️</div>
-             <p className="font-bold text-lg mb-4">{error}</p>
-             <button onClick={fetchJobs} className="inline-block px-8 py-3 bg-gradient-to-r from-red-600 to-orange-600 text-white rounded-xl text-sm font-bold hover:shadow-lg hover:shadow-red-500/30 transition-all active:scale-95">Retry Connection</button>
-          </div>
-        )}
+          {error && (
+            <div style={{
+              background: '#fff5f5', border: '0.5px solid #fecaca', borderRadius: 14,
+              padding: 28, textAlign: 'center', color: '#b91c1c', marginBottom: 24,
+            }}>
+              <div style={{ fontSize: 32, marginBottom: 8 }}>⚠️</div>
+              <p style={{ fontWeight: 600, marginBottom: 14 }}>{error}</p>
+              <button onClick={fetchJobs} style={{
+                background: C.primary, color: '#fff', padding: '10px 24px',
+                borderRadius: 100, fontSize: 13, fontWeight: 600, border: 'none', cursor: 'pointer',
+              }}>Retry Connection</button>
+            </div>
+          )}
 
-        {/* Job grid */}
-        <div className="relative">
           {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[...Array(6)].map((_, i) => <SkeletonCard key={i} />)}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 14 }}>
+              {[...Array(4)].map((_, i) => <SkeletonCard key={i} />)}
             </div>
           ) : jobs.length === 0 ? (
-            <div className="text-center py-24 px-8 bg-gradient-to-br from-slate-50 to-blue-50 rounded-3xl border-2 border-dashed border-slate-300 shadow-sm">
-              <div className="bg-white w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-8 text-5xl shadow-md">
-                 <span className="text-5xl">🔍</span>
-              </div>
-              <h3 className="text-3xl font-black text-slate-800 mb-4">No Jobs Found</h3>
-              <p className="text-slate-500 text-lg mb-12 max-w-md mx-auto font-medium">We couldn't find any service requests matching your filters. Try adjusting your search criteria.</p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                 <button 
-                   onClick={() => { setCategory('All'); setStatus('All'); setSearch(''); }}
-                   className="px-8 py-3 bg-gradient-to-r from-[#5B63B1] to-purple-600 text-white rounded-2xl font-black hover:shadow-xl hover:shadow-purple-500/30 transition-all active:scale-95"
-                 >
-                   Reset All Filters
-                 </button>
-                 <button 
-                   onClick={() => setCategory('All')}
-                   className="px-8 py-3 bg-white border-2 border-slate-300 text-slate-700 rounded-2xl font-black hover:bg-slate-50 transition-all active:scale-95"
-                 >
-                   Browse All Services
-                 </button>
+            <div style={{
+              border: `1.5px dashed ${C.border}`, borderRadius: 14,
+              padding: '56px 24px', textAlign: 'center', background: '#f8f7ff',
+            }}>
+              <div style={{ fontSize: 48, marginBottom: 16 }}>🔍</div>
+              <h3 style={{ fontSize: 22, fontWeight: 800, color: C.textHeading, marginBottom: 8 }}>No Jobs Found</h3>
+              <p style={{ fontSize: 14, color: C.textMuted, maxWidth: 380, margin: '0 auto 24px' }}>
+                We couldn&apos;t find any service requests matching your filters.
+              </p>
+              <div style={{ display: 'flex', gap: 8, justifyContent: 'center', flexWrap: 'wrap' }}>
+                <button onClick={() => { setCategory('All'); setStatus('All'); setSearch(''); }} style={{
+                  background: C.primary, color: '#fff', padding: '10px 24px',
+                  borderRadius: 100, fontSize: 13, fontWeight: 600, border: 'none', cursor: 'pointer',
+                }}>Reset All Filters</button>
+                <button onClick={() => setCategory('All')} style={{
+                  background: '#fff', color: '#555', border: `0.5px solid ${C.border}`,
+                  padding: '10px 24px', borderRadius: 100, fontSize: 13, fontWeight: 600, cursor: 'pointer',
+                }}>Browse All Services</button>
               </div>
             </div>
           ) : (
-            <div className="animate-in fade-in duration-500">
-              <div className="mb-6 text-sm font-bold text-slate-500">
-                 Showing <span className="text-slate-900 text-base">{jobs.length} job{jobs.length !== 1 ? 's' : ''}</span>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                 {jobs.map((job, index) => (
-                   <div key={job._id} className="animate-in fade-in slide-in-from-bottom-4" style={{animationDelay: `${index * 50}ms`}}>
-                     <JobCard job={job} showImage={false} />
-                   </div>
-                 ))}
+            <div>
+              <p style={{ fontSize: 13, color: C.textMuted, fontWeight: 500, marginBottom: 16 }}>
+                Showing <strong style={{ color: C.textHeading }}>{jobs.length} job{jobs.length !== 1 ? 's' : ''}</strong>
+              </p>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2,1fr)', gap: 14 }}>
+                {jobs.map((job) => (
+                  <JobCard key={job._id} job={job} showImage={false} />
+                ))}
               </div>
             </div>
           )}
         </div>
-      </main>
-      </div>
+      </section>
 
-      {/* Trust Footer */}      <section className="bg-slate-50 py-20 px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-black text-slate-900 mb-4">Average Service Costs</h2>
-            <p className="text-slate-600 text-lg max-w-2xl mx-auto">Get an idea of typical pricing for common home services in Sri Lanka</p>
+      {/* ── Pricing ── */}
+      <section style={{ background: C.primaryDark, padding: '56px 28px', textAlign: 'center' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <div style={{
+            display: 'inline-block', background: 'rgba(245,158,11,0.15)', color: '#fbbf24',
+            fontSize: 11, fontWeight: 600, padding: '4px 14px', borderRadius: 100, marginBottom: 10,
+          }}>PRICING GUIDE</div>
+          <h2 style={{ fontSize: 26, fontWeight: 800, color: '#fff', marginBottom: 6 }}>Average Market Rates</h2>
+          <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.55)' }}>Final prices depend on scope, materials &amp; location</p>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 14, marginTop: 28, textAlign: 'left' }}>
+            {[
+              {
+                icon: '⚡', title: 'Electrical Services', bg: 'rgba(245,158,11,0.15)',
+                rows: [
+                  ['Light Fixture Installation', '₨1,000–3,000'],
+                  ['Ceiling Fan Installation',   '₨1,500–4,000'],
+                  ['House Rewiring',              '₨80,000–200,000'],
+                  ['Distribution Board',          '₨15,000–35,000'],
+                ],
+              },
+              {
+                icon: '🚰', title: 'Plumbing Services', bg: 'rgba(59,130,246,0.15)',
+                rows: [
+                  ['Pipe Repair',        '₨3,000–8,000'],
+                  ['Fixture Installation','₨5,000–15,000'],
+                  ['Bathroom Remodel',   '₨50,000–150,000'],
+                  ['Water Tank Install',  '₨40,000–80,000'],
+                ],
+              },
+              {
+                icon: '🎨', title: 'Painting & Finishes', bg: 'rgba(236,72,153,0.15)',
+                rows: [
+                  ['Per Square Foot', '₨80–150'],
+                  ['Room Painting',   '₨10,000–25,000'],
+                  ['Full House',      '₨80,000–250,000'],
+                  ['Feature Wall',    '₨15,000–40,000'],
+                ],
+              },
+            ].map((card) => (
+              <div key={card.title} style={{
+                background: 'rgba(255,255,255,0.07)', border: '0.5px solid rgba(255,255,255,0.12)',
+                borderRadius: 14, padding: 20,
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
+                  <div style={{ width: 36, height: 36, borderRadius: 9, background: card.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>
+                    {card.icon}
+                  </div>
+                  <div style={{ fontSize: 14, fontWeight: 600, color: '#fff' }}>{card.title}</div>
+                </div>
+                {card.rows.map(([label, price], i) => (
+                  <div key={label} style={{
+                    display: 'flex', justifyContent: 'space-between', padding: '8px 0',
+                    borderBottom: i < card.rows.length - 1 ? '0.5px solid rgba(255,255,255,0.07)' : 'none',
+                  }}>
+                    <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.65)' }}>{label}</span>
+                    <span style={{ fontSize: 13, color: C.accent, fontWeight: 600 }}>{price}</span>
+                  </div>
+                ))}
+              </div>
+            ))}
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
-              <h3 className="text-2xl font-bold text-slate-900 mb-6">⚡ Electrical Services</h3>
-              <div className="space-y-4">
-                <div className="flex justify-between items-center pb-3 border-b border-slate-100">
-                  <span className="text-slate-700 font-medium">Light Fixture Installation</span>
-                  <span className="font-bold text-blue-600">₨1,000 - 3,000</span>
-                </div>
-                <div className="flex justify-between items-center pb-3 border-b border-slate-100">
-                  <span className="text-slate-700 font-medium">Ceiling Fan Installation</span>
-                  <span className="font-bold text-blue-600">₨1,500 - 4,000</span>
-                </div>
-                <div className="flex justify-between items-center pb-3 border-b border-slate-100">
-                  <span className="text-slate-700 font-medium">House Rewiring</span>
-                  <span className="font-bold text-blue-600">₨80,000 - 200,000</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-slate-700 font-medium">Distribution Board</span>
-                  <span className="font-bold text-blue-600">₨15,000 - 35,000</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
-              <h3 className="text-2xl font-bold text-slate-900 mb-6">🚰 Plumbing Services</h3>
-              <div className="space-y-4">
-                <div className="flex justify-between items-center pb-3 border-b border-slate-100">
-                  <span className="text-slate-700 font-medium">Pipe Repair</span>
-                  <span className="font-bold text-blue-600">₨3,000 - 8,000</span>
-                </div>
-                <div className="flex justify-between items-center pb-3 border-b border-slate-100">
-                  <span className="text-slate-700 font-medium">Fixture Installation</span>
-                  <span className="font-bold text-blue-600">₨5,000 - 15,000</span>
-                </div>
-                <div className="flex justify-between items-center pb-3 border-b border-slate-100">
-                  <span className="text-slate-700 font-medium">Bathroom Remodel</span>
-                  <span className="font-bold text-blue-600">₨50,000 - 150,000</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-slate-700 font-medium">Water Tank Install</span>
-                  <span className="font-bold text-blue-600">₨40,000 - 80,000</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
-              <h3 className="text-2xl font-bold text-slate-900 mb-6">🎨 Painting & Finishes</h3>
-              <div className="space-y-4">
-                <div className="flex justify-between items-center pb-3 border-b border-slate-100">
-                  <span className="text-slate-700 font-medium">Per Square Foot</span>
-                  <span className="font-bold text-blue-600">₨80 - 150</span>
-                </div>
-                <div className="flex justify-between items-center pb-3 border-b border-slate-100">
-                  <span className="text-slate-700 font-medium">Room Painting</span>
-                  <span className="font-bold text-blue-600">₨10,000 - 25,000</span>
-                </div>
-                <div className="flex justify-between items-center pb-3 border-b border-slate-100">
-                  <span className="text-slate-700 font-medium">Full House</span>
-                  <span className="font-bold text-blue-600">₨80,000 - 250,000</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-slate-700 font-medium">Feature Wall</span>
-                  <span className="font-bold text-blue-600">₨15,000 - 40,000</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-12 text-center bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-8 border border-blue-200">
-            <p className="text-slate-700 font-medium mb-3">💡 These are average market rates. Final prices depend on scope, materials, and location.</p>
-            <Link href="/services" className="inline-block text-blue-600 font-bold hover:text-blue-700">
+          <div style={{
+            marginTop: 20, background: 'rgba(255,255,255,0.05)',
+            border: '0.5px solid rgba(255,255,255,0.1)', borderRadius: 14,
+            padding: '14px 20px', fontSize: 13, color: 'rgba(255,255,255,0.55)',
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap',
+          }}>
+            <span>💡 These are average market rates. Final prices depend on scope, materials, and location.</span>
+            <Link href="/services" style={{ color: C.accent, fontWeight: 600, textDecoration: 'none' }}>
               View full cost guide →
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Trust Footer */}      <section className="bg-slate-900 text-white py-24">
-         <div className="max-w-6xl mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
-               <div className="space-y-4">
-                  <div className="bg-blue-500/20 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto text-blue-400 text-2xl">🛡️</div>
-                  <h4 className="text-xl font-bold">{t.verifiedPros}</h4>
-                  <p className="text-slate-400 text-sm leading-relaxed">Every tradesman is background checked and identity verified for your security.</p>
-               </div>
-               <div className="space-y-4">
-                  <div className="bg-emerald-500/20 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto text-emerald-400 text-2xl">💰</div>
-                  <h4 className="text-xl font-bold">{t.fairPricing}</h4>
-                  <p className="text-slate-400 text-sm leading-relaxed">Compare multiple quotes and choose the best value for your project budget.</p>
-               </div>
-               <div className="space-y-4">
-                  <div className="bg-amber-500/20 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto text-amber-400 text-2xl">⭐</div>
-                  <h4 className="text-xl font-bold">{t.realReviews}</h4>
-                  <p className="text-slate-400 text-sm leading-relaxed">Read honest feedback from homeowners who used the service before you hire.</p>
-               </div>
-            </div>
-         </div>
+      {/* ── Trust pillars ── */}
+      <section style={{ background: C.bgSoft, padding: '56px 28px' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', textAlign: 'center' }}>
+          <div style={{
+            display: 'inline-block', background: C.primaryLight, color: C.primaryMid,
+            fontSize: 11, fontWeight: 600, padding: '4px 14px', borderRadius: 100, marginBottom: 10,
+          }}>WHY CHOOSE US</div>
+          <h2 style={{ fontSize: 26, fontWeight: 800, color: C.textHeading, marginBottom: 6 }}>Built for Homeowners &amp; Pros</h2>
+          <p style={{ fontSize: 14, color: C.textMuted }}>Everything you need to hire with confidence</p>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 14, marginTop: 28 }}>
+            {[
+              { icon: '🛡️', title: t.verifiedPros || 'Verified Pros',   desc: 'Every tradesman is background checked and identity verified for your security.' },
+              { icon: '💰', title: t.fairPricing  || 'Fair Pricing',    desc: 'Compare multiple quotes and choose the best value for your project budget.' },
+              { icon: '⭐', title: t.realReviews  || 'Real Reviews',    desc: 'Read honest feedback from homeowners who used the service before you hire.' },
+            ].map((card) => (
+              <div key={card.title} style={{
+                background: '#fff', border: `0.5px solid ${C.border}`,
+                borderRadius: 14, padding: '28px 22px', textAlign: 'center',
+              }}>
+                <div style={{
+                  width: 52, height: 52, borderRadius: 14, background: C.primary,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: 24, margin: '0 auto 16px',
+                }}>
+                  {card.icon}
+                </div>
+                <div style={{ fontSize: 15, fontWeight: 700, color: C.textHeading, marginBottom: 8 }}>{card.title}</div>
+                <div style={{ fontSize: 13, color: C.textMuted, lineHeight: 1.6 }}>{card.desc}</div>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
-      {/* Modals */}
+      {/* ── Modals ── */}
       {showFindModal && <FindProfessionalsModal onClose={() => setShowFindModal(false)} />}
       {showJoinModal && <JoinProfessionalModal onClose={() => setShowJoinModal(false)} />}
     </div>

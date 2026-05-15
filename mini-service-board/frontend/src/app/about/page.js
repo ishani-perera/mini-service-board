@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import Navbar from '../../components/Navbar';
-import Footer from '../../components/Footer';
 
 export default function AboutPage() {
   const features = [
@@ -120,7 +119,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <Footer />
+      
     </div>
   );
 }

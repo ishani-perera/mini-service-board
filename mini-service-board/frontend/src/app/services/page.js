@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import Navbar from '../../components/Navbar';
-import Footer from '../../components/Footer';
 
 export default function ServicesPage() {
   const services = [
@@ -210,7 +209,7 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <Footer />
+      
     </div>
   );
 }

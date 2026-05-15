@@ -48,6 +48,14 @@
     --soft-nude-1: #faf0f4; /* very light nude purple */
     --soft-nude-2: #f3e9ef; /* slightly deeper */
     --latest-requests-bg: #f7fbff; /* subtle cool blue */
+    
+    /* Soft pastel colors for Latest Requests section */
+    --soft-badge-purple: #e8dff7; /* soft lavender badge */
+    --soft-badge-text: #6b5b95; /* muted purple text */
+    --soft-btn-active: #a899cc; /* soft purple button */
+    --soft-status-open: #b3e5d9; /* soft teal for Open */
+    --soft-status-progress: #ffe5b4; /* soft peach for In Progress */
+    --soft-status-closed: #d4c5d9; /* soft mauve for Closed */
   }
 
   html {
@@ -75,9 +83,39 @@
   }
 
   .latest-requests-bg {
-    /* colorful requests background with subtle vignette */
-    background: linear-gradient(180deg, rgba(255,249,240,0.95), rgba(245,250,255,0.98));
-    box-shadow: inset 0 40px 80px rgba(160,120,220,0.04);
+    /* soft pastel background for requests section */
+    background: linear-gradient(180deg, #f8f3f9 0%, #f3f0f7 50%, #f0f4f9 100%);
+    box-shadow: inset 0 40px 80px rgba(160,120,220,0.03);
+  }
+
+  .latest-requests-badge {
+    background: linear-gradient(135deg, #c4a3d4 0%, #b599c8 100%);
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 0.75rem;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    box-shadow: 0 4px 12px rgba(160,120,220,0.2);
+  }
+
+  .latest-requests-status-btn {
+    @apply px-6 py-3 rounded-xl text-sm font-bold transition-all duration-300;
+  }
+
+  .latest-requests-status-btn.active {
+    background: linear-gradient(135deg, #a899cc 0%, #9888bb 100%);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(168,153,204,0.3);
+  }
+
+  .latest-requests-status-btn:not(.active) {
+    color: #8b7a99;
+    background: transparent;
+  }
+
+  .latest-requests-status-btn:not(.active):hover {
+    background: rgba(200,161,255,0.2);
+    color: #7a6a88;
   }
 
   .card-clean {
