@@ -18,6 +18,9 @@ const CATEGORY_STYLES = {
 };
 
 const STATUS_STYLES = {
+  'Open':        { bg: '#D1FAE5', color: '#065f46', dot: '#10b981', label: 'Open' },
+  'In Progress': { bg: '#FEF3C7', color: '#92400e', dot: '#f59e0b', label: 'In Progress' },
+  'Closed':      { bg: '#F3F4F6', color: '#374151', dot: '#9ca3af', label: 'Closed' },
   OPEN:        { bg: '#D1FAE5', color: '#065f46', dot: '#10b981', label: 'Open' },
   IN_PROGRESS: { bg: '#FEF3C7', color: '#92400e', dot: '#f59e0b', label: 'In Progress' },
   CLOSED:      { bg: '#F3F4F6', color: '#374151', dot: '#9ca3af', label: 'Closed' },

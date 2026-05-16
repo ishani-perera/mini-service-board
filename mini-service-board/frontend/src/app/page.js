@@ -6,6 +6,7 @@ import Navbar from '../components/Navbar';
 import JobCard from '../components/JobCard';
 import SkeletonCard from '../components/SkeletonCard';
 import JobPreviewModal from '../components/JobPreviewModal';
+import FindProfessionalsModal from '../components/FindProfessionalsModal';
 import { getJobs } from '../lib/api';
 
 /* ── Service catalogue ───────────────────────────────── */
@@ -249,6 +250,7 @@ export default function HomePage() {
   const [search, setSearch] = useState('');
   const [statsVisible, setStatsVisible] = useState(false);
   const [selectedJob, setSelectedJob] = useState(null);
+  const [isFindProOpen, setIsFindProOpen] = useState(false);
   const statsRef = useRef(null);
   const latestRequestsRef = useRef(null);
 
@@ -339,9 +341,9 @@ export default function HomePage() {
           </p>
 
           <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 28 }}>
-            <Link href="/services" className="btn-primary btn-touch" style={{ padding: '11px 24px', fontSize: 14 }}>
+            <button onClick={() => setIsFindProOpen(true)} className="btn-primary btn-touch" style={{ padding: '11px 24px', fontSize: 14 }}>
               Find Professionals
-            </Link>
+            </button>
             <Link href="/jobs/new" className="btn-outline btn-touch" style={{ padding: '10px 24px', fontSize: 14 }}>
               Join as Professional
             </Link>
@@ -643,10 +645,13 @@ export default function HomePage() {
         </div>
       </section>
       {/* ══════════════════════════════════════════════════
-          JOB PREVIEW MODAL
+          MODALS
       ══════════════════════════════════════════════════ */}
       {selectedJob && (
         <JobPreviewModal job={selectedJob} onClose={() => setSelectedJob(null)} />
+      )}
+      {isFindProOpen && (
+        <FindProfessionalsModal onClose={() => setIsFindProOpen(false)} />
       )}
     </div>
   );

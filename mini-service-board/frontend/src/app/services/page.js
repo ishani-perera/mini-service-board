@@ -147,7 +147,7 @@ export default function ServicesPage() {
       {/* Services Grid */}
       <section className="py-20 px-4">
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {services.map((service, idx) => (
               <div key={idx} className={`card-clean rounded-2xl p-8 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1`}>
                 <div className="text-6xl mb-4" style={{color: 'var(--primary-mid)'}}>{service.icon}</div>
