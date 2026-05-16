@@ -115,6 +115,21 @@ export default function ServicesPage() {
     }
   ];
 
+  const MARKET_RATES = [
+    { title: 'Electrical', icon: '⚡', items: [['Light Fixture', 'Rs1,000–3,000'], ['House Rewiring', 'Rs80,000+']] },
+    { title: 'Plumbing', icon: '🚰', items: [['Pipe Repair', 'Rs3,000–8,000'], ['Water Tank', 'Rs40,000+']] },
+    { title: 'Painting', icon: '🎨', items: [['Per Sq Ft', 'Rs80–150'], ['Full Room', 'Rs10,000+']] },
+    { title: 'Joinery', icon: '🔨', items: [['Door Hang', 'Rs2,500+'], ['Wardrobe', 'Rs45,000+']] },
+    { title: 'Roofing', icon: '🏠', items: [['Leak Repair', 'Rs5,000+'], ['Tile Replace', 'Rs15,000+']] },
+    { title: 'Gardening', icon: '🌿', items: [['Lawn Mowing', 'Rs2,000+'], ['Landscaping', 'Rs20,000+']] },
+    { title: 'Cleaning', icon: '✨', items: [['Deep Clean', 'Rs8,000+'], ['Sofa Wash', 'Rs3,500+']] },
+    { title: 'AC Tech', icon: '❄️', items: [['AC Service', 'Rs3,500+'], ['Installation', 'Rs8,000+']] },
+    { title: 'Masons', icon: '🧱', items: [['Wall Build', 'Rs250/sqft'], ['Tiling', 'Rs120/sqft']] },
+    { title: 'Pest Control', icon: '🦟', items: [['General Pest', 'Rs4,000+'], ['Termite', 'Rs12,000+']] },
+    { title: 'Interior', icon: '🛋️', items: [['Consultation', 'Rs5,000+'], ['3D Design', 'Rs25,000+']] },
+    { title: 'Other', icon: '🔧', items: [['Lock Replace', 'Rs1,500+'], ['Appliance Fix', 'Rs2,500+']] }
+  ];
+
   return (
     <div className="min-h-screen bg-transparent">
       <Navbar />
@@ -164,48 +179,20 @@ export default function ServicesPage() {
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-black mb-12 text-center" style={{color: 'var(--text-heading)'}}>Average Service Costs in Sri Lanka</h2>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="card-clean rounded-xl p-8 shadow-sm">
-              <h3 className="text-xl font-bold mb-4" style={{color: 'var(--text-heading)'}}>⚡ Electrical</h3>
-              <div className="space-y-3" style={{color: 'var(--text-body)'}}>
-                <div className="flex justify-between">
-                  <span>Light Fixture</span>
-                  <span className="font-bold">₨1,000 - 3,000</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>House Rewiring</span>
-                  <span className="font-bold">₨80,000 - 200,000</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="card-clean rounded-xl p-8 shadow-sm">
-              <h3 className="text-xl font-bold mb-4" style={{color: 'var(--text-heading)'}}>🚰 Plumbing</h3>
-              <div className="space-y-3" style={{color: 'var(--text-body)'}}>
-                <div className="flex justify-between">
-                  <span>Pipe Repair</span>
-                  <span className="font-bold">₨3,000 - 8,000</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Installation</span>
-                  <span className="font-bold">₨5,000 - 15,000</span>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            {MARKET_RATES.map((cat, idx) => (
+              <div key={idx} className="card-clean rounded-xl p-5 shadow-sm hover:-translate-y-1 transition-transform">
+                <h3 className="text-lg font-bold mb-3" style={{color: 'var(--text-heading)'}}>{cat.icon} {cat.title}</h3>
+                <div className="space-y-2 text-sm" style={{color: 'var(--text-body)'}}>
+                  {cat.items.map((item, i) => (
+                    <div key={i} className="flex justify-between flex-wrap gap-1">
+                      <span>{item[0]}</span>
+                      <span className="font-bold">{item[1]}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
-            </div>
-
-            <div className="card-clean rounded-xl p-8 shadow-sm">
-              <h3 className="text-xl font-bold mb-4" style={{color: 'var(--text-heading)'}}>🎨 Painting</h3>
-              <div className="space-y-3" style={{color: 'var(--text-body)'}}>
-                <div className="flex justify-between">
-                  <span>Per Sq Ft</span>
-                  <span className="font-bold">₨80 - 150</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Full Room</span>
-                  <span className="font-bold">₨10,000 - 25,000</span>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
