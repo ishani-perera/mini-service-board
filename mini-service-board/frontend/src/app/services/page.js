@@ -7,6 +7,7 @@ export default function ServicesPage() {
   const services = [
     {
       icon: '⚡',
+      category: 'ELECTRICAL',
       name: 'Electrical Services',
       color: 'from-yellow-400 to-amber-300',
       bgColor: 'bg-yellow-50',
@@ -15,6 +16,7 @@ export default function ServicesPage() {
     },
     {
       icon: '🚰',
+      category: 'PLUMBING',
       name: 'Plumbing',
       color: 'from-blue-400 to-cyan-300',
       bgColor: 'bg-blue-50',
@@ -23,6 +25,7 @@ export default function ServicesPage() {
     },
     {
       icon: '🎨',
+      category: 'PAINTING',
       name: 'Painting',
       color: 'from-rose-400 to-pink-300',
       bgColor: 'bg-rose-50',
@@ -31,6 +34,7 @@ export default function ServicesPage() {
     },
     {
       icon: '🔨',
+      category: 'JOINERY',
       name: 'Carpentry & Joinery',
       color: 'from-orange-400 to-amber-300',
       bgColor: 'bg-orange-50',
@@ -39,6 +43,7 @@ export default function ServicesPage() {
     },
     {
       icon: '🏠',
+      category: 'ROOFING',
       name: 'Roofing',
       color: 'from-slate-400 to-stone-300',
       bgColor: 'bg-slate-50',
@@ -47,6 +52,7 @@ export default function ServicesPage() {
     },
     {
       icon: '🌿',
+      category: 'GARDENING',
       name: 'Gardening & Landscaping',
       color: 'from-emerald-400 to-green-300',
       bgColor: 'bg-emerald-50',
@@ -55,6 +61,7 @@ export default function ServicesPage() {
     },
     {
       icon: '✨',
+      category: 'CLEANING',
       name: 'Cleaning Services',
       color: 'from-cyan-400 to-blue-300',
       bgColor: 'bg-cyan-50',
@@ -63,6 +70,7 @@ export default function ServicesPage() {
     },
     {
       icon: '❄️',
+      category: 'AC_TECH',
       name: 'AC & Refrigeration',
       color: 'from-indigo-400 to-purple-300',
       bgColor: 'bg-indigo-50',
@@ -71,6 +79,7 @@ export default function ServicesPage() {
     },
     {
       icon: '🧱',
+      category: 'MASONS',
       name: 'Masonry & Construction',
       color: 'from-stone-400 to-slate-300',
       bgColor: 'bg-stone-50',
@@ -79,6 +88,7 @@ export default function ServicesPage() {
     },
     {
       icon: '🦟',
+      category: 'PEST_CONTROL',
       name: 'Pest Control',
       color: 'from-purple-400 to-violet-300',
       bgColor: 'bg-purple-50',
@@ -87,6 +97,7 @@ export default function ServicesPage() {
     },
     {
       icon: '🛋️',
+      category: 'INTERIOR',
       name: 'Interior Design',
       color: 'from-fuchsia-400 to-pink-300',
       bgColor: 'bg-fuchsia-50',
@@ -95,6 +106,7 @@ export default function ServicesPage() {
     },
     {
       icon: '🔧',
+      category: 'OTHER',
       name: 'General Repairs',
       color: 'from-slate-400 to-gray-300',
       bgColor: 'bg-slate-50',
@@ -138,8 +150,8 @@ export default function ServicesPage() {
                   </div>
                 </div>
 
-                <Link href="/" className="btn-primary inline-block px-6 py-2.5 rounded-full font-bold">
-                  Find Professionals →
+                <Link href={`/jobs?category=${service.category}`} className="btn-primary inline-block px-6 py-2.5 rounded-full font-bold">
+                  Browse Jobs →
                 </Link>
               </div>
             ))}

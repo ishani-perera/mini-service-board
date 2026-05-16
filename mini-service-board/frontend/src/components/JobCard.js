@@ -1,154 +1,229 @@
-"use client";
+'use client';
 
-import Link from 'next/link';
-import Image from 'next/image';
-import StatusBadge from './StatusBadge';
 import { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
-import { updateJobStatus } from '../lib/api';
-import toast from 'react-hot-toast';
-
-const CATEGORIES_ICONS = {
-  'Plumbing': '🚰',
-  'Electrical': '⚡',
-  'Painting': '🎨',
-  'Joinery': '🪚',
-  'Roofing': '🏠',
-  'Gardening': '🌿',
-  'Cleaning': '🧹',
-  'AC Technicians': '❄️',
-  'Masons': '🧱',
-  'Pest Control': '🦟',
-  'Interior': '🛋️',
-  'Other': '🛠️'
-};
 
 const CATEGORY_STYLES = {
-  'Plumbing': { bg: 'bg-[#eff6ff]', text: 'text-[#2563eb]' },
-  'Electrical': { bg: 'bg-[#fef9c3]', text: 'text-[#854d0e]' },
-  'Painting': { bg: 'bg-[#fdf2f8]', text: 'text-[#9f1239]' },
-  'Joinery': { bg: 'bg-[#fff7ed]', text: 'text-[#92400e]' },
-  'Roofing': { bg: 'bg-[#f0fdf4]', text: 'text-[#166534]' },
-  'Gardening': { bg: 'bg-[#f0fdf4]', text: 'text-[#166534]' },
-  'Cleaning': { bg: 'bg-[#eff6ff]', text: 'text-[#2563eb]' },
-  'AC Technicians': { bg: 'bg-[#f5f3ff]', text: 'text-[#4c35c9]' },
-  'Masons': { bg: 'bg-[#fef2f2]', text: 'text-[#b91c1c]' },
-  'Pest Control': { bg: 'bg-[#fdf4ff]', text: 'text-[#7c3aed]' },
-  'Interior': { bg: 'bg-[#fff7ed]', text: 'text-[#92400e]' },
-  'Other': { bg: 'bg-[#f5f3ff]', text: 'text-[#4c35c9]' },
+  'Plumbing':       { bg: '#EFF6FF', color: '#1d4ed8', iconBg: '#DBEAFE', icon: '🔧' },
+  'Electrical':     { bg: '#FEFCE8', color: '#854d0e', iconBg: '#FEF9C3', icon: '⚡' },
+  'Painting':       { bg: '#FFF1F5', color: '#9d174d', iconBg: '#FCE7F3', icon: '🎨' },
+  'Joinery':        { bg: '#F0FDF4', color: '#065f46', iconBg: '#D1FAE5', icon: '🪚' },
+  'Roofing':        { bg: '#F5F3FF', color: '#5b21b6', iconBg: '#EDE9FE', icon: '🏠' },
+  'Gardening':      { bg: '#F0FDF4', color: '#166534', iconBg: '#DCFCE7', icon: '🌿' },
+  'Cleaning':       { bg: '#F0F9FF', color: '#0369a1', iconBg: '#E0F2FE', icon: '✨' },
+  'AC Technicians': { bg: '#EFF9FF', color: '#0284c7', iconBg: '#E0F2FE', icon: '❄️' },
+  'Masons':         { bg: '#FFFBEB', color: '#92400e', iconBg: '#FEF3C7', icon: '🧱' },
+  'Pest Control':   { bg: '#FFF0F5', color: '#be185d', iconBg: '#FCE7F3', icon: '🐛' },
+  'Interior':       { bg: '#FAF5FF', color: '#7e22ce', iconBg: '#F3E8FF', icon: '🛋️' },
+  'Other':          { bg: '#F9FAFB', color: '#374151', iconBg: '#F3F4F6', icon: '🔨' },
 };
 
-export default function JobCard({ job, showImage = true }) {
-  const { user } = useAuth();
-  const [localStatus, setLocalStatus] = useState(job.status);
+const STATUS_STYLES = {
+  OPEN:        { bg: '#D1FAE5', color: '#065f46', dot: '#10b981', label: 'Open' },
+  IN_PROGRESS: { bg: '#FEF3C7', color: '#92400e', dot: '#f59e0b', label: 'In Progress' },
+  CLOSED:      { bg: '#F3F4F6', color: '#374151', dot: '#9ca3af', label: 'Closed' },
+};
 
-  const date = new Date(job.createdAt).toLocaleDateString('en-GB', {
-    day: 'numeric', month: 'short', year: 'numeric',
-  });
+function formatDate(dateStr) {
+  if (!dateStr) return '';
+  const d = new Date(dateStr);
+  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+export default function JobCard({ job, onClick }) {
+  const [hovered, setHovered] = useState(false);
+  const cat = CATEGORY_STYLES[job.category] || CATEGORY_STYLES['Other'];
+  const status = STATUS_STYLES[job.status] || STATUS_STYLES.OPEN;
 
   return (
-    <Link href={`/jobs/${job._id}`}>
-      <div className="card-clean cursor-pointer h-full flex flex-col overflow-hidden group">
-        
-        {/* Optional Image Section */}
-          {showImage ? (
-          <div className="relative w-full h-48 sm:h-56 bg-slate-100 overflow-hidden">
-            {job.imageUrl ? (
-              <Image
-                src={job.imageUrl}
-                alt={job.title}
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-300"
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              />
-            ) : (
-              <div className="w-full h-full bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center text-4xl">
-                {CATEGORIES_ICONS[job.category] || '🛠️'}
-              </div>
-            )}
-            <div className="absolute top-4 right-4">
-              <StatusBadge status={localStatus} />
-            </div>
-          </div>
-        ) : (
-          <div className="px-5 pt-5 pb-2 flex items-start justify-between">
-            <span className={`inline-block text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-lg ${CATEGORY_STYLES[job.category]?.bg || 'bg-slate-100'} ${CATEGORY_STYLES[job.category]?.text || 'text-slate-700'}`}>
-              {CATEGORIES_ICONS[job.category] || '🛠️'} {job.category}
-            </span>
-            <div className="ml-4">
-              <StatusBadge status={localStatus} />
-            </div>
-          </div>
-        )}
+    <div
+      onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        background: '#ffffff',
+        border: hovered ? '1.5px solid rgba(124,58,237,0.25)' : '1.5px solid rgba(124,58,237,0.08)',
+        borderRadius: 18,
+        padding: '20px 20px 16px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 0,
+        position: 'relative',
+        overflow: 'hidden',
+        transition: 'all 0.22s ease',
+        transform: hovered ? 'translateY(-3px)' : 'translateY(0)',
+        boxShadow: hovered
+          ? '0 12px 32px rgba(124,58,237,0.12)'
+          : '0 1px 6px rgba(124,58,237,0.06)',
+        cursor: 'pointer',
+      }}
+    >
+      {/* Top accent bar on hover */}
+      <div style={{
+        position: 'absolute',
+        top: 0, left: 0, right: 0,
+        height: 3,
+        background: 'linear-gradient(90deg, #7c3aed, #ec4899)',
+        opacity: hovered ? 1 : 0,
+        transition: 'opacity 0.22s ease',
+        borderRadius: '18px 18px 0 0',
+      }} />
 
-        {/* Category Badge (when image is shown, keep a smaller badge below) */}
-        {showImage && (
-          <div className="px-5 pt-4 pb-2">
-            <span className={`inline-block text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-lg ${CATEGORY_STYLES[job.category]?.bg || 'bg-slate-100'} ${CATEGORY_STYLES[job.category]?.text || 'text-slate-700'}`}>
-              {CATEGORIES_ICONS[job.category] || '🛠️'} {job.category}
-            </span>
-          </div>
-        )}
+      {/* Top row: category + status */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14, gap: 8 }}>
+        {/* Category pill */}
+        <span style={{
+          background: cat.bg,
+          color: cat.color,
+          fontSize: 11,
+          fontWeight: 700,
+          padding: '4px 10px',
+          borderRadius: 99,
+          letterSpacing: '0.04em',
+          textTransform: 'uppercase',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 5,
+          flexShrink: 0,
+        }}>
+          <span style={{
+            width: 20, height: 20, borderRadius: 6,
+            background: cat.iconBg,
+            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: 12,
+          }}>
+            {cat.icon}
+          </span>
+          {job.category?.replace(/_/g, ' ')}
+        </span>
 
-        {/* Content */}
-        <div className="px-5 pb-5 flex-1 flex flex-col gap-3">
-          <h3 className="font-semibold text-lg leading-tight text-var(--text-heading) group-hover:text-[color:var(--primary-mid)] transition-colors duration-300 line-clamp-2" style={{color: 'var(--text-heading)'}}>
-            {job.title}
-          </h3>
+        {/* Status pill with dot */}
+        <span style={{
+          background: status.bg,
+          color: status.color,
+          fontSize: 11,
+          fontWeight: 700,
+          padding: '4px 10px',
+          borderRadius: 99,
+          letterSpacing: '0.04em',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 5,
+          flexShrink: 0,
+        }}>
+          <span style={{
+            width: 6, height: 6,
+            borderRadius: '50%',
+            background: status.dot,
+            display: 'inline-block',
+          }} />
+          {status.label}
+        </span>
+      </div>
 
-          <div className="flex items-center gap-2 text-slate-600 text-sm">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-            <span className="font-semibold">{job.location || 'Remote'}</span>
-          </div>
+      {/* Title */}
+      <h3 style={{
+        fontFamily: "'Inter', sans-serif",
+        fontSize: 16,
+        fontWeight: 700,
+        color: hovered ? '#5b21b6' : '#1a0a3d',
+        marginBottom: 8,
+        lineHeight: 1.35,
+        transition: 'color 0.2s ease',
+      }}>
+        {job.title}
+      </h3>
 
-          <p className="text-sm line-clamp-2 leading-relaxed" style={{color: '#666'}}>
-            {job.description}
+      {/* Location */}
+      {job.location && (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 10 }}>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" />
+          </svg>
+          <span style={{ fontSize: 13, color: '#6b7280', fontWeight: 500 }}>{job.location}</span>
+        </div>
+      )}
+
+      {/* Description */}
+      {job.description && (
+        <p style={{
+          fontSize: 13.5,
+          color: '#6b7280',
+          lineHeight: 1.6,
+          marginBottom: 16,
+          display: '-webkit-box',
+          WebkitLineClamp: 2,
+          WebkitBoxOrient: 'vertical',
+          overflow: 'hidden',
+        }}>
+          {job.description}
+        </p>
+      )}
+
+      {/* Spacer */}
+      <div style={{ flex: 1 }} />
+
+      {/* Footer: budget + date */}
+      <div style={{
+        borderTop: '1px solid rgba(124,58,237,0.07)',
+        paddingTop: 14,
+        marginTop: 8,
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'flex-end',
+      }}>
+        <div>
+          <p style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 3 }}>Budget</p>
+          <p style={{
+            fontSize: 17,
+            fontWeight: 800,
+            background: job.budget
+              ? 'linear-gradient(90deg, #7c3aed, #ec4899)'
+              : 'none',
+            WebkitBackgroundClip: job.budget ? 'text' : 'unset',
+            WebkitTextFillColor: job.budget ? 'transparent' : '#6b7280',
+            backgroundClip: job.budget ? 'text' : 'unset',
+            color: job.budget ? undefined : '#6b7280',
+            margin: 0,
+          }}>
+            {job.budget ? `LKR ${Number(job.budget).toLocaleString()}` : 'Negotiable'}
           </p>
-
-          {/* Footer */}
-          <div className="mt-auto flex flex-col sm:flex-row items-start sm:items-center justify-between pt-4 border-t gap-4" style={{borderTop: '0.5px solid #f0f0f8'}}>
-            <div>
-              <p className="text-xs font-bold text-slate-400 uppercase mb-1">Budget</p>
-              <p className="text-lg font-extrabold" style={{color: 'var(--primary)'}}>
-                LKR {job.budget?.toLocaleString() || 'N/A'}
-              </p>
-            </div>
-            <div className="text-right">
-              <p className="text-xs font-bold text-slate-400 uppercase mb-1">Posted</p>
-              <p className="text-sm font-semibold text-slate-600">{date}</p>
-            </div>
-
-            {/* Status action buttons for authorized users */}
-            {user && (user.role === 'tradesman' || user.role === 'professional') && (
-              <div className="flex items-center gap-2">
-                {['Open', 'In Progress', 'Closed'].map(s => (
-                  <button
-                    key={s}
-                    onClick={async (e) => {
-                      e.preventDefault();
-                      if (s === localStatus) return;
-                      const prev = localStatus;
-                      setLocalStatus(s);
-                      try {
-                        await updateJobStatus(job._id, s);
-                        toast.success(`Status updated to ${s}`);
-                        // notify other components to refresh lists
-                        window.dispatchEvent(new CustomEvent('jobStatusChanged', { detail: { id: job._id, status: s } }));
-                      } catch (err) {
-                        setLocalStatus(prev);
-                        toast.error(err.response?.data?.message || 'Failed to update status');
-                      }
-                    }}
-                    className={`btn-touch text-xs px-3 py-1.5 rounded-full font-semibold transition-all ${s === localStatus ? 'bg-slate-800 text-white' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
-                  >
-                    {s}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
+        </div>
+        <div style={{ textAlign: 'right' }}>
+          <p style={{ fontSize: 10, fontWeight: 700, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 3 }}>Posted</p>
+          <p style={{ fontSize: 13, color: '#9ca3af', fontWeight: 500, margin: 0 }}>{formatDate(job.createdAt)}</p>
         </div>
       </div>
-    </Link>
+
+      {/* Hover CTA button */}
+      <div style={{
+        marginTop: 14,
+        opacity: hovered ? 1 : 0,
+        transform: hovered ? 'translateY(0)' : 'translateY(6px)',
+        transition: 'all 0.25s ease',
+        pointerEvents: hovered ? 'auto' : 'none',
+      }}>
+        <button
+          onClick={(e) => { e.stopPropagation(); onClick?.(); }}
+          style={{
+            display: 'block',
+            width: '100%',
+            textAlign: 'center',
+            background: 'linear-gradient(90deg, #7c3aed, #ec4899)',
+            color: '#fff',
+            fontWeight: 700,
+            fontSize: 13,
+            padding: '10px 0',
+            borderRadius: 99,
+            border: 'none',
+            cursor: 'pointer',
+            boxShadow: '0 4px 16px rgba(124,58,237,0.3)',
+            transition: 'box-shadow 0.2s ease',
+            letterSpacing: '0.01em',
+          }}
+        >
+          View Details →
+        </button>
+      </div>
+    </div>
   );
 }

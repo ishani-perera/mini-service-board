@@ -12,7 +12,13 @@ const protect = async (req, res, next) => {
       // Verify token
       const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret123');
 
-      // Get user from the token
+      // If DB is down, accept the token and attach a lightweight user object
+      if (global.__DB_CONNECTED === false) {
+        req.user = { id: decoded.id };
+        return next();
+      }
+
+      // Get user from the token (normal path)
       req.user = await User.findById(decoded.id).select('-password');
 
       next();

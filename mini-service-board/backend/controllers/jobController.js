@@ -27,23 +27,24 @@ const MOCK_JOBS = [
 // GET /api/jobs — get all jobs with optional filters
 const getAllJobs = async (req, res, next) => {
   try {
+    const { category, status, search } = req.query;
+
     // If DB is not connected, return mock jobs for development
     if (global.__DB_CONNECTED === false) {
-      const { category, status, search } = req.query;
       let results = MOCK_JOBS.slice();
-      if (category) results = results.filter(j => j.category === category);
-      if (status) results = results.filter(j => j.status === status);
+      if (category && category !== 'All') results = results.filter(j => j.category === category);
+      if (status && status !== 'All') results = results.filter(j => j.status === status);
       if (search) {
         const s = search.toLowerCase();
         results = results.filter(j => j.title.toLowerCase().includes(s) || j.description.toLowerCase().includes(s));
       }
       return res.status(200).json({ success: true, count: results.length, data: results });
     }
-    const { category, status, search } = req.query;
+
     const filter = {};
 
-    if (category) filter.category = category;
-    if (status) filter.status = status;
+    if (category && category !== 'All') filter.category = category;
+    if (status && status !== 'All') filter.status = status;
 
     // Bonus: keyword search across title and description
     if (search) {
@@ -121,6 +122,15 @@ const updateJobStatus = async (req, res, next) => {
         success: false,
         message: `Status must be one of: ${allowedStatuses.join(', ')}`,
       });
+    }
+
+    // If DB is not connected, update the in-memory mock jobs
+    if (global.__DB_CONNECTED === false) {
+      const idx = MOCK_JOBS.findIndex(j => j._id === req.params.id);
+      if (idx === -1) return res.status(404).json({ success: false, message: 'Job not found' });
+      MOCK_JOBS[idx].status = status;
+      MOCK_JOBS[idx].updatedAt = new Date().toISOString();
+      return res.status(200).json({ success: true, data: MOCK_JOBS[idx] });
     }
 
     const job = await JobRequest.findByIdAndUpdate(
