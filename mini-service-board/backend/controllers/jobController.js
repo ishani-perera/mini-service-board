@@ -1,28 +1,40 @@
 const JobRequest = require('../models/JobRequest');
 
 // Simple in-memory mock data used when DB is unavailable
-const MOCK_JOBS = [
-  {
-    _id: 'mock1',
-    title: 'Fix leaking kitchen tap',
-    description: 'Kitchen tap leaking when turned off. Needs washer replacement.',
-    category: 'Plumbing',
-    location: 'Colombo',
-    budget: 1500,
-    status: 'Open',
-    createdAt: new Date().toISOString(),
-  },
-  {
-    _id: 'mock2',
-    title: 'Replace broken ceiling light',
-    description: 'One light in living room not working, likely needs new fitting.',
-    category: 'Electrical',
-    location: 'Kandy',
-    budget: 2500,
-    status: 'Open',
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(),
-  },
-];
+const generateMockJobs = () => {
+  const categories = [
+    'Plumbing', 'Electrical', 'Painting', 'Joinery', 'Roofing', 'Gardening', 
+    'Cleaning', 'AC Technicians', 'Masons', 'Pest Control', 'Interior', 'Other'
+  ];
+  const statuses = ['Open', 'In Progress', 'Closed'];
+  const locations = ['Colombo', 'Kandy', 'Galle', 'Gampaha', 'Negombo', 'Matara'];
+  
+  const jobs = [];
+  let idCounter = 1;
+
+  categories.forEach(cat => {
+    for (let i = 1; i <= 4; i++) {
+      jobs.push({
+        _id: 'mock_' + idCounter,
+        title: `${cat} Project - Job #${i}`,
+        description: `This is a sample mock request for ${cat} services. Looking for an experienced professional to handle this job promptly. Please provide a quote.`,
+        category: cat,
+        location: locations[idCounter % locations.length],
+        contactName: `User ${idCounter}`,
+        contactEmail: `user${idCounter}@example.com`,
+        budget: 1500 + (1000 * i * (idCounter % 3 + 1)),
+        status: statuses[i % 3],
+        createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * i).toISOString(),
+        updatedAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * i).toISOString(),
+      });
+      idCounter++;
+    }
+  });
+
+  return jobs;
+};
+
+const MOCK_JOBS = generateMockJobs();
 
 // GET /api/jobs — get all jobs with optional filters
 const getAllJobs = async (req, res, next) => {
