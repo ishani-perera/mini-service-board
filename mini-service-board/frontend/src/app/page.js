@@ -508,8 +508,8 @@ export default function HomePage() {
           )}
 
           {loading ? (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 16 }}>
-              {[1, 2, 3, 4].map(n => <SkeletonCard key={n} />)}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 16 }}>
+              {[1, 2, 3, 4, 5].map(n => <SkeletonCard key={n} />)}
             </div>
           ) : filteredJobs.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '60px 20px' }}>
@@ -522,7 +522,7 @@ export default function HomePage() {
               </Link>
             </div>
           ) : (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 16 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 16 }}>
               {filteredJobs.map(job => <JobCard key={job._id || job.id} job={job} onClick={() => setSelectedJob(job)} />)}
             </div>
           )}

@@ -43,8 +43,9 @@ export default function JobsPage() {
     const loadJobs = async () => {
       try {
         setLoading(true);
-        const response = await getJobs();
-        setJobs(response.data || []);
+        const res = await getJobs();
+        const fetchedData = res.data?.data || res.data;
+        setJobs(Array.isArray(fetchedData) ? fetchedData : []);
       } catch (error) {
         console.error('Error loading jobs:', error);
         setJobs([]);
@@ -130,8 +131,8 @@ export default function JobsPage() {
 
           {/* Grid */}
           {loading ? (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 20 }}>
-              {[1, 2, 3, 4].map(n => <SkeletonCard key={n} />)}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 16 }}>
+              {[1, 2, 3, 4, 5].map(n => <SkeletonCard key={n} />)}
             </div>
           ) : filteredJobs.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '60px 20px' }}>
@@ -142,7 +143,7 @@ export default function JobsPage() {
               </Link>
             </div>
           ) : (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 20 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 16 }}>
               {filteredJobs.map(job => (
                 <JobCard key={job._id} job={job} />
               ))}
