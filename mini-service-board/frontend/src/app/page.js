@@ -33,40 +33,52 @@ const STATS = [
 
 const MARKET_RATES = [
   {
-    title: 'Electrical Services',
-    icon: '⚡',
-    grad: 'linear-gradient(135deg,#fef9c3,#fde68a)',
-    color: '#854d0e',
-    items: [
-      ['Light Fixture Installation', 'Rs1,000–3,000'],
-      ['Ceiling Fan Installation',   'Rs1,500–4,000'],
-      ['House Rewiring',             'Rs80,000–200,000'],
-      ['Distribution Board',         'Rs15,000–35,000'],
-    ],
+    title: 'Electrical', icon: '⚡', grad: 'linear-gradient(135deg,#fef9c3,#fde68a)', color: '#854d0e',
+    items: [['Light Fixture', 'Rs1,000–3,000'], ['House Rewiring', 'Rs80,000+']],
   },
   {
-    title: 'Plumbing Services',
-    icon: '🔧',
-    grad: 'linear-gradient(135deg,#dbeafe,#bfdbfe)',
-    color: '#1d4ed8',
-    items: [
-      ['Pipe Repair',          'Rs3,000–8,000'],
-      ['Fixture Installation', 'Rs5,000–15,000'],
-      ['Bathroom Remodel',     'Rs50,000–150,000'],
-      ['Water Tank Install',   'Rs40,000–80,000'],
-    ],
+    title: 'Plumbing', icon: '🔧', grad: 'linear-gradient(135deg,#dbeafe,#bfdbfe)', color: '#1d4ed8',
+    items: [['Pipe Repair', 'Rs3,000–8,000'], ['Water Tank', 'Rs40,000+']],
   },
   {
-    title: 'Painting & Finishes',
-    icon: '🎨',
-    grad: 'linear-gradient(135deg,#fce7f3,#fbcfe8)',
-    color: '#9d174d',
-    items: [
-      ['Per Square Foot', 'Rs80–150'],
-      ['Room Painting',   'Rs10,000–25,000'],
-      ['Full House',      'Rs80,000–250,000'],
-      ['Feature Wall',    'Rs15,000–40,000'],
-    ],
+    title: 'Painting', icon: '🎨', grad: 'linear-gradient(135deg,#fce7f3,#fbcfe8)', color: '#9d174d',
+    items: [['Per Sq Ft', 'Rs80–150'], ['Full Room', 'Rs10,000+']],
+  },
+  {
+    title: 'Joinery', icon: '🪚', grad: 'linear-gradient(135deg,#d1fae5,#a7f3d0)', color: '#065f46',
+    items: [['Door Hang', 'Rs2,500+'], ['Wardrobe', 'Rs45,000+']],
+  },
+  {
+    title: 'Roofing', icon: '🏠', grad: 'linear-gradient(135deg,#ede9fe,#ddd6fe)', color: '#5b21b6',
+    items: [['Leak Repair', 'Rs5,000+'], ['Tile Replace', 'Rs15,000+']],
+  },
+  {
+    title: 'Gardening', icon: '🌿', grad: 'linear-gradient(135deg,#dcfce7,#bbf7d0)', color: '#166534',
+    items: [['Lawn Mowing', 'Rs2,000+'], ['Landscaping', 'Rs20,000+']],
+  },
+  {
+    title: 'Cleaning', icon: '✨', grad: 'linear-gradient(135deg,#e0f2fe,#bae6fd)', color: '#0369a1',
+    items: [['Deep Clean', 'Rs8,000+'], ['Sofa Wash', 'Rs3,500+']],
+  },
+  {
+    title: 'AC Tech', icon: '❄️', grad: 'linear-gradient(135deg,#e0f2fe,#bae6fd)', color: '#0284c7',
+    items: [['AC Service', 'Rs3,500+'], ['Installation', 'Rs8,000+']],
+  },
+  {
+    title: 'Masons', icon: '🧱', grad: 'linear-gradient(135deg,#fef3c7,#fde68a)', color: '#92400e',
+    items: [['Wall Build', 'Rs250/sqft'], ['Tiling', 'Rs120/sqft']],
+  },
+  {
+    title: 'Pest Control', icon: '🐛', grad: 'linear-gradient(135deg,#fce7f3,#fbcfe8)', color: '#be185d',
+    items: [['General Pest', 'Rs4,000+'], ['Termite', 'Rs12,000+']],
+  },
+  {
+    title: 'Interior', icon: '🛋️', grad: 'linear-gradient(135deg,#f3e8ff,#e9d5ff)', color: '#7e22ce',
+    items: [['Consultation', 'Rs5,000+'], ['3D Design', 'Rs25,000+']],
+  },
+  {
+    title: 'Other', icon: '🔨', grad: 'linear-gradient(135deg,#f3f4f6,#e5e7eb)', color: '#374151',
+    items: [['Lock Replace', 'Rs1,500+'], ['Appliance Fix', 'Rs2,500+']],
   },
 ];
 
@@ -530,7 +542,7 @@ export default function HomePage() {
             <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 15 }}>Final prices depend on scope, materials & location</p>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 16 }}>
             {MARKET_RATES.map((cat, i) => (
               <div key={i} style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: 24, backdropFilter: 'blur(10px)', transition: 'all 0.25s ease' }}
                 onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.1)'; e.currentTarget.style.transform = 'translateY(-4px)'; }}
