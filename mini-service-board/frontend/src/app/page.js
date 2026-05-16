@@ -149,30 +149,27 @@ function ServiceCard({ service, isActive, onClick }) {
     >
       <div
         style={{
-          background: isActive
-            ? 'linear-gradient(160deg, #faf8ff 0%, #ede9ff 100%)'
-            : '#ffffff',
+          background: 'rgba(15, 23, 42, 0.9)', // Premium dark slate
+          backdropFilter: 'blur(12px)',
           border: isActive
-            ? `1.5px solid rgba(124,58,237,0.45)`
+            ? `2.5px solid #ffffff`
             : hovered
-            ? '1.5px solid rgba(124,58,237,0.2)'
-            : '1.5px solid rgba(124,58,237,0.08)',
-          borderRadius: 16,
-          padding: '20px 14px 16px',
+            ? '1.5px solid rgba(255, 255, 255, 0.4)'
+            : '1.5px solid rgba(255, 255, 255, 0.1)',
+          borderRadius: 24,
+          padding: '32px 20px 28px',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           textAlign: 'center',
-          gap: 10,
+          gap: 16,
           position: 'relative',
           overflow: 'hidden',
-          transition: 'all 0.22s ease',
-          transform: hovered && !isActive ? 'translateY(-3px)' : 'translateY(0)',
-          boxShadow: isActive
-            ? '0 8px 24px rgba(124,58,237,0.18)'
-            : hovered
-            ? '0 6px 20px rgba(124,58,237,0.1)'
-            : '0 1px 4px rgba(124,58,237,0.05)',
+          transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+          transform: hovered ? 'translateY(-15px) scale(1.04)' : 'translateY(0)',
+          boxShadow: hovered
+            ? '0 40px 80px -15px rgba(0, 0, 0, 0.6)'
+            : '0 10px 30px -10px rgba(0, 0, 0, 0.4)',
         }}
       >
         {/* Top accent bar */}
@@ -180,28 +177,30 @@ function ServiceCard({ service, isActive, onClick }) {
           style={{
             position: 'absolute',
             top: 0, left: 0, right: 0,
-            height: 3,
+            height: 4,
             background: 'linear-gradient(90deg, #7c3aed, #ec4899)',
             opacity: isActive || hovered ? 1 : 0,
-            transition: 'opacity 0.22s ease',
-            borderRadius: '16px 16px 0 0',
+            transition: 'opacity 0.3s ease',
+            borderRadius: '22px 22px 0 0',
           }}
         />
 
         {/* Icon badge */}
         <div
           style={{
-            width: 54,
-            height: 54,
-            borderRadius: 14,
+            width: 84, // Even bigger
+            height: 84,
+            borderRadius: 24,
             background: service.iconBg,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: 26,
-            transition: 'transform 0.22s ease',
-            transform: hovered ? 'scale(1.1)' : 'scale(1)',
+            fontSize: 42, // Bigger icon
+            transition: 'all 0.4s ease',
+            transform: hovered ? 'scale(1.2) rotate(8deg)' : 'scale(1)',
+            boxShadow: hovered ? `0 12px 24px ${service.color}35` : '0 4px 10px rgba(0,0,0,0.05)',
             flexShrink: 0,
+            border: `2px solid ${service.color}15`, // Clearer border
           }}
         >
           {service.icon}
@@ -211,27 +210,29 @@ function ServiceCard({ service, isActive, onClick }) {
         <p
           style={{
             fontFamily: "'Inter', sans-serif",
-            fontWeight: 700,
-            fontSize: 13,
-            color: isActive ? '#4c1d95' : '#1a0a3d',
-            lineHeight: 1.25,
+            fontWeight: 900, // Thickest font
+            fontSize: 18, // Bigger font
+            color: '#ffffff', // High contrast white
+            lineHeight: 1.2,
             margin: 0,
+            letterSpacing: '-0.02em',
           }}
         >
           {service.label}
         </p>
 
-        {/* Browse arrow */}
+        {/* Browse text */}
         <p
           style={{
-            fontSize: 11,
-            fontWeight: 600,
-            color: isActive ? '#7c3aed' : service.color,
+            fontSize: 14,
+            fontWeight: 800,
+            color: '#ffffff', // High contrast white
             margin: 0,
             display: 'flex',
             alignItems: 'center',
-            gap: hovered ? 6 : 3,
-            transition: 'gap 0.18s ease',
+            gap: hovered ? 10 : 6,
+            transition: 'all 0.3s ease',
+            opacity: 0.8, // Slightly softer white
           }}
         >
           Browse →
@@ -457,8 +458,8 @@ export default function HomePage() {
           {/* ── New card grid ── */}
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(6, 1fr)',
-            gap: 12,
+            gridTemplateColumns: 'repeat(4, 1fr)', // Changed from 6 to 4 for larger cards
+            gap: 20, // Increased gap
           }}>
             {SERVICES.map((s) => (
               <ServiceCard
@@ -563,7 +564,10 @@ export default function HomePage() {
       {/* ══════════════════════════════════════════════════
           MARKET RATES
       ══════════════════════════════════════════════════ */}
-      <section className="section-dark" style={{ padding: '80px 0' }}>
+      <section style={{ 
+        padding: '80px 0',
+        background: 'linear-gradient(to bottom right, #4C1D95, #7C3AED, #F3E8FF)', // Requested gradient
+      }}>
         <div className="site-container" style={{ position: 'relative', zIndex: 1 }}>
           <div style={{ textAlign: 'center', marginBottom: 52 }}>
             <div style={{ display: 'inline-block', background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)', borderRadius: 99, padding: '5px 14px', fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.8)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 14 }}>
@@ -577,19 +581,27 @@ export default function HomePage() {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 16 }}>
             {MARKET_RATES.map((cat, i) => (
-              <div key={i} style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, padding: 24, backdropFilter: 'blur(10px)', transition: 'all 0.25s ease' }}
-                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.1)'; e.currentTarget.style.transform = 'translateY(-4px)'; }}
-                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.transform = 'translateY(0)'; }}
+              <div key={i} style={{ 
+                background: 'rgba(255,255,255,0.95)', // Soft white background for clear visibility
+                border: '1px solid rgba(255,255,255,1)', 
+                borderRadius: 20, 
+                padding: 24, 
+                backdropFilter: 'blur(10px)', 
+                transition: 'all 0.3s ease',
+                boxShadow: '0 10px 30px rgba(0,0,0,0.1)'
+              }}
+                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-6px)'; e.currentTarget.style.boxShadow = '0 20px 40px rgba(0,0,0,0.15)'; }}
+                onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.1)'; }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 18 }}>
                   <div style={{ width: 38, height: 38, borderRadius: 10, background: cat.grad, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>{cat.icon}</div>
-                  <h3 style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700, fontSize: 15, color: '#fff' }}>{cat.title}</h3>
+                  <h3 style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, fontSize: 16, color: '#0f172a' }}>{cat.title}</h3>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                   {cat.items.map(([label, price], j) => (
                     <div key={j} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ fontSize: 13.5, color: 'rgba(255,255,255,0.7)', fontWeight: 400 }}>{label}</span>
-                      <span style={{ fontSize: 13.5, fontWeight: 700, background: 'linear-gradient(90deg,#facc15,#f97316)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{price}</span>
+                      <span style={{ fontSize: 13.5, color: '#475569', fontWeight: 600 }}>{label}</span>
+                      <span style={{ fontSize: 14, fontWeight: 800, color: '#7c3aed' }}>{price}</span>
                     </div>
                   ))}
                 </div>

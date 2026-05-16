@@ -210,32 +210,41 @@ export default function ServicesPage() {
       <Navbar />
 
       {/* Hero Section */}
-      <section style={{ padding: '90px 20px', background: '#ffffff', position: 'relative', overflow: 'hidden', borderBottom: '1px solid #f1f5f9' }}>
-        <div style={{ position: 'absolute', top: '-20%', right: '-5%', width: 400, height: 400, borderRadius: '50%', background: 'rgba(236,72,153,0.06)', filter: 'blur(60px)' }} />
-        <div style={{ position: 'absolute', bottom: '-20%', left: '-5%', width: 350, height: 350, borderRadius: '50%', background: 'rgba(124,58,237,0.06)', filter: 'blur(50px)' }} />
+      <section style={{ 
+        padding: '100px 20px', 
+        background: 'linear-gradient(to right, #5B21B6, #9333EA, #F9A8D4)', // Soft Aurora Section 1
+        position: 'relative', 
+        overflow: 'hidden', 
+      }}>
+        {/* Glow effects */}
+        <div style={{ position: 'absolute', top: '-10%', right: '0%', width: 500, height: 500, borderRadius: '50%', background: 'rgba(232,121,249,0.15)', filter: 'blur(80px)' }} />
+        <div style={{ position: 'absolute', bottom: '-10%', left: '0%', width: 400, height: 400, borderRadius: '50%', background: 'rgba(124,58,237,0.2)', filter: 'blur(60px)' }} />
         
         <div className="max-w-4xl mx-auto text-center" style={{ position: 'relative', zIndex: 1 }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#fff', border: '1px solid rgba(124,58,237,0.15)', borderRadius: 99, padding: '6px 18px', marginBottom: 28, boxShadow: '0 4px 12px rgba(124,58,237,0.05)' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: 99, padding: '6px 18px', marginBottom: 28 }}>
             <span style={{ fontSize: 15 }}>✨</span>
-            <span style={{ color: '#6d28d9', fontSize: 13, fontWeight: 800, letterSpacing: '0.04em', textTransform: 'uppercase' }}>Professional Services Catalogue</span>
+            <span style={{ color: '#ffffff', fontSize: 13, fontWeight: 800, letterSpacing: '0.04em', textTransform: 'uppercase' }}>Professional Services Catalogue</span>
           </div>
           
-          <h1 style={{ fontFamily: "'Inter', sans-serif", fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', fontWeight: 900, color: '#0f172a', lineHeight: 1.1, marginBottom: 24, letterSpacing: '-0.02em' }}>
+          <h1 style={{ fontFamily: "'Poppins', sans-serif", fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 900, color: '#ffffff', lineHeight: 1.1, marginBottom: 24, letterSpacing: '-0.02em' }}>
             Expert Solutions for <br />
-            <span style={{ background: 'linear-gradient(90deg, #7c3aed, #ec4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-              Every Home Need
-            </span>
+            <span style={{ color: '#E879F9' }}>Every Home Need</span>
           </h1>
           
-          <p style={{ color: '#475569', fontSize: 19, maxWidth: 650, margin: '0 auto', lineHeight: 1.6, fontWeight: 500 }}>
+          <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: 19, maxWidth: 650, margin: '0 auto', lineHeight: 1.6, fontWeight: 500 }}>
             Browse our comprehensive range of professional home services. Find exactly what you need with vetted, top-rated tradespeople across Sri Lanka.
           </p>
         </div>
       </section>
 
       {/* Services Grid */}
-      <section style={{ padding: '80px 20px', position: 'relative' }}>
-        <div className="max-w-7xl mx-auto">
+      <section style={{ 
+        padding: '80px 20px', 
+        position: 'relative',
+        background: 'linear-gradient(to right, #1E1B4B, #4C1D95, #A855F7)', // Soft Aurora Section 2
+      }}>
+        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: 'radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05), transparent 70%)' }} />
+        <div className="max-w-7xl mx-auto" style={{ position: 'relative', zIndex: 1 }}>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {services.map((service, idx) => (
               <ServiceCard key={idx} service={service} />
@@ -245,10 +254,16 @@ export default function ServicesPage() {
       </section>
 
       {/* Cost Guide Preview */}
-      <section style={{ padding: '80px 20px', background: '#ffffff', borderTop: '1px solid #f1f5f9', borderBottom: '1px solid #f1f5f9' }}>
+      <section style={{ 
+        padding: '100px 20px', 
+        background: 'linear-gradient(to right, #312E81, #7C3AED, #E879F9)', // Soft Aurora Section 3
+        color: '#ffffff',
+        position: 'relative',
+        overflow: 'hidden'
+      }}>
         <div className="max-w-7xl mx-auto">
           <div style={{ textAlign: 'center', marginBottom: 48 }}>
-            <h2 style={{ fontFamily: "'Inter', sans-serif", fontSize: 'clamp(2rem, 3vw, 2.8rem)', fontWeight: 900, color: '#0f172a', marginBottom: 16 }}>
+            <h2 style={{ fontFamily: "'Poppins', sans-serif", fontSize: 'clamp(2rem, 3vw, 2.8rem)', fontWeight: 900, color: '#ffffff', marginBottom: 16 }}>
               Average Market Rates
             </h2>
             <p style={{ color: '#64748b', fontSize: 18, fontWeight: 500 }}>Transparent pricing guide for common services across Sri Lanka.</p>
@@ -289,8 +304,8 @@ export default function ServicesPage() {
       </section>
 
       {/* CTA Section */}
-      <section style={{ padding: '100px 20px', textAlign: 'center', background: '#0f172a', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '100%', height: '100%', background: 'radial-gradient(circle at center, rgba(124,58,237,0.15) 0%, transparent 60%)' }} />
+      <section style={{ padding: '100px 20px', textAlign: 'center', background: 'linear-gradient(to right, #0F172A, #312E81, #581C87)', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '100%', height: '100%', background: 'radial-gradient(circle at center, rgba(232,121,249,0.15) 0%, transparent 60%)' }} />
         <div className="max-w-4xl mx-auto" style={{ position: 'relative', zIndex: 1 }}>
           <h2 style={{ fontFamily: "'Inter', sans-serif", fontSize: 'clamp(2.2rem, 4vw, 3.5rem)', fontWeight: 900, color: '#ffffff', marginBottom: 20, letterSpacing: '-0.02em' }}>
             Ready to find a Professional?

@@ -9,7 +9,6 @@ export default function Navbar() {
   const pathname = usePathname();
   const { user, logout } = useAuth();
   const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -125,82 +124,10 @@ export default function Navbar() {
                   Login
                 </Link>
               )}
+              </div>
             </div>
-
-            {/* ── Mobile hamburger ── */}
-            <button
-              className="lg:hidden btn-touch"
-              onClick={() => setMobileOpen(!mobileOpen)}
-              aria-label="Toggle menu"
-              style={{
-                width: 40, height: 40, borderRadius: 10,
-                background: 'rgba(255,255,255,0.1)',
-                border: '1px solid rgba(255,255,255,0.15)',
-                display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 5,
-                cursor: 'pointer', transition: 'background 0.2s ease',
-              }}
-            >
-              <span style={{ display: 'block', width: 18, height: 2, background: '#fff', borderRadius: 2, transition: 'all 0.3s ease', transform: mobileOpen ? 'translateY(7px) rotate(45deg)' : 'none' }} />
-              <span style={{ display: 'block', width: 18, height: 2, background: '#fff', borderRadius: 2, transition: 'all 0.3s ease', opacity: mobileOpen ? 0 : 1 }} />
-              <span style={{ display: 'block', width: 18, height: 2, background: '#fff', borderRadius: 2, transition: 'all 0.3s ease', transform: mobileOpen ? 'translateY(-7px) rotate(-45deg)' : 'none' }} />
-            </button>
           </div>
-        </div>
-
-        {/* ── Mobile menu ── */}
-        <div style={{
-          maxHeight: mobileOpen ? 400 : 0,
-          overflow: 'hidden',
-          transition: 'max-height 0.35s cubic-bezier(.2,.8,.2,1)',
-          borderTop: mobileOpen ? '1px solid rgba(255,255,255,0.08)' : 'none',
-        }}>
-          <div className="site-container" style={{ paddingTop: 16, paddingBottom: 20, display: 'flex', flexDirection: 'column', gap: 4 }}>
-            {links.map(({ href, label }) => (
-              <Link
-                key={href}
-                href={href}
-                onClick={() => setMobileOpen(false)}
-                style={{
-                  padding: '10px 14px', borderRadius: 10,
-                  color: pathname === href ? '#facc15' : 'rgba(255,255,255,0.85)',
-                  fontWeight: 600, fontSize: 15,
-                  background: pathname === href ? 'rgba(255,255,255,0.08)' : 'transparent',
-                  transition: 'all 0.2s ease',
-                  display: 'block',
-                }}
-              >
-                {label}
-              </Link>
-            ))}
-            <Link
-              href="/jobs/new"
-              onClick={() => setMobileOpen(false)}
-              style={{
-                marginTop: 8,
-                background: 'linear-gradient(90deg, #f97316, #facc15)',
-                color: '#1a0a00', fontWeight: 800, fontSize: 15,
-                padding: '12px 20px', borderRadius: 99,
-                textAlign: 'center', display: 'block',
-                boxShadow: '0 4px 16px rgba(249,115,22,0.35)',
-              }}
-            >
-              Join Now
-            </Link>
-            {!user && (
-              <Link
-                href="/login"
-                onClick={() => setMobileOpen(false)}
-                style={{
-                  color: 'rgba(255,255,255,0.65)', fontWeight: 500, fontSize: 14,
-                  padding: '10px 14px', display: 'block', textAlign: 'center',
-                }}
-              >
-                Login
-              </Link>
-            )}
-          </div>
-        </div>
-      </nav>
-    </>
-  );
+        </nav>
+      </>
+    );
 }
