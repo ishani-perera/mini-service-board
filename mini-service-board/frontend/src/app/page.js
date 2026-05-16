@@ -75,6 +75,8 @@ function useCountUp(target, duration = 1800, start = false) {
   return count;
 }
 
+// ── FIXED: PREMIUM DARK BOUNCY SERVICE CARD ──
+// Overlap වෙන එක නැති කරන්න boxSizing සහ minHeight දැම්මා
 function ServiceCard({ service, isActive, onClick }) {
   const [hovered, setHovered] = useState(false);
   return (
@@ -82,31 +84,60 @@ function ServiceCard({ service, isActive, onClick }) {
       onClick={onClick}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      style={{ all: 'unset', cursor: 'pointer', display: 'block', width: '100%' }}
+      style={{
+        all: 'unset',
+        boxSizing: 'border-box', // වැදගත්: padding නිසා card එකේ ලොකු වෙන එක නවත්තනවා
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        minHeight: '220px', // වැදගත්: කාඩ් එක කොට වෙලා overlap වෙන එක නවත්තනවා
+        background: isActive ? 'rgba(255, 255, 255, 0.12)' : 'rgba(255, 255, 255, 0.04)',
+        backdropFilter: 'blur(16px)',
+        border: isActive ? `2px solid ${service.color}` : hovered ? `2px solid ${service.color}80` : '1px solid rgba(255,255,255,0.08)',
+        borderRadius: '24px',
+        padding: '30px 20px',
+        alignItems: 'center',
+        justifyContent: 'space-between', // ඇතුලේ තියෙන දේවල් ලස්සනට ඈත් කරනවා
+        textAlign: 'center',
+        gap: '20px',
+        position: 'relative',
+        overflow: 'hidden',
+        transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+        transform: hovered || isActive ? 'translateY(-12px) scale(1.02)' : 'translateY(0) scale(1)',
+        boxShadow: isActive || hovered ? `0 25px 50px -12px ${service.color}40, 0 0 0 1px ${service.color}30` : '0 10px 30px -10px rgba(0,0,0,0.4)',
+        zIndex: hovered || isActive ? 10 : 1,
+      }}
     >
       <div style={{
-        background: isActive ? 'rgba(255,255,255,0.1)' : 'rgba(255, 255, 255, 0.05)',
-        backdropFilter: 'blur(16px)',
-        border: isActive ? `1.5px solid ${service.color}` : hovered ? `1.5px solid ${service.color}80` : '1px solid rgba(255, 255, 255, 0.1)',
-        borderRadius: 24, padding: '32px 20px 28px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', gap: 16, position: 'relative', overflow: 'hidden',
-        transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-        transform: hovered ? 'translateY(-10px) scale(1.02)' : 'translateY(0)',
-        boxShadow: hovered ? `0 20px 40px -10px ${service.color}40` : '0 10px 30px -10px rgba(0, 0, 0, 0.3)',
+        position: 'absolute', top: 0, left: 0, right: 0, height: '4px',
+        background: `linear-gradient(90deg, ${service.color}, transparent)`,
+        opacity: hovered || isActive ? 1 : 0, transition: 'opacity 0.3s ease',
+      }} />
+
+      <div style={{
+        width: 72, height: 72, borderRadius: '20px',
+        background: service.iconBg,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        fontSize: 36,
+        transition: 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+        transform: hovered || isActive ? 'scale(1.15) rotate(10deg)' : 'scale(1)',
+        border: `1px solid ${service.color}30`
       }}>
-        <div style={{
-          position: 'absolute', top: 0, left: 0, right: 0, height: 4,
-          background: `linear-gradient(90deg, ${service.color}, #7E57C2)`,
-          opacity: isActive || hovered ? 1 : 0, transition: 'opacity 0.3s ease',
-        }} />
-        <div style={{
-          width: 80, height: 80, borderRadius: 24, background: service.iconBg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 38,
-          transition: 'all 0.4s ease', transform: hovered ? 'scale(1.15) rotate(5deg)' : 'scale(1)',
-          boxShadow: hovered ? `0 0 20px ${service.color}40` : 'none', border: `1px solid ${service.color}30`,
-        }}>
-          {service.icon}
-        </div>
-        <p style={{ fontFamily: "'Inter', sans-serif", fontWeight: 800, fontSize: 17, color: '#ffffff', m: 0 }}>{service.label}</p>
-        <p style={{ fontSize: 13, fontWeight: 700, color: service.color, opacity: hovered ? 1 : 0.6, transition: 'all 0.3s ease' }}>Explore →</p>
+        {service.icon}
+      </div>
+
+      <h3 style={{ fontFamily: "'Poppins', sans-serif", fontSize: '1.25rem', fontWeight: 700, color: '#ffffff', margin: 0 }}>
+        {service.label}
+      </h3>
+
+      <div style={{
+        color: isActive ? service.color : '#cbd5e1',
+        fontWeight: 600, fontSize: '0.9rem',
+        display: 'flex', alignItems: 'center', gap: '6px',
+        transition: 'all 0.3s'
+      }}>
+        {isActive ? 'Showing Jobs' : 'Filter Jobs'}
+        <span style={{ transition: 'transform 0.3s ease', transform: hovered ? 'translateX(6px)' : 'translateX(0)' }}>→</span>
       </div>
     </button>
   );
@@ -169,11 +200,15 @@ export default function HomePage() {
         @keyframes float-reverse { 0% { transform: translateY(0px); } 50% { transform: translateY(20px); } 100% { transform: translateY(0px); } }
         @keyframes float-diagonal { 0% { transform: translate(0px, 0px) scale(1); } 50% { transform: translate(15px, -20px) scale(1.1); } 100% { transform: translate(0px, 0px) scale(1); } }
         @keyframes pulse-glow { 0%, 100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 0.6; transform: scale(1.1); } }
+        @keyframes floatSlow { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-20px) rotate(5deg); } }
+        @keyframes floatFast { 0%, 100% { transform: translateY(0) rotate(-10deg); } 50% { transform: translateY(-15px) rotate(0deg); } }
         
         .animate-float { animation: float 6s ease-in-out infinite; }
         .animate-float-reverse { animation: float-reverse 7s ease-in-out infinite; }
         .animate-float-diagonal { animation: float-diagonal 9s ease-in-out infinite; }
         .animate-pulse-glow { animation: pulse-glow 5s ease-in-out infinite; }
+        .animate-floatSlow { animation: floatSlow 6s ease-in-out infinite; }
+        .animate-floatFast { animation: floatFast 7s ease-in-out infinite; }
         
         .glass-panel { background: rgba(255,255,255,0.05); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.1); }
       `}</style>
@@ -235,22 +270,66 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── SECTION 3: SERVICES GRID (Sky Violet Mix with Floating Animations) ── */}
-      <section className="py-24 px-6 relative z-10 bg-gradient-to-b from-[#42A5F5] via-[#7E57C2] to-[#4527A0] overflow-hidden">
+      {/* ── SECTION 3: PREMIUM DARK FROSTED SERVICES GRID (FIXED OVERLAP) ── */}
+      <section className="py-24 relative z-10 overflow-hidden border-b border-[#4527A0]/30">
 
-        {/* Animated Orbs & Icons for Services Section */}
-        <div className="absolute top-[10%] left-[-5%] w-64 h-64 bg-white/20 rounded-full blur-[60px] animate-pulse-glow" />
-        <div className="absolute bottom-[20%] right-[-5%] w-80 h-80 bg-[#120524]/30 rounded-full blur-[80px] animate-pulse-glow" style={{ animationDelay: '2s' }} />
+        {/* Blurred Background Image */}
+        <div style={{
+          position: 'absolute', top: '-5%', left: '-5%', right: '-5%', bottom: '-5%',
+          backgroundImage: "url('/services-bg.jpg')",
+          backgroundSize: 'cover', backgroundPosition: 'center',
+          filter: 'blur(35px)', opacity: 0.4, zIndex: 0,
+        }} />
 
-        <div className="absolute top-[30%] right-[10%] text-6xl text-white/30 animate-float-diagonal hidden lg:block">✨</div>
-        <div className="absolute bottom-[20%] left-[10%] text-7xl text-white/20 animate-float-reverse hidden lg:block">⚙️</div>
+        {/* Deep Dark Overlay */}
+        <div style={{
+          position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+          background: 'rgba(18, 5, 36, 0.85)',
+          zIndex: 1,
+        }} />
 
-        <div className="max-w-7xl mx-auto relative z-10">
+        {/* Big Floating Emojis to Fill Empty Sides */}
+        <div className="hidden xl:block absolute top-[15%] left-[4%] z-0 animate-floatSlow">
+          <div className="relative">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-[#42A5F5] blur-[50px] rounded-full opacity-40"></div>
+            <span className="text-[6rem] opacity-80 drop-shadow-2xl">🔧</span>
+          </div>
+        </div>
+
+        <div className="hidden xl:block absolute bottom-[20%] left-[8%] z-0 animate-floatFast">
+          <div className="relative">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-28 h-28 bg-[#f472b6] blur-[40px] rounded-full opacity-30"></div>
+            <span className="text-[5rem] opacity-70 drop-shadow-2xl">🎨</span>
+          </div>
+        </div>
+
+        <div className="hidden xl:block absolute top-[25%] right-[5%] z-0 animate-floatFast" style={{ animationDelay: '1s' }}>
+          <div className="relative">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-36 h-36 bg-[#facc15] blur-[50px] rounded-full opacity-30"></div>
+            <span className="text-[7rem] opacity-80 drop-shadow-2xl">⚡</span>
+          </div>
+        </div>
+
+        <div className="hidden xl:block absolute bottom-[15%] right-[8%] z-0 animate-floatSlow" style={{ animationDelay: '2s' }}>
+          <div className="relative">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-[#4ade80] blur-[40px] rounded-full opacity-30"></div>
+            <span className="text-[5.5rem] opacity-70 drop-shadow-2xl">🌿</span>
+          </div>
+        </div>
+
+        {/* ── FIXED GRID CONTAINER ── */}
+        {/* w-full, max-w-7xl, සහ px-6 පාවිච්චි කරලා ගුලි වෙන එක නැවැත්තුවා */}
+        <div className="w-full max-w-7xl mx-auto px-6 relative z-10">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-black mb-6 drop-shadow-md text-white">Services We Offer</h2>
-            <p className="text-xl text-white/80 font-medium">Browse skilled professionals ready to help</p>
+            <p className="text-xl text-[#a78bfa] font-medium">Browse skilled professionals ready to help</p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+          {/* Tailwind ග වැඩ කරේ නැත්තම් කියලා inline style එකෙනුත් gap එක බලෙන්ම දුන්නා */}
+          <div
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+            style={{ gap: '32px' }}
+          >
             {SERVICES.map((s) => (
               <ServiceCard key={s.key} service={s} isActive={categoryFilter === s.key} onClick={() => handleServiceClick(s.key)} />
             ))}
@@ -258,19 +337,15 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── SECTION 4: LATEST REQUESTS (Deep Violet + BLURRED BACKGROUND + SIDE ANIMATIONS) ── */}
+      {/* ── SECTION 4: LATEST REQUESTS ── */}
       <section ref={latestRequestsRef} className="py-24 px-6 relative z-10 overflow-hidden border-t border-[#6A1B9A]/40">
 
-        {/* Blurred Image Background - Reduced Blur to 8px so image is visible! */}
         <div
           className="absolute inset-0 z-0"
           style={{ backgroundImage: "url('/home-bg.jpg')", backgroundSize: 'cover', backgroundPosition: 'center', filter: 'blur(8px)', transform: 'scale(1.05)' }}
         />
-
-        {/* Deep Violet Gradient Overlay (Lets image show through the middle) */}
         <div className="absolute inset-0 z-0 bg-gradient-to-r from-[#120524]/95 via-[#4527A0]/60 to-[#120524]/95" />
 
-        {/* Animated Side Orbs & Icons for Latest Requests */}
         <div className="absolute top-[30%] left-[-10%] w-[400px] h-[400px] bg-[#42A5F5]/30 rounded-full blur-[100px] animate-pulse-glow pointer-events-none" />
         <div className="absolute bottom-[30%] right-[-10%] w-[400px] h-[400px] bg-[#f472b6]/20 rounded-full blur-[100px] animate-pulse-glow pointer-events-none" style={{ animationDelay: '1.5s' }} />
 
@@ -325,10 +400,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── SECTION 5: MARKET RATES & WHY CHOOSE US (Smooth Deep Violet) ── */}
+      {/* ── SECTION 5: MARKET RATES & WHY CHOOSE US ── */}
       <section className="py-24 px-6 relative z-10 bg-gradient-to-br from-[#120524] to-[#4527A0]/40 border-t border-[#6A1B9A]/40">
         <div className="max-w-7xl mx-auto">
-          {/* Market Rates */}
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-black mb-6 drop-shadow-sm text-white">Average Market Rates</h2>
             <p className="text-xl text-[#7E57C2]">Final prices depend on scope, materials & location</p>
@@ -352,7 +426,6 @@ export default function HomePage() {
             ))}
           </div>
 
-          {/* Why Choose Us */}
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-black mb-6 drop-shadow-sm text-white">Built for Confidence</h2>
           </div>
@@ -370,7 +443,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── CTA BANNER (Vibrant Sky/Deep Violet Mix) ── */}
+      {/* ── CTA BANNER ── */}
       <section className="py-32 px-6 text-center relative z-10 overflow-hidden bg-[#120524]">
         <div className="max-w-5xl mx-auto relative bg-gradient-to-r from-[#4527A0] via-[#6A1B9A] to-[#42A5F5] p-16 rounded-[3rem] shadow-[0_20px_60px_rgba(66,165,245,0.3)] border border-white/20">
           <h2 className="text-4xl md:text-5xl font-black mb-6 text-white drop-shadow-md">Ready to Get Started?</h2>
