@@ -506,7 +506,7 @@ export default function HomePage() {
           )}
 
           {loading ? (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 20 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 16 }}>
               {[1, 2, 3, 4].map(n => <SkeletonCard key={n} />)}
             </div>
           ) : filteredJobs.length === 0 ? (
@@ -520,7 +520,7 @@ export default function HomePage() {
               </Link>
             </div>
           ) : (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 20 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 16 }}>
               {filteredJobs.map(job => <JobCard key={job._id || job.id} job={job} onClick={() => setSelectedJob(job)} />)}
             </div>
           )}
