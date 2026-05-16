@@ -390,19 +390,50 @@ export default function HomePage() {
       {/* ══════════════════════════════════════════════════
           SERVICES — redesigned cards
       ══════════════════════════════════════════════════ */}
-      <section style={{ padding: '80px 0', background: 'var(--bg-page)' }}>
-        <div className="site-container">
+      <section style={{
+        padding: '80px 0',
+        position: 'relative',
+        overflow: 'hidden',
+        background: '#ffffff',
+      }}>
+        {/* Blurred Background Image */}
+        <div style={{
+          position: 'absolute',
+          top: '-20px', left: '-20px', right: '-20px', bottom: '-20px',
+          backgroundImage: "url('/services-bg.png')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          filter: 'blur(8px)',
+          opacity: 0.5, // Keep image visible
+          zIndex: 0,
+        }} />
+        
+        {/* Background Gradient Overlay (Violet -> Purple -> Pink) */}
+        <div style={{
+          position: 'absolute',
+          top: 0, left: 0, right: 0, bottom: 0,
+          background: 'linear-gradient(to right, #6d28d9, #a855f7, #f9a8d4)',
+          zIndex: 0,
+          opacity: 0.9,
+        }} />
+        
+        {/* Floating Blurred Circles for Glow Effect */}
+        <div style={{ position: 'absolute', top: '-10%', left: '5%', width: 300, height: 300, borderRadius: '50%', background: 'rgba(255,255,255,0.15)', filter: 'blur(60px)', zIndex: 0 }} />
+        <div style={{ position: 'absolute', bottom: '5%', right: '5%', width: 350, height: 350, borderRadius: '50%', background: 'rgba(255,255,255,0.1)', filter: 'blur(80px)', zIndex: 0 }} />
+        <div style={{ position: 'absolute', top: '40%', right: '20%', width: 200, height: 200, borderRadius: '50%', background: 'rgba(255,255,255,0.1)', filter: 'blur(50px)', zIndex: 0 }} />
+        
+        <div className="site-container" style={{ position: 'relative', zIndex: 1 }}>
           <div style={{ textAlign: 'center', marginBottom: 48 }}>
             {/* Section pill tag */}
             <div style={{
               display: 'inline-block',
-              background: 'rgba(124,58,237,0.08)',
-              border: '1px solid rgba(124,58,237,0.18)',
+              background: 'rgba(255,255,255,0.15)',
+              border: '1px solid rgba(255,255,255,0.3)',
               borderRadius: 99,
               padding: '4px 14px',
               fontSize: 11,
               fontWeight: 700,
-              color: '#7c3aed',
+              color: '#ffffff',
               letterSpacing: '0.1em',
               textTransform: 'uppercase',
               marginBottom: 14,
@@ -413,12 +444,12 @@ export default function HomePage() {
               fontFamily: "'Inter', sans-serif",
               fontSize: 'clamp(1.8rem, 4vw, 2.6rem)',
               fontWeight: 800,
-              color: 'var(--text-heading)',
+              color: '#ffffff',
               marginBottom: 12,
             }}>
               Services We Offer
             </h2>
-            <p style={{ color: 'var(--text-muted)', fontSize: 16, maxWidth: 460, margin: '0 auto' }}>
+            <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: 16, maxWidth: 460, margin: '0 auto' }}>
               Browse skilled professionals ready to help across all home services
             </p>
           </div>
