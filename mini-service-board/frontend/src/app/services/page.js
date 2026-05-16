@@ -91,8 +91,8 @@ const ServiceCard = ({ service }) => {
         </div>
       </div>
 
-      <Link 
-        href={`/jobs?category=${service.category}`} 
+      <Link
+        href={`/jobs?category=${service.category}`}
         style={{
           display: 'block',
           width: '100%',
@@ -210,27 +210,27 @@ export default function ServicesPage() {
       <Navbar />
 
       {/* Hero Section */}
-      <section style={{ 
-        padding: '100px 20px', 
+      <section style={{
+        padding: '100px 20px',
         background: 'linear-gradient(to right, #5B21B6, #9333EA, #F9A8D4)', // Soft Aurora Section 1
-        position: 'relative', 
-        overflow: 'hidden', 
+        position: 'relative',
+        overflow: 'hidden',
       }}>
         {/* Glow effects */}
         <div style={{ position: 'absolute', top: '-10%', right: '0%', width: 500, height: 500, borderRadius: '50%', background: 'rgba(232,121,249,0.15)', filter: 'blur(80px)' }} />
         <div style={{ position: 'absolute', bottom: '-10%', left: '0%', width: 400, height: 400, borderRadius: '50%', background: 'rgba(124,58,237,0.2)', filter: 'blur(60px)' }} />
-        
+
         <div className="max-w-4xl mx-auto text-center" style={{ position: 'relative', zIndex: 1 }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: 99, padding: '6px 18px', marginBottom: 28 }}>
             <span style={{ fontSize: 15 }}>✨</span>
             <span style={{ color: '#ffffff', fontSize: 13, fontWeight: 800, letterSpacing: '0.04em', textTransform: 'uppercase' }}>Professional Services Catalogue</span>
           </div>
-          
+
           <h1 style={{ fontFamily: "'Poppins', sans-serif", fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 900, color: '#ffffff', lineHeight: 1.1, marginBottom: 24, letterSpacing: '-0.02em' }}>
             Expert Solutions for <br />
             <span style={{ color: '#E879F9' }}>Every Home Need</span>
           </h1>
-          
+
           <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: 19, maxWidth: 650, margin: '0 auto', lineHeight: 1.6, fontWeight: 500 }}>
             Browse our comprehensive range of professional home services. Find exactly what you need with vetted, top-rated tradespeople across Sri Lanka.
           </p>
@@ -238,8 +238,8 @@ export default function ServicesPage() {
       </section>
 
       {/* Services Grid */}
-      <section style={{ 
-        padding: '80px 20px', 
+      <section style={{
+        padding: '80px 20px',
         position: 'relative',
         background: 'linear-gradient(to right, #1E1B4B, #4C1D95, #A855F7)', // Soft Aurora Section 2
       }}>
@@ -254,8 +254,8 @@ export default function ServicesPage() {
       </section>
 
       {/* Cost Guide Preview */}
-      <section style={{ 
-        padding: '100px 20px', 
+      <section style={{
+        padding: '100px 20px',
         background: 'linear-gradient(to right, #312E81, #7C3AED, #E879F9)', // Soft Aurora Section 3
         color: '#ffffff',
         position: 'relative',
@@ -268,7 +268,7 @@ export default function ServicesPage() {
             </h2>
             <p style={{ color: '#64748b', fontSize: 18, fontWeight: 500 }}>Transparent pricing guide for common services across Sri Lanka.</p>
           </div>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
             {MARKET_RATES.map((cat, idx) => (
               <div key={idx} style={{
@@ -278,14 +278,14 @@ export default function ServicesPage() {
                 border: '1px solid rgba(226,232,240,0.8)',
                 transition: 'transform 0.2s ease, box-shadow 0.2s ease',
               }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-4px)';
-                e.currentTarget.style.boxShadow = '0 12px 24px -8px rgba(0,0,0,0.08)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = 'none';
-              }}>
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-4px)';
+                  e.currentTarget.style.boxShadow = '0 12px 24px -8px rgba(0,0,0,0.08)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = 'none';
+                }}>
                 <h3 style={{ fontSize: 16, fontWeight: 800, color: '#1e293b', marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
                   <span style={{ fontSize: 20 }}>{cat.icon}</span> {cat.title}
                 </h3>
@@ -325,14 +325,14 @@ export default function ServicesPage() {
             boxShadow: '0 8px 24px rgba(124,58,237,0.3)',
             transition: 'transform 0.2s ease, box-shadow 0.2s ease',
           }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'scale(1.05)';
-            e.currentTarget.style.boxShadow = '0 12px 32px rgba(124,58,237,0.4)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'scale(1)';
-            e.currentTarget.style.boxShadow = '0 8px 24px rgba(124,58,237,0.3)';
-          }}>
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'scale(1.05)';
+              e.currentTarget.style.boxShadow = '0 12px 32px rgba(124,58,237,0.4)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'scale(1)';
+              e.currentTarget.style.boxShadow = '0 8px 24px rgba(124,58,237,0.3)';
+            }}>
             Post a Job Now →
           </Link>
         </div>

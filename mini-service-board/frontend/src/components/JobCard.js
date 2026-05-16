@@ -3,27 +3,27 @@
 import { useState } from 'react';
 
 const CATEGORY_STYLES = {
-  'Plumbing':       { bg: '#EFF6FF', color: '#1d4ed8', iconBg: '#DBEAFE', icon: '🔧' },
-  'Electrical':     { bg: '#FEFCE8', color: '#854d0e', iconBg: '#FEF9C3', icon: '⚡' },
-  'Painting':       { bg: '#FFF1F5', color: '#9d174d', iconBg: '#FCE7F3', icon: '🎨' },
-  'Joinery':        { bg: '#F0FDF4', color: '#065f46', iconBg: '#D1FAE5', icon: '🪚' },
-  'Roofing':        { bg: '#F5F3FF', color: '#5b21b6', iconBg: '#EDE9FE', icon: '🏠' },
-  'Gardening':      { bg: '#F0FDF4', color: '#166534', iconBg: '#DCFCE7', icon: '🌿' },
-  'Cleaning':       { bg: '#F0F9FF', color: '#0369a1', iconBg: '#E0F2FE', icon: '✨' },
-  'AC Technicians': { bg: '#EFF9FF', color: '#0284c7', iconBg: '#E0F2FE', icon: '❄️' },
-  'Masons':         { bg: '#FFFBEB', color: '#92400e', iconBg: '#FEF3C7', icon: '🧱' },
-  'Pest Control':   { bg: '#FFF0F5', color: '#be185d', iconBg: '#FCE7F3', icon: '🐛' },
-  'Interior':       { bg: '#FAF5FF', color: '#7e22ce', iconBg: '#F3E8FF', icon: '🛋️' },
-  'Other':          { bg: '#F9FAFB', color: '#374151', iconBg: '#F3F4F6', icon: '🔨' },
+  'Plumbing': { bg: 'rgba(66, 165, 245, 0.15)', color: '#42A5F5', iconBg: 'rgba(66, 165, 245, 0.2)', icon: '🔧' },
+  'Electrical': { bg: 'rgba(250, 204, 21, 0.15)', color: '#facc15', iconBg: 'rgba(250, 204, 21, 0.2)', icon: '⚡' },
+  'Painting': { bg: 'rgba(244, 114, 182, 0.15)', color: '#f472b6', iconBg: 'rgba(244, 114, 182, 0.2)', icon: '🎨' },
+  'Joinery': { bg: 'rgba(52, 211, 153, 0.15)', color: '#34d399', iconBg: 'rgba(52, 211, 153, 0.2)', icon: '🪚' },
+  'Roofing': { bg: 'rgba(126, 87, 194, 0.15)', color: '#7E57C2', iconBg: 'rgba(126, 87, 194, 0.2)', icon: '🏠' },
+  'Gardening': { bg: 'rgba(74, 222, 128, 0.15)', color: '#4ade80', iconBg: 'rgba(74, 222, 128, 0.2)', icon: '🌿' },
+  'Cleaning': { bg: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8', iconBg: 'rgba(56, 189, 248, 0.2)', icon: '✨' },
+  'AC Technicians': { bg: 'rgba(125, 211, 252, 0.15)', color: '#7dd3fc', iconBg: 'rgba(125, 211, 252, 0.2)', icon: '❄️' },
+  'Masons': { bg: 'rgba(251, 191, 36, 0.15)', color: '#fbbf24', iconBg: 'rgba(251, 191, 36, 0.2)', icon: '🧱' },
+  'Pest Control': { bg: 'rgba(249, 168, 212, 0.15)', color: '#f9a8d4', iconBg: 'rgba(249, 168, 212, 0.2)', icon: '🐛' },
+  'Interior': { bg: 'rgba(106, 27, 154, 0.15)', color: '#6A1B9A', iconBg: 'rgba(106, 27, 154, 0.2)', icon: '🛋️' },
+  'Other': { bg: 'rgba(148, 163, 184, 0.15)', color: '#94a3b8', iconBg: 'rgba(148, 163, 184, 0.2)', icon: '🔨' },
 };
 
 const STATUS_STYLES = {
-  'Open':        { bg: '#D1FAE5', color: '#065f46', dot: '#10b981', label: 'Open' },
-  'In Progress': { bg: '#FEF3C7', color: '#92400e', dot: '#f59e0b', label: 'In Progress' },
-  'Closed':      { bg: '#F3F4F6', color: '#374151', dot: '#9ca3af', label: 'Closed' },
-  OPEN:        { bg: '#D1FAE5', color: '#065f46', dot: '#10b981', label: 'Open' },
-  IN_PROGRESS: { bg: '#FEF3C7', color: '#92400e', dot: '#f59e0b', label: 'In Progress' },
-  CLOSED:      { bg: '#F3F4F6', color: '#374151', dot: '#9ca3af', label: 'Closed' },
+  'Open': { bg: 'rgba(52, 211, 153, 0.15)', color: '#34d399', dot: '#10b981', label: 'Open' },
+  'In Progress': { bg: 'rgba(251, 191, 36, 0.15)', color: '#fbbf24', dot: '#f59e0b', label: 'In Progress' },
+  'Closed': { bg: 'rgba(148, 163, 184, 0.15)', color: '#94a3b8', dot: '#9ca3af', label: 'Closed' },
+  OPEN: { bg: 'rgba(52, 211, 153, 0.15)', color: '#34d399', dot: '#10b981', label: 'Open' },
+  IN_PROGRESS: { bg: 'rgba(251, 191, 36, 0.15)', color: '#fbbf24', dot: '#f59e0b', label: 'In Progress' },
+  CLOSED: { bg: 'rgba(148, 163, 184, 0.15)', color: '#94a3b8', dot: '#9ca3af', label: 'Closed' },
 };
 
 function formatDate(dateStr) {
@@ -43,185 +43,101 @@ export default function JobCard({ job, onClick }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        background: '#ffffff',
-        border: hovered ? '1px solid rgba(124,58,237,0.3)' : '1px solid rgba(226,232,240,0.8)',
-        borderRadius: 16,
-        padding: '16px',
+        background: 'rgba(255, 255, 255, 0.04)',
+        backdropFilter: 'blur(20px)',
+        border: hovered ? `1px solid ${cat.color}80` : '1px solid rgba(255, 255, 255, 0.1)',
+        borderRadius: 20,
+        padding: '20px',
         display: 'flex',
         flexDirection: 'column',
         gap: 0,
         position: 'relative',
         overflow: 'hidden',
-        transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
-        transform: hovered ? 'translateY(-4px)' : 'translateY(0)',
+        transition: 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+        transform: hovered ? 'translateY(-8px) scale(1.02)' : 'translateY(0)',
         boxShadow: hovered
-          ? '0 12px 24px -8px rgba(124,58,237,0.15), 0 4px 12px -4px rgba(124,58,237,0.08)'
-          : '0 2px 4px -1px rgba(0,0,0,0.03)',
+          ? `0 20px 40px -10px ${cat.color}30`
+          : '0 10px 30px rgba(0, 0, 0, 0.3)',
         cursor: 'pointer',
         height: '100%',
       }}
     >
-      {/* Top accent bar on hover */}
       <div style={{
-        position: 'absolute',
-        top: 0, left: 0, right: 0,
-        height: 3,
-        background: 'linear-gradient(90deg, #7c3aed, #ec4899)',
-        opacity: hovered ? 1 : 0,
-        transition: 'opacity 0.25s ease',
-        borderRadius: '16px 16px 0 0',
+        position: 'absolute', top: 0, left: 0, right: 0, height: 4,
+        background: `linear-gradient(90deg, ${cat.color}, #42A5F5)`,
+        opacity: hovered ? 1 : 0, transition: 'opacity 0.3s ease',
       }} />
 
-      {/* Top row: category + status */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12, gap: 6 }}>
-        {/* Category pill */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, gap: 6 }}>
         <span style={{
-          background: cat.bg,
-          color: cat.color,
-          fontSize: 10,
-          fontWeight: 700,
-          padding: '4px 8px',
-          borderRadius: 99,
-          letterSpacing: '0.04em',
-          textTransform: 'uppercase',
-          display: 'flex',
-          alignItems: 'center',
-          gap: 4,
-          flexShrink: 0,
+          background: cat.bg, color: cat.color, fontSize: 11, fontWeight: 800, padding: '5px 10px',
+          borderRadius: 99, letterSpacing: '0.05em', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: 6,
+          border: `1px solid ${cat.color}40`
         }}>
-          <span style={{
-            width: 18, height: 18, borderRadius: 5,
-            background: cat.iconBg,
-            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 11,
-          }}>
-            {cat.icon}
-          </span>
+          <span style={{ fontSize: 13 }}>{cat.icon}</span>
           {job.category?.replace(/_/g, ' ')}
         </span>
 
-        {/* Status pill with dot */}
         <span style={{
-          background: status.bg,
-          color: status.color,
-          fontSize: 10,
-          fontWeight: 700,
-          padding: '4px 8px',
-          borderRadius: 99,
-          display: 'flex',
-          alignItems: 'center',
-          gap: 4,
-          flexShrink: 0,
+          background: status.bg, color: status.color, fontSize: 11, fontWeight: 800, padding: '5px 10px',
+          borderRadius: 99, display: 'flex', alignItems: 'center', gap: 5, border: `1px solid ${status.color}40`
         }}>
-          <span style={{ width: 6, height: 6, borderRadius: '50%', background: status.dot, display: 'inline-block' }} />
+          <span style={{ width: 6, height: 6, borderRadius: '50%', background: status.dot, display: 'inline-block', boxShadow: `0 0 8px ${status.dot}` }} />
           {status.label}
         </span>
       </div>
 
-      {/* Title */}
       <h3 style={{
-        fontFamily: "'Inter', sans-serif",
-        fontSize: 15,
-        fontWeight: 800,
-        color: '#1a0a3d',
-        marginBottom: 6,
-        lineHeight: 1.3,
-        display: '-webkit-box',
-        WebkitLineClamp: 2,
-        WebkitBoxOrient: 'vertical',
-        overflow: 'hidden',
+        fontFamily: "'Inter', sans-serif", fontSize: 17, fontWeight: 800, color: '#ffffff', marginBottom: 8,
+        lineHeight: 1.4, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden',
       }}>
         {job.title}
       </h3>
 
-      {/* Location */}
       {job.location && (
-        <div style={{ display: 'flex', alignItems: 'center', gap: 4, color: '#6b7280', fontSize: 12, marginBottom: 10, fontWeight: 500 }}>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#7E57C2', fontSize: 13, marginBottom: 12, fontWeight: 600 }}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" />
           </svg>
           {job.location}
         </div>
       )}
 
-      {/* Description Snippet */}
       {job.description && (
-        <p style={{
-          color: '#6b7280',
-          fontSize: 13,
-          lineHeight: 1.5,
-          marginBottom: 16,
-          display: '-webkit-box',
-          WebkitLineClamp: 2,
-          WebkitBoxOrient: 'vertical',
-          overflow: 'hidden',
-          flexGrow: 1,
-        }}>
+        <p style={{ color: '#cbd5e1', fontSize: 14, lineHeight: 1.6, marginBottom: 16, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', flexGrow: 1 }}>
           {job.description}
         </p>
       )}
 
-      {/* Spacer */}
       <div style={{ flex: 1 }} />
 
-      {/* Bottom Row: Budget & Date */}
       <div style={{
-        borderTop: '1px solid #f1f5f9',
-        paddingTop: 12,
-        marginTop: 8,
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'flex-end',
+        borderTop: '1px solid rgba(255, 255, 255, 0.1)', paddingTop: 14, marginTop: 8,
+        display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end',
       }}>
         <div>
-          <div style={{ fontSize: 9, fontWeight: 700, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 2 }}>Budget</div>
+          <div style={{ fontSize: 10, fontWeight: 800, color: '#7E57C2', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>Budget</div>
           <div style={{
-            fontSize: 14,
-            fontWeight: 800,
-            background: job.budget ? 'linear-gradient(90deg, #9333ea, #db2777)' : 'none',
-            WebkitBackgroundClip: job.budget ? 'text' : 'unset',
-            WebkitTextFillColor: job.budget ? 'transparent' : '#6b7280',
-            backgroundClip: job.budget ? 'text' : 'unset',
-            color: job.budget ? undefined : '#6b7280',
+            fontSize: 16, fontWeight: 900,
+            color: job.budget ? cat.color : '#94a3b8',
           }}>
             {job.budget ? `LKR ${Number(job.budget).toLocaleString()}` : 'Negotiable'}
           </div>
         </div>
         <div style={{ textAlign: 'right' }}>
-          <div style={{ fontSize: 9, fontWeight: 700, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: 2 }}>Posted</div>
-          <div style={{ fontSize: 11, fontWeight: 600, color: '#6b7280' }}>
-            {formatDate(job.createdAt)}
-          </div>
+          <div style={{ fontSize: 10, fontWeight: 800, color: '#7E57C2', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>Posted</div>
+          <div style={{ fontSize: 12, fontWeight: 600, color: '#cbd5e1' }}>{formatDate(job.createdAt)}</div>
         </div>
       </div>
-      
-      {/* Hover CTA button */}
+
       <div style={{
-        marginTop: 12,
-        opacity: hovered ? 1 : 0,
-        height: hovered ? 36 : 0,
-        overflow: 'hidden',
-        transition: 'all 0.25s ease',
-        pointerEvents: hovered ? 'auto' : 'none',
+        marginTop: 14, opacity: hovered ? 1 : 0, height: hovered ? 38 : 0, overflow: 'hidden', transition: 'all 0.3s ease',
       }}>
-        <button
-          onClick={(e) => { e.stopPropagation(); onClick?.(); }}
-          style={{
-            display: 'block',
-            width: '100%',
-            textAlign: 'center',
-            background: 'linear-gradient(90deg, #7c3aed, #ec4899)',
-            color: '#fff',
-            fontWeight: 700,
-            fontSize: 12,
-            padding: '8px 0',
-            borderRadius: 8,
-            border: 'none',
-            cursor: 'pointer',
-            boxShadow: '0 4px 12px rgba(124,58,237,0.25)',
-            letterSpacing: '0.01em',
-          }}
-        >
+        <button style={{
+          display: 'block', width: '100%', background: `linear-gradient(90deg, ${cat.color}, #6A1B9A)`, color: '#fff',
+          fontWeight: 800, fontSize: 13, padding: '10px 0', borderRadius: 10, border: 'none', cursor: 'pointer',
+          boxShadow: `0 4px 15px ${cat.color}50`, letterSpacing: '0.02em',
+        }}>
           View Details →
         </button>
       </div>
