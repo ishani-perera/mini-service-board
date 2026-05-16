@@ -95,6 +95,24 @@ const createJob = async (req, res, next) => {
       });
     }
 
+    if (global.__DB_CONNECTED === false) {
+      const newJob = {
+        _id: 'mock_' + Date.now(),
+        title,
+        description,
+        category: category || 'Other',
+        location,
+        contactName,
+        contactEmail,
+        budget: budget || null,
+        status: 'Open',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      };
+      MOCK_JOBS.unshift(newJob);
+      return res.status(201).json({ success: true, data: newJob });
+    }
+
     const job = await JobRequest.create({
       title,
       description,
