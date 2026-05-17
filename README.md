@@ -89,3 +89,131 @@ mini-service-board/
 │
 ├── glitch.json           # Backend Deployment Configuration
 └── README.md
+```
+
+---
+
+# ⚙️ Installation & Setup Guide
+
+## Prerequisites
+Make sure you have installed:
+- Node.js (v18 or higher)
+- Git
+- MongoDB Atlas account (or local MongoDB)
+
+## 1️⃣ Clone the Repository
+```bash
+git clone https://github.com/ishani-perera/mini-service-board.git
+cd mini-service-board
+```
+
+## 2️⃣ Install Backend Dependencies
+```bash
+cd backend
+npm install
+```
+
+## 3️⃣ Install Frontend Dependencies
+```bash
+cd ../frontend
+npm install
+```
+
+---
+
+# 🔑 Environment Variables
+
+Create a `.env` file inside the `backend` folder and add:
+```env
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_secret_key
+PORT=10000
+```
+
+Create a `.env.local` file inside the `frontend` folder and add:
+```env
+NEXT_PUBLIC_API_URL=http://localhost:10000
+```
+
+---
+
+# ▶️ Running the Project Locally
+
+**Terminal 1: Start Backend**
+```bash
+cd backend
+npm start
+# Runs on http://localhost:10000
+```
+
+**Terminal 2: Start Frontend**
+```bash
+cd frontend
+npm run dev
+# Runs on http://localhost:3000
+```
+
+---
+
+# 📡 API Endpoints
+
+## Authentication Routes
+| Method | Endpoint | Description |
+|---|---|---|
+| `POST` | `/api/auth/register` | Register a new user |
+| `POST` | `/api/auth/login` | Authenticate user & get JWT |
+
+## Job Routes
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET`  | `/api/jobs` | Get all jobs (supports filters `?category=` & `?status=`) |
+| `GET`  | `/api/jobs/:id` | Get details of a single job |
+| `POST` | `/api/jobs` | Create a new job request |
+| `PATCH`| `/api/jobs/:id` | Update job status |
+| `DELETE`| `/api/jobs/:id`| Delete a job listing |
+
+---
+
+# 🔒 Security Features
+- JWT-based authorization for protected routes
+- Password hashing before database storage
+- Environment variable protection for sensitive keys
+- MongoDB secure cloud connection
+- Global Error Handling for API crash prevention
+
+---
+
+# 🚀 Future Improvements
+- Real-time chat system between homeowners and professionals
+- Payment gateway integration
+- Ratings & reviews system
+- Admin dashboard for content moderation
+- Email/SMS Notifications
+- Image uploads for job descriptions
+
+
+# 👩‍💻 Author
+
+## Ishani Perera
+*Computer Science Undergraduate at IIT Sri Lanka*
+
+### Connect With Me
+- **GitHub:** [https://github.com/ishani-perera](https://github.com/ishani-perera)
+- **Email:** [udayanganiishaniperera@gmail.com](mailto:udayanganiishaniperera@gmail.com)
+
+---
+
+# 📄 License
+This project was developed for educational, portfolio, and internship assessment purposes.
+
+---
+
+# 🙌 Acknowledgements
+Special thanks to the open-source communities:
+- Next.js & React
+- MongoDB Atlas
+- Render & Glitch
+- Vercel
+- Tailwind CSS
+```
+
